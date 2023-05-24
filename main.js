@@ -7,8 +7,21 @@
  **/
 
 let ctx;
+let xPos = 100;
+let bgColor = "beige";
+const WIDTH = 600;
+const HEIGHT = 500;
+window.onload = runSetup;
+setInterval(mainLoop, 16.667);
 
-window.onload = onStartup;
-function onStartup() {
+function runSetup() {
     ctx = document.getElementById("gameCanvas").getContext("2d");
+}
+
+function mainLoop() {
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    ctx.fillStyle = "red";
+    xPos++;
+    ctx.fillRect(xPos, 100, 30, 30);
 }
