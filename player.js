@@ -32,6 +32,6 @@ class Player {
     }
 
     update() {
-        ctx.drawImage(this.image, xPos, 100, 256,256);
+        ctx.drawImage(this.image, xPos, 100, 128,128);
     }
 }
