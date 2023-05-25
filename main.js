@@ -16,6 +16,8 @@ window.onload = runSetup;
 
 function runSetup() {
     ctx = document.getElementById("gameCanvas").getContext("2d");
+    ctx.canvas.width = WIDTH;
+    ctx.canvas.height = HEIGHT;
     ctx.imageSmoothingEnabled = false;
     setInterval(mainLoop, 16.667);
     player.setAnimation(playerRunningAnimation, 200);
