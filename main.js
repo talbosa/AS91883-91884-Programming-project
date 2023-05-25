@@ -24,6 +24,5 @@ function runSetup() {
 function mainLoop() {
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    xPos++;
     player.update();
 }
