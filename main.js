@@ -7,7 +7,6 @@
  **/
 
 let ctx;
-let xPos = 100;
 let bgColor = "beige";
 const WIDTH = 600;
 const HEIGHT = 500;
@@ -17,7 +16,7 @@ window.onload = runSetup;
 
 function runSetup() {
     ctx = document.getElementById("gameCanvas").getContext("2d");
-    ctx.imageSmoothingEnabled= false
+    ctx.imageSmoothingEnabled = false;
     setInterval(mainLoop, 16.667);
     player.setAnimation(playerRunningAnimation, 200);
 }
@@ -25,8 +24,6 @@ function runSetup() {
 function mainLoop() {
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    // ctx.fillStyle = "red";
     xPos++;
     player.update();
-    // ctx.fillRect(xPos, 100, 30, 30);
 }

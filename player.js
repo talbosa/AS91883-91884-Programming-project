@@ -4,7 +4,11 @@ class Player {
         this.animation = [];
         this.animationSpeedMS = 0;
         this.animationIndex = 0;
-        // lst
+        this.xPos = 100;
+        this.yPos = 100;
+        this.width = 128;
+        this.height = 128;
+        this.health = 3;
     }
 
     setAnimation(animation, animationSpeedMS) {
@@ -32,6 +36,12 @@ class Player {
     }
 
     update() {
-        ctx.drawImage(this.image, xPos, 100, 128,128);
+        ctx.drawImage(
+            this.image,
+            this.xPos,
+            this.yPos,
+            this.width,
+            this.height
+        );
     }
 }
