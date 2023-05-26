@@ -79,6 +79,17 @@ function mainLoop() {
     player.update();
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
+        if (
+            player.rectCollision(
+                enemies[i].xPos,
+                enemies[i].yPos,
+                enemies[i].width,
+                enemies[i].height
+            )
+        ) {
+            enemies.splice(i, 1);
+            player.damage(1);
+        }
     }
 }
 

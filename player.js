@@ -81,6 +81,45 @@ class Player {
         }
     }
 
+    //Collsion with rectangle
+    rectCollision(xPos, yPos, width, height) {
+        let playerHitLeft = this.xPos;
+        let playerHitRight = this.xPos + this.width;
+        let playerHitTop = this.yPos;
+        let playerHitBottom = this.yPos + this.height;
+
+        let rectHitLeft = xPos;
+        let rectHitRight = xPos + width;
+        let rectHitTop = yPos;
+        let rectHitBottom = yPos + height;
+
+        let playerHitWidth = playerHitRight - playerHitLeft;
+        let playerHitHeight = playerHitBottom - playerHitTop;
+        let rectHitWidth = rectHitRight - rectHitLeft;
+        let rectHitHeight = rectHitBottom - rectHitTop;
+
+        //Hitboxes
+        ctx.strokeStyle = "rgb(0,255,0)";
+        ctx.strokeRect(
+            playerHitLeft,
+            playerHitTop,
+            playerHitWidth,
+            playerHitHeight
+        );
+        ctx.strokeRect(rectHitLeft, rectHitTop, rectHitWidth, rectHitHeight);
+
+        if (
+            playerHitRight > rectHitLeft &&
+            playerHitLeft < rectHitRight &&
+            playerHitTop < rectHitBottom &&
+            playerHitBottom > rectHitTop
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //Directly adds shield to the player
     addShield(shield) {
         this.shield += shield;
