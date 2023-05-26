@@ -6,22 +6,31 @@
  * Purpose: AS91883 & 91884 Programming project
  **/
 
+//CONST
 const WIDTH = 1200;
 const HEIGHT = 700;
 const FPS = 60;
 const SCROLLSPEED = 5;
+//HTML RELATED
 let ctx;
+//CLASSES
 let bgImage = new Image();
 let player = new Player();
+//ARRAYS
 let playerRunningAnimation = ["assets/PlayerRun1.png", "assets/PlayerRun2.png"];
 let playerIdleAnimaton = ["assets/PlayerIdle1.png", "assets/PlayerIdle2.png"];
 let keyBuffer = [];
 let enemies = [];
+//INTEGERS
 let bgOffset = 0;
+//WINDOW
 window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
+//INTERVAL
+setInterval(spawnEnemy, 1000);
 
+//Runs on startup once
 function runSetup() {
     ctx = document.getElementById("gameCanvas").getContext("2d");
     ctx.canvas.width = WIDTH;
@@ -32,17 +41,20 @@ function runSetup() {
     mainLoop();
 }
 
+// runs ${FPS} times a second
 function mainLoop() {
+    //FPS
     setTimeout(() => {
         requestAnimationFrame(mainLoop);
     }, 1000 / FPS);
+    //BACKGROUND
     ctx.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
     ctx.drawImage(bgImage, bgOffset + WIDTH * 2, 0, WIDTH * 2, HEIGHT);
     bgOffset -= SCROLLSPEED;
     if (bgOffset == -WIDTH * 2) {
         bgOffset = 0;
     }
-
+    //KEYPRESS
     if (keyDown("d")) {
         player.xPos += player.moveSpeedX;
         if (player.animation != playerRunningAnimation) {
@@ -63,18 +75,21 @@ function mainLoop() {
     if (keyDown("w")) {
         player.yPos -= player.moveSpeedY;
     }
+    //UPDATE
     player.update();
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
     }
 }
 
-setInterval(spawnEnemy, 1000);
+//Spawns enemies
 function spawnEnemy() {
     new Enemy();
 }
 
+//Runs on key press
 function onKeyDown(keyEvent) {
+    //DEBUG  HEALTH TEST
     if (keyEvent.key === " ") {
         player.damage(1);
     }
@@ -87,12 +102,14 @@ function onKeyDown(keyEvent) {
     }
 }
 
+//Runs okn key release
 function onKeyUp(keyEvent) {
     if (keyBuffer.indexOf(keyEvent.key) != -1) {
         keyBuffer.splice(keyBuffer.indexOf(keyEvent.key), 1);
     }
 }
 
+//Checks if key is currently held
 function keyDown(key) {
     if (keyBuffer.lastIndexOf(key) != -1) {
         return true;

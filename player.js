@@ -1,3 +1,4 @@
+//The player class
 class Player {
     constructor() {
         this.image = new Image();
@@ -18,11 +19,12 @@ class Player {
         this.health = 3;
         this.maxHealth = 3;
         this.shield = 0;
-        this.hitBox = true;
+        this.hitBox = false;
         this.moveSpeedX = SCROLLSPEED;
         this.moveSpeedY = 10;
     }
 
+    //Sets the players animation
     setAnimation(animation, animationSpeedMS) {
         this.animation = animation;
         this.animationSpeedMS = animationSpeedMS;
@@ -36,6 +38,7 @@ class Player {
         );
     }
 
+    //Plays the current animation
     animate() {
         if (this.animationIndex < this.animation.length - 1) {
             this.animationIndex++;
@@ -46,6 +49,7 @@ class Player {
         }
     }
 
+    //Damages the player a apecified amount
     damage(damage) {
         while (this.shield > 0 && damage > 0) {
             this.shield--;
@@ -57,6 +61,7 @@ class Player {
         }
     }
 
+    //Heals the player a specified amount
     heal(health) {
         while (this.health < this.maxHealth && health > 0) {
             this.health++;
@@ -64,6 +69,7 @@ class Player {
         }
     }
 
+    //Heals the player the specified amount, if the amount to heal is greater then max health, it will fill up health then add shield with the remainder
     overheal(health) {
         while (this.health < this.maxHealth && health > 0) {
             this.health++;
@@ -75,15 +81,14 @@ class Player {
         }
     }
 
+    //Directly adds shield to the player
     addShield(shield) {
         this.shield += shield;
     }
 
+    //Meant to run every frame, updates and draws things related to the player
     update() {
-        if (this.health > this.maxHealth) {
-            this.shield += this.health - this.maxHealth;
-            this.health = this.maxHealth;
-        }
+        //DRAWS PLAYER
         ctx.drawImage(
             this.image,
             0, //Offset of pixels from left of source image
@@ -95,6 +100,8 @@ class Player {
             this.width,
             this.height
         );
+
+        //DRAWS HEALTH AND SHIELD
         for (let i = 0; i < this.maxHealth + this.shield; i++) {
             if (i < this.maxHealth) {
                 if (i < this.health) {
@@ -110,6 +117,7 @@ class Player {
             }
         }
 
+        //DRAWS HITBOX, CURRNENTLY USELESS
         if (this.hitBox) {
             ctx.strokeStyle = "lime";
             ctx.strokeRect(this.xPos, this.yPos, this.width, this.height);

@@ -1,9 +1,11 @@
+//Enemy class
 class Enemy {
+    //Is run when a new enemy is created
     constructor() {
         enemies.push(this);
-        this.animationIndex = 0;
         this.image = new Image();
         this.animation = ["assets/Enemy1.png", "assets/Enemy2.png"];
+        this.animationIndex = 0;
         this.xPos = WIDTH;
         this.yPos = Math.random() * HEIGHT;
         this.width = 64;
@@ -17,6 +19,7 @@ class Enemy {
         );
     }
 
+    //Runs the enemies animation
     animate() {
         if (this.animationIndex < this.animation.length - 1) {
             this.animationIndex++;
@@ -27,6 +30,7 @@ class Enemy {
         }
     }
 
+    //Meant to run every frame, updates and draws things related to the enamy
     update() {
         this.xPos -= SCROLLSPEED;
         ctx.drawImage(this.image, this.xPos, this.yPos);
