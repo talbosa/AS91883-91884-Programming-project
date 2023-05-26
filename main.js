@@ -12,7 +12,8 @@ const FPS = 60;
 let ctx;
 let bgImage = new Image();
 let player = new Player();
-let playerRunningAnimation = ["assets/Player-1.png", "assets/Player-2.png"];
+let playerRunningAnimation = ["assets/PlayerRun1.png", "assets/PlayerRun2.png"];
+let playerIdleAnimaton = ["assets/PlayerIdle1.png", "assets/PlayerIdle2.png"];
 let keyBuffer = [];
 let bgOffset = 0;
 window.onload = runSetup;
@@ -45,6 +46,7 @@ function mainLoop() {
     }
     if (keyDown("a")) {
         player.xPos -= 5;
+        player.setAnimation(playerIdleAnimaton);
     }
     if (keyDown("s")) {
         player.yPos += 10;
