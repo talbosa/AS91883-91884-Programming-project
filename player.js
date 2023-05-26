@@ -7,7 +7,7 @@ class Player {
         this.animationIndex = 0;
         this.xPos = 100;
         this.yPos = 100;
-        this.width = 128;
+        this.width = 50;
         this.height = 128;
         this.health = 3;
         this.hitBox = true;
@@ -39,14 +39,18 @@ class Player {
     update() {
         ctx.drawImage(
             this.image,
+            0, //Offset of pixels from left of source image
+            0, //Offset of pixels from top of source image
+            22, //Width of pixels taken from source image
+            47, //height of pixels taken from source image
             this.xPos,
             this.yPos,
             this.width,
             this.height
         );
-        if(this.hitBox){
-            ctx.fillStyle = "green";
-            ctx.strokeRect(this.xPos, this.yPos, this.width, this.height)
+        if (this.hitBox) {
+            ctx.strokeStyle = "lime";
+            ctx.strokeRect(this.xPos, this.yPos, this.width, this.height);
         }
     }
 }
