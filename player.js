@@ -3,6 +3,7 @@ class Player {
         this.image = new Image();
         this.animation = [];
         this.animationSpeedMS = 0;
+        this.animationInterval;
         this.animationIndex = 0;
         this.xPos = 100;
         this.yPos = 100;
@@ -15,7 +16,8 @@ class Player {
         this.animation = animation;
         this.animationSpeedMS = animationSpeedMS;
         this.animate();
-        setInterval(
+        clearInterval(this.animationInterval);
+        this.animationInterval = setInterval(
             function () {
                 this.animate();
             }.bind(this),

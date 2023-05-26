@@ -34,19 +34,26 @@ function mainLoop() {
     setTimeout(() => {
         requestAnimationFrame(mainLoop);
     }, 1000 / FPS);
-    ctx.drawImage(bgImage,bgOffset,0,WIDTH*2,HEIGHT);
-    ctx.drawImage(bgImage,bgOffset + WIDTH*2,0,WIDTH*2,HEIGHT);
-    bgOffset -=5;
-    if(bgOffset == -WIDTH*2){
+    ctx.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
+    ctx.drawImage(bgImage, bgOffset + WIDTH * 2, 0, WIDTH * 2, HEIGHT);
+    bgOffset -= 5;
+    if (bgOffset == -WIDTH * 2) {
         bgOffset = 0;
     }
 
     if (keyDown("d")) {
         player.xPos += 5;
+        if (player.animation != playerRunningAnimation) {
+            player.setAnimation(playerRunningAnimation, 200);
+        }
     }
     if (keyDown("a")) {
         player.xPos -= 5;
-        player.setAnimation(playerIdleAnimaton);
+        if (player.animation != playerIdleAnimaton) {
+            player.setAnimation(playerIdleAnimaton, 200);
+        }
+    } else if (player.animation != playerRunningAnimation) {
+        player.setAnimation(playerRunningAnimation, 200);
     }
     if (keyDown("s")) {
         player.yPos += 10;
