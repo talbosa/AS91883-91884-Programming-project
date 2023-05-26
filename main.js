@@ -10,10 +10,11 @@ const WIDTH = 600;
 const HEIGHT = 500;
 const FPS = 60;
 let ctx;
-let bgColor = "beige";
+let bgImage = new Image();
 let player = new Player();
 let playerRunningAnimation = ["assets/Player-1.png", "assets/Player-2.png"];
 let keyBuffer = [];
+let bgOffset = 0;
 window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
@@ -24,6 +25,7 @@ function runSetup() {
     ctx.canvas.height = HEIGHT;
     ctx.imageSmoothingEnabled = false;
     player.setAnimation(playerRunningAnimation, 200);
+    bgImage.src = "assets/background.jpg";
     mainLoop();
 }
 
@@ -31,14 +33,24 @@ function mainLoop() {
     setTimeout(() => {
         requestAnimationFrame(mainLoop);
     }, 1000 / FPS);
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    ctx.drawImage(bgImage,bgOffset,0,WIDTH*2,HEIGHT);
+    ctx.drawImage(bgImage,bgOffset + WIDTH*2,0,WIDTH*2,HEIGHT);
+    bgOffset -=5;
+    if(bgOffset == -WIDTH*2){
+        bgOffset = 0;
+    }
 
     if (keyDown("d")) {
         player.xPos += 5;
     }
     if (keyDown("a")) {
         player.xPos -= 5;
+    }
+    if (keyDown("s")) {
+        player.yPos += 10;
+    }
+    if (keyDown("w")) {
+        player.yPos -= 10;
     }
     player.update();
 }
