@@ -24,7 +24,6 @@ class Player {
     }
 
     animate() {
-        console.log(this.animationIndex);
         if (this.animationIndex < this.animation.length - 1) {
             this.animationIndex++;
             this.image.src = this.animation[this.animationIndex];
@@ -32,7 +31,6 @@ class Player {
             this.animationIndex = 0;
             this.image.src = this.animation[this.animationIndex];
         }
-        console.log(this.animationIndex);
     }
 
     update() {
