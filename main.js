@@ -16,6 +16,7 @@ let player = new Player();
 let playerRunningAnimation = ["assets/PlayerRun1.png", "assets/PlayerRun2.png"];
 let playerIdleAnimaton = ["assets/PlayerIdle1.png", "assets/PlayerIdle2.png"];
 let keyBuffer = [];
+let enemies = [];
 let bgOffset = 0;
 window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
@@ -60,9 +61,17 @@ function mainLoop() {
         player.yPos += player.moveSpeedY;
     }
     if (keyDown("w")) {
-        player.yPos -= player.moveSpeedX;
+        player.yPos -= player.moveSpeedY;
     }
     player.update();
+    for (let i = 0; i < enemies.length; i++) {
+        enemies[i].update();
+    }
+}
+
+setInterval(spawnEnemy, 1000);
+function spawnEnemy() {
+    new Enemy();
 }
 
 function onKeyDown(keyEvent) {
