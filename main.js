@@ -66,10 +66,10 @@ function mainLoop() {
 
 function onKeyDown(keyEvent) {
     if(keyEvent.key === " "){
-        player.health--;
+        player.damage(1);
     }
     if(keyEvent.key === "Control"){
-        player.health++;
+        player.overheal(1);
     }
 
     if (keyBuffer.indexOf(keyEvent.key) == -1) {

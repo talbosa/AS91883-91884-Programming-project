@@ -5,7 +5,7 @@ class Player {
         this.healthImages = {
             full: "assets/HeartFull.png",
             empty: "assets/HeartEmpty.png",
-            shield: "assets/HeartEmpty.png",
+            shield: "assets/HeartArmour.png",
         };
         this.animation = [];
         this.animationSpeedMS = 0;
@@ -44,18 +44,33 @@ class Player {
         }
     }
 
-    damage(health){
-        if(this.shield > 0){
-            this.shield = this.health//class ended before could finish
+    damage(damage) {
+        while (this.shield > 0 && damage > 0) {
+            this.shield--;
+            damage--;
+        }
+        while (this.health > 0 && damage > 0) {
+            this.health--;
+            damage--;
         }
     }
 
-    heal(health){
-
+    heal(health) {
+        while (this.health < this.maxHealth && health > 0) {
+            this.health++;
+            health--;
+        }
     }
 
-    overheal(health){
-
+    overheal(health) {
+        while (this.health < this.maxHealth && health > 0) {
+            this.health++;
+            health--;
+        }
+        while (health > 0) {
+            this.shield++;
+            health--;
+        }
     }
 
     update() {
@@ -78,14 +93,14 @@ class Player {
             if (i < this.maxHealth) {
                 if (i < this.health) {
                     this.healthImage.src = this.healthImages["full"];
-                    ctx.drawImage(this.healthImage, 30 * i, 0, 32, 32);
+                    ctx.drawImage(this.healthImage, 32 * i, 0, 32, 32);
                 } else {
                     this.healthImage.src = this.healthImages["empty"];
-                    ctx.drawImage(this.healthImage, 30 * i, 5, 32, 27);
+                    ctx.drawImage(this.healthImage, 32 * i, 5, 32, 27);
                 }
             } else {
                 this.healthImage.src = this.healthImages["shield"];
-                ctx.drawImage(this.healthImage, 30 * i, 5, 32, 27);
+                ctx.drawImage(this.healthImage, 32 * i, 2, 32, 32);
             }
         }
 
