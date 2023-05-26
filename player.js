@@ -19,6 +19,8 @@ class Player {
         this.maxHealth = 3;
         this.shield = 0;
         this.hitBox = true;
+        this.moveSpeedX = SCROLLSPEED;
+        this.moveSpeedY = 10;
     }
 
     setAnimation(animation, animationSpeedMS) {

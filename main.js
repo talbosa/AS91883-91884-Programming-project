@@ -9,6 +9,7 @@
 const WIDTH = 1200;
 const HEIGHT = 700;
 const FPS = 60;
+const SCROLLSPEED = 5;
 let ctx;
 let bgImage = new Image();
 let player = new Player();
@@ -36,19 +37,19 @@ function mainLoop() {
     }, 1000 / FPS);
     ctx.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
     ctx.drawImage(bgImage, bgOffset + WIDTH * 2, 0, WIDTH * 2, HEIGHT);
-    bgOffset -= 5;
+    bgOffset -= SCROLLSPEED;
     if (bgOffset == -WIDTH * 2) {
         bgOffset = 0;
     }
 
     if (keyDown("d")) {
-        player.xPos += 5;
+        player.xPos += player.moveSpeedX;
         if (player.animation != playerRunningAnimation) {
             player.setAnimation(playerRunningAnimation, 200);
         }
     }
     if (keyDown("a")) {
-        player.xPos -= 5;
+        player.xPos -= player.moveSpeedX;
         if (player.animation != playerIdleAnimaton) {
             player.setAnimation(playerIdleAnimaton, 200);
         }
@@ -56,19 +57,19 @@ function mainLoop() {
         player.setAnimation(playerRunningAnimation, 200);
     }
     if (keyDown("s")) {
-        player.yPos += 10;
+        player.yPos += player.moveSpeedY;
     }
     if (keyDown("w")) {
-        player.yPos -= 10;
+        player.yPos -= player.moveSpeedX;
     }
     player.update();
 }
 
 function onKeyDown(keyEvent) {
-    if(keyEvent.key === " "){
+    if (keyEvent.key === " ") {
         player.damage(1);
     }
-    if(keyEvent.key === "Control"){
+    if (keyEvent.key === "Control") {
         player.overheal(1);
     }
 
