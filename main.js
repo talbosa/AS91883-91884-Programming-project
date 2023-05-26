@@ -65,6 +65,13 @@ function mainLoop() {
 }
 
 function onKeyDown(keyEvent) {
+    if(keyEvent.key === " "){
+        player.health--;
+    }
+    if(keyEvent.key === "Control"){
+        player.health++;
+    }
+
     if (keyBuffer.indexOf(keyEvent.key) == -1) {
         keyBuffer.push(keyEvent.key);
     }
