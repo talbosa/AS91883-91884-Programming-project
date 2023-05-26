@@ -10,6 +10,7 @@ class Player {
         this.width = 128;
         this.height = 128;
         this.health = 3;
+        this.hitBox = true;
     }
 
     setAnimation(animation, animationSpeedMS) {
@@ -43,5 +44,9 @@ class Player {
             this.width,
             this.height
         );
+        if(this.hitBox){
+            ctx.fillStyle = "green";
+            ctx.strokeRect(this.xPos, this.yPos, this.width, this.height)
+        }
     }
 }
