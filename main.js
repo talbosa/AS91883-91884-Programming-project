@@ -13,6 +13,7 @@ const FPS = 60;
 const SCROLLSPEED = 5;
 //HTML RELATED
 let ctx;
+let isFocused = true;
 //CLASSES
 let bgImage = new Image();
 let player = new Player();
@@ -29,6 +30,13 @@ window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
 //INTERVAL
 setInterval(spawnEnemy, 1000);
+setInterval(() => {
+    if (document.hasFocus()) {
+        isFocused = true;
+    } else {
+        isFocused = false;
+    }
+}, 200);
 
 //Runs on startup once
 function runSetup() {
@@ -47,55 +55,59 @@ function mainLoop() {
     setTimeout(() => {
         requestAnimationFrame(mainLoop);
     }, 1000 / FPS);
-    //BACKGROUND
-    ctx.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
-    ctx.drawImage(bgImage, bgOffset + WIDTH * 2, 0, WIDTH * 2, HEIGHT);
-    bgOffset -= SCROLLSPEED;
-    if (bgOffset == -WIDTH * 2) {
-        bgOffset = 0;
-    }
-    //KEYPRESS
-    if (keyDown("d")) {
-        player.xPos += player.moveSpeedX;
-        if (player.animation != playerRunningAnimation) {
+    if (isFocused) {
+        //BACKGROUND
+        ctx.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
+        ctx.drawImage(bgImage, bgOffset + WIDTH * 2, 0, WIDTH * 2, HEIGHT);
+        bgOffset -= SCROLLSPEED;
+        if (bgOffset == -WIDTH * 2) {
+            bgOffset = 0;
+        }
+        //KEYPRESS
+        if (keyDown("d")) {
+            player.xPos += player.moveSpeedX;
+            if (player.animation != playerRunningAnimation) {
+                player.setAnimation(playerRunningAnimation, 200);
+            }
+        }
+        if (keyDown("a")) {
+            player.xPos -= player.moveSpeedX;
+            if (player.animation != playerIdleAnimaton) {
+                player.setAnimation(playerIdleAnimaton, 200);
+            }
+        } else if (player.animation != playerRunningAnimation) {
             player.setAnimation(playerRunningAnimation, 200);
         }
-    }
-    if (keyDown("a")) {
-        player.xPos -= player.moveSpeedX;
-        if (player.animation != playerIdleAnimaton) {
-            player.setAnimation(playerIdleAnimaton, 200);
+        if (keyDown("s")) {
+            player.yPos += player.moveSpeedY;
         }
-    } else if (player.animation != playerRunningAnimation) {
-        player.setAnimation(playerRunningAnimation, 200);
-    }
-    if (keyDown("s")) {
-        player.yPos += player.moveSpeedY;
-    }
-    if (keyDown("w")) {
-        player.yPos -= player.moveSpeedY;
-    }
-    //UPDATE
-    player.update();
-    for (let i = 0; i < enemies.length; i++) {
-        enemies[i].update();
-        if (
-            player.rectCollision(
-                enemies[i].xPos,
-                enemies[i].yPos,
-                enemies[i].width,
-                enemies[i].height
-            )
-        ) {
-            enemies.splice(i, 1);
-            player.damage(1);
+        if (keyDown("w")) {
+            player.yPos -= player.moveSpeedY;
+        }
+        //UPDATE
+        player.update();
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].update();
+            if (
+                player.rectCollision(
+                    enemies[i].xPos,
+                    enemies[i].yPos,
+                    enemies[i].width,
+                    enemies[i].height
+                )
+            ) {
+                enemies.splice(i, 1);
+                player.damage(1);
+            }
         }
     }
 }
 
 //Spawns enemies
 function spawnEnemy() {
-    new Enemy();
+    if (isFocused) {
+        new Enemy();
+    }
 }
 
 //Runs on key press
