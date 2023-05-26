@@ -65,12 +65,17 @@ class Player {
     overheal(health) {
         while (this.health < this.maxHealth && health > 0) {
             this.health++;
-            health--;
+            healt
+            h--;
         }
         while (health > 0) {
             this.shield++;
             health--;
         }
+    }
+
+    addShield(shield) {
+        this.shield += shield;
     }
 
     update() {

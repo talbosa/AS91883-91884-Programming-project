@@ -6,8 +6,8 @@
  * Purpose: AS91883 & 91884 Programming project
  **/
 
-const WIDTH = 600;
-const HEIGHT = 500;
+const WIDTH = 1200;
+const HEIGHT = 700;
 const FPS = 60;
 let ctx;
 let bgImage = new Image();
