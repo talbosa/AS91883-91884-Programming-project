@@ -179,11 +179,5 @@ class Player {
             this.width,
             this.height
         );
-
-        //DRAWS HITBOX, CURRNENTLY USELESS
-        if (this.hitBox) {
-            ctx.strokeStyle = "lime";
-            ctx.strokeRect(this.xPos, this.yPos, this.width, this.height);
-        }
     }
 }
