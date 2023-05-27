@@ -174,3 +174,10 @@ const loadImage = (path) => {
         };
     });
 };
+
+//Generates a random number with a set probability, eg: [0,0,1,2,2,2] where out of 6 runs there will likely be 3 2s, 1 1, and 2 0s.
+function randomWithProbability(probability) {
+    let idx = Math.floor(Math.random() * probability.length);
+    return probability[idx];
+  }
+  

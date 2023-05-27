@@ -11,6 +11,9 @@ class Enemy {
         this.width = 64;
         this.height = 64;
         this.animationSpeedMS = 200;
+        this.moveSpeedY = 2;
+        this.type = randomWithProbability([0,0,0,1,1]); // 0 = Does not move; 1 = Moves towards players Y when above the player;
+        console.log(this.type);
         setInterval(
             function () {
                 this.animate();
@@ -33,6 +36,13 @@ class Enemy {
     //Meant to run every frame, updates and draws things related to the enamy
     update() {
         this.xPos -= SCROLLSPEED;
+        if (this.type == 1) {
+            if (this.yPos < player.yPos && this.xPos > player.xPos) {
+                this.yPos += this.moveSpeedY;
+            } else if (this.xPos > player.xPos) {
+                this.yPos -= this.moveSpeedY;
+            }
+        }
         ctx.drawImage(this.image, this.xPos, this.yPos);
     }
 }
