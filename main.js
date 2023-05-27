@@ -58,6 +58,7 @@ function runSetup() {
     bgImage.src = "assets/background.jpg";
     mainLoop();
     spawnEnemy();
+    player.drawHealth();
 }
 
 // runs ${FPS} times a second
