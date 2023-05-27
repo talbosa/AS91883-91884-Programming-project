@@ -130,7 +130,6 @@ class Player {
 
     async drawHealth() {
         //DRAWS HEALTH AND SHIELD
-        console.log("ehf");
         gui.clearRect(0, 0, WIDTH, HEIGHT);
         for (let i = 0; i < this.maxHealth + this.shield; i++) {
             if (i < this.maxHealth) {
@@ -142,7 +141,6 @@ class Player {
                         32,
                         32
                     );
-                    console.log("rsg2");
                 } else {
                     gui.drawImage(
                         await loadImage(this.healthImages["empty"]),
