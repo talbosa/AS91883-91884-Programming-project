@@ -59,6 +59,7 @@ class Player {
             this.health--;
             damage--;
         }
+        this.drawHealth();
     }
 
     //Heals the player a specified amount
@@ -67,6 +68,7 @@ class Player {
             this.health++;
             health--;
         }
+        this.drawHealth();
     }
 
     //Heals the player the specified amount, if the amount to heal is greater then max health, it will fill up health then add shield with the remainder
@@ -79,6 +81,7 @@ class Player {
             this.shield++;
             health--;
         }
+        this.drawHealth();
     }
 
     //Collsion with rectangle
@@ -125,6 +128,42 @@ class Player {
         this.shield += shield;
     }
 
+    async drawHealth() {
+        //DRAWS HEALTH AND SHIELD
+        console.log("ehf");
+        gui.clearRect(0, 0, WIDTH, HEIGHT);
+        for (let i = 0; i < this.maxHealth + this.shield; i++) {
+            if (i < this.maxHealth) {
+                if (i < this.health) {
+                    gui.drawImage(
+                        await loadImage(this.healthImages["full"]),
+                        32 * i,
+                        0,
+                        32,
+                        32
+                    );
+                    console.log("rsg2");
+                } else {
+                    gui.drawImage(
+                        await loadImage(this.healthImages["empty"]),
+                        32 * i,
+                        5,
+                        32,
+                        27
+                    );
+                }
+            } else {
+                gui.drawImage(
+                    await loadImage(this.healthImages["shield"]),
+                    32 * i,
+                    2,
+                    32,
+                    32
+                );
+            }
+        }
+    }
+
     //Meant to run every frame, updates and draws things related to the player
     update() {
         //DRAWS PLAYER
@@ -139,22 +178,6 @@ class Player {
             this.width,
             this.height
         );
-
-        //DRAWS HEALTH AND SHIELD
-        for (let i = 0; i < this.maxHealth + this.shield; i++) {
-            if (i < this.maxHealth) {
-                if (i < this.health) {
-                    this.healthImage.src = this.healthImages["full"];
-                    ctx.drawImage(this.healthImage, 32 * i, 0, 32, 32);
-                } else {
-                    this.healthImage.src = this.healthImages["empty"];
-                    ctx.drawImage(this.healthImage, 32 * i, 5, 32, 27);
-                }
-            } else {
-                this.healthImage.src = this.healthImages["shield"];
-                ctx.drawImage(this.healthImage, 32 * i, 2, 32, 32);
-            }
-        }
 
         //DRAWS HITBOX, CURRNENTLY USELESS
         if (this.hitBox) {

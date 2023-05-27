@@ -13,6 +13,7 @@ const FPS = 60;
 const SCROLLSPEED = 5;
 //HTML RELATED
 let ctx;
+let gui;
 let isFocused = true;
 //CLASSES
 let bgImage = new Image();
@@ -29,7 +30,6 @@ window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
 //INTERVAL
-setInterval(spawnEnemy, 1000);
 setInterval(() => {
     if (document.hasFocus()) {
         isFocused = true;
@@ -38,15 +38,26 @@ setInterval(() => {
     }
 }, 200);
 
+//FPS COUNTER
+let stats = new Stats();
+stats.add;
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+
 //Runs on startup once
 function runSetup() {
+    document.body.appendChild(stats.dom);
     ctx = document.getElementById("gameCanvas").getContext("2d");
+    gui = document.getElementById("guiCanvas").getContext("2d");
+    gui.canvas.width = WIDTH;
+    gui.canvas.height = HEIGHT;
+    gui.imageSmoothingEnabled = false;
     ctx.canvas.width = WIDTH;
     ctx.canvas.height = HEIGHT;
     ctx.imageSmoothingEnabled = false;
     player.setAnimation(playerRunningAnimation, 200);
     bgImage.src = "assets/background.jpg";
     mainLoop();
+    spawnEnemy();
 }
 
 // runs ${FPS} times a second
@@ -55,6 +66,7 @@ function mainLoop() {
     setTimeout(() => {
         requestAnimationFrame(mainLoop);
     }, 1000 / FPS);
+    stats.begin();
     if (isFocused) {
         //BACKGROUND
         ctx.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
@@ -88,6 +100,9 @@ function mainLoop() {
         player.update();
         for (let i = 0; i < enemies.length; i++) {
             enemies[i].update();
+            if (enemies[i].xPos < -100) {
+                enemies.splice(i, 1);
+            }
             if (
                 player.rectCollision(
                     enemies[i].xPos,
@@ -101,10 +116,14 @@ function mainLoop() {
             }
         }
     }
+    stats.end();
 }
 
 //Spawns enemies
 function spawnEnemy() {
+    setTimeout(() => {
+        requestAnimationFrame(spawnEnemy);
+    }, 1000);
     if (isFocused) {
         new Enemy();
     }
@@ -140,3 +159,17 @@ function keyDown(key) {
         return false;
     }
 }
+
+//Async load image
+const loadImage = (path) => {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = path;
+        img.onload = () => {
+            resolve(img);
+        };
+        img.onerror = (e) => {
+            reject(e);
+        };
+    });
+};
