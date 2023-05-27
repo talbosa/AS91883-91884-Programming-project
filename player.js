@@ -130,20 +130,29 @@ class Player {
 
     async drawHealth() {
         //DRAWS HEALTH AND SHIELD
+        if (typeof this.healthImages["full"] === "string") {
+            this.healthImages["full"] = await loadImage(
+                this.healthImages["full"]
+            );
+        }
+        if (typeof this.healthImages["empty"] === "string") {
+            this.healthImages["empty"] = await loadImage(
+                this.healthImages["empty"]
+            );
+        }
+        if (typeof this.healthImages["shield"] === "string") {
+            this.healthImages["shield"] = await loadImage(
+                this.healthImages["shield"]
+            );
+        }
         gui.clearRect(0, 0, WIDTH, HEIGHT);
         for (let i = 0; i < this.maxHealth + this.shield; i++) {
             if (i < this.maxHealth) {
                 if (i < this.health) {
-                    gui.drawImage(
-                        await loadImage(this.healthImages["full"]),
-                        32 * i,
-                        0,
-                        32,
-                        32
-                    );
+                    gui.drawImage(this.healthImages["full"], 32 * i, 0, 32, 32);
                 } else {
                     gui.drawImage(
-                        await loadImage(this.healthImages["empty"]),
+                        this.healthImages["empty"],
                         32 * i,
                         5,
                         32,
@@ -151,13 +160,7 @@ class Player {
                     );
                 }
             } else {
-                gui.drawImage(
-                    await loadImage(this.healthImages["shield"]),
-                    32 * i,
-                    2,
-                    32,
-                    32
-                );
+                gui.drawImage(this.healthImages["shield"], 32 * i, 2, 32, 32);
             }
         }
     }
