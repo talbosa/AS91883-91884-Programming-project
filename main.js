@@ -44,7 +44,7 @@ stats.add;
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 
 //Runs on startup once
-function runSetup() {
+async function runSetup() {
     document.body.appendChild(stats.dom);
     ctx = document.getElementById("gameCanvas").getContext("2d");
     gui = document.getElementById("guiCanvas").getContext("2d");
@@ -55,7 +55,7 @@ function runSetup() {
     ctx.canvas.height = HEIGHT;
     ctx.imageSmoothingEnabled = false;
     player.setAnimation(playerRunningAnimation, 200);
-    bgImage.src = "assets/background.jpg";
+    bgImage = await loadImage("assets/background.jpg");
     mainLoop();
     spawnEnemy();
     player.drawHealth();

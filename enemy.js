@@ -20,13 +20,13 @@ class Enemy {
     }
 
     //Runs the enemies animation
-    animate() {
+    async animate() {
         if (this.animationIndex < this.animation.length - 1) {
             this.animationIndex++;
-            this.image.src = this.animation[this.animationIndex];
+            this.image = await loadImage(this.animation[this.animationIndex]);
         } else {
             this.animationIndex = 0;
-            this.image.src = this.animation[this.animationIndex];
+            this.image = await loadImage(this.animation[this.animationIndex]);
         }
     }
 
