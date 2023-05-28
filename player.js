@@ -79,7 +79,7 @@ class Player {
         }
         this.drawHealth();
     }
-
+    
     //Heals the player a specified amount
     heal(health) {
         while (this.health < this.maxHealth && health > 0) {
@@ -88,7 +88,7 @@ class Player {
         }
         this.drawHealth();
     }
-
+    
     //Heals the player the specified amount, if the amount to heal is greater then max health, it will fill up health then add shield with the remainder
     overheal(health) {
         while (this.health < this.maxHealth && health > 0) {
@@ -101,7 +101,12 @@ class Player {
         }
         this.drawHealth();
     }
-
+    
+    //Directly adds shield to the player
+    addShield(shield) {
+        this.shield += shield;
+        this.drawHealth();
+    }
     //Collsion with rectangle
     rectCollision(xPos, yPos, width, height) {
         let playerHitLeft = this.xPos;
@@ -141,10 +146,6 @@ class Player {
         }
     }
 
-    //Directly adds shield to the player
-    addShield(shield) {
-        this.shield += shield;
-    }
 
     async drawHealth() {
         //DRAWS HEALTH AND SHIELD
