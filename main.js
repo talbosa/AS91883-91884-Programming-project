@@ -11,9 +11,10 @@ const HEIGHT = 700;
 const FPS = 60;
 const SCROLLSPEED = 5;
 
-let ctx;
-let gui;
-let menu;
+let gameCanvas;
+let healthCanvas;
+let menuCanvas;
+let scoreCanvas;
 
 let bgImage = new Image();
 let player;
@@ -24,6 +25,7 @@ let keyBuffer = [];
 let enemies = [];
 
 let bgOffset = 0;
+let score = 0;
 
 let gameFocused;
 let gamePaused;
@@ -55,35 +57,44 @@ async function runSetup() {
         hasRun = true;
 
         document.body.appendChild(stats.dom);
-        ctx = document.getElementById("gameCanvas").getContext("2d");
-        gui = document.getElementById("guiCanvas").getContext("2d");
-        menu = document.getElementById("menuCanvas").getContext("2d");
+        gameCanvas = document.getElementById("gameCanvas").getContext("2d");
+        healthCanvas = document.getElementById("healthCanvas").getContext("2d");
+        menuCanvas = document.getElementById("menuCanvas").getContext("2d");
+        scoreCanvas = document.getElementById("scoreCanvas").getContext("2d");
 
-        menu.canvas.width = WIDTH;
-        menu.canvas.height = HEIGHT;
-        gui.canvas.width = WIDTH;
-        gui.canvas.height = HEIGHT;
-        gui.imageSmoothingEnabled = false;
-        ctx.canvas.width = WIDTH;
-        ctx.canvas.height = HEIGHT;
-        ctx.imageSmoothingEnabled = false;
+        scoreCanvas.canvas.width = WIDTH;
+        scoreCanvas.canvas.height = HEIGHT;
+        menuCanvas.canvas.width = WIDTH;
+        menuCanvas.canvas.height = HEIGHT;
+        healthCanvas.canvas.width = WIDTH;
+        healthCanvas.canvas.height = HEIGHT;
+        healthCanvas.imageSmoothingEnabled = false;
+        gameCanvas.canvas.width = WIDTH;
+        gameCanvas.canvas.height = HEIGHT;
+        gameCanvas.imageSmoothingEnabled = false;
 
         bgImage = await loadImage("assets/background.jpg");
+
+        player = new Player();
 
         mainLoop();
         spawnEnemy();
     }
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    gui.clearRect(0, 0, WIDTH, HEIGHT);
-    menu.clearRect(0, 0, WIDTH, HEIGHT);
+    gameCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    healthCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    scoreCanvas.clearRect(0, 0, WIDTH, HEIGHT);
 
     keyBuffer = [];
     enemies = [];
+    score = 0;
 
     player = new Player();
 
     player.setAnimation(playerRunningAnimation, 200);
     player.drawHealth();
+
+    updateScore();
 
     gameFocused = true;
     gamePaused = false;
@@ -100,8 +111,14 @@ function mainLoop() {
     stats.begin();
     if (gameFocused && !gamePaused && !gameOver && !mainMenu) {
         //BACKGROUND
-        ctx.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
-        ctx.drawImage(bgImage, bgOffset + WIDTH * 2, 0, WIDTH * 2, HEIGHT);
+        gameCanvas.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
+        gameCanvas.drawImage(
+            bgImage,
+            bgOffset + WIDTH * 2,
+            0,
+            WIDTH * 2,
+            HEIGHT
+        );
         bgOffset -= SCROLLSPEED;
         if (bgOffset == -WIDTH * 2) {
             bgOffset = 0;
@@ -133,6 +150,13 @@ function mainLoop() {
             enemies[i].update();
             if (enemies[i].xPos < -100) {
                 enemies.splice(i, 1);
+                if (enemies[i].type == 0) {
+                    score += 1;
+                    updateScore();
+                } else if (enemies[i].type == 1) {
+                    score += 2;
+                    updateScore();
+                }
             }
             if (
                 player.rectCollision(
@@ -154,7 +178,7 @@ function mainLoop() {
 function spawnEnemy() {
     setTimeout(() => {
         requestAnimationFrame(spawnEnemy);
-    }, 1000);
+    }, 1000 - score / 100);
     if (gameFocused && !gamePaused && !gameOver && !mainMenu) {
         new Enemy();
     }
@@ -223,12 +247,17 @@ function randomWithProbability(probability) {
 
 function gameOverFunc() {
     gameOver = true;
-    menu.clearRect(0, 0, WIDTH, HEIGHT);
-    menu.font = "100px times-new-roman";
-    menu.fillText("Game Over", WIDTH / 2 - 200, HEIGHT / 2 - 25, 400);
-    menu.font = "50px times-new-roman";
-    menu.fillText('Press "E" to exit', WIDTH / 2 - 175, HEIGHT / 2 + 25, 350);
-    menu.fillText(
+    menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    menuCanvas.font = "100px times-new-roman";
+    menuCanvas.fillText("Game Over", WIDTH / 2 - 200, HEIGHT / 2 - 25, 400);
+    menuCanvas.font = "50px times-new-roman";
+    menuCanvas.fillText(
+        'Press "E" to exit',
+        WIDTH / 2 - 175,
+        HEIGHT / 2 + 25,
+        350
+    );
+    menuCanvas.fillText(
         'Press "R" to restart',
         WIDTH / 2 - 175,
         HEIGHT / 2 + 75,
@@ -239,11 +268,16 @@ function gameOverFunc() {
 function pauseGame() {
     if (!gamePaused) {
         gamePaused = true;
-        menu.clearRect(0, 0, WIDTH, HEIGHT);
-        menu.font = "100px times-new-roman";
-        menu.fillText("Game Paused", WIDTH / 2 - 200, HEIGHT / 2 - 25, 400);
-        menu.font = "50px times-new-roman";
-        menu.fillText(
+        menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+        menuCanvas.font = "100px times-new-roman";
+        menuCanvas.fillText(
+            "Game Paused",
+            WIDTH / 2 - 200,
+            HEIGHT / 2 - 25,
+            400
+        );
+        menuCanvas.font = "50px times-new-roman";
+        menuCanvas.fillText(
             'Press "Escape" to unpause',
             WIDTH / 2 - 175,
             HEIGHT / 2 + 25,
@@ -251,7 +285,13 @@ function pauseGame() {
         );
     } else {
         gamePaused = false;
-        menu.clearRect(0, 0, WIDTH, HEIGHT);
+        menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
         console.log("e");
     }
+}
+
+function updateScore() {
+    scoreCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    scoreCanvas.font = "25px times-new-roman";
+    scoreCanvas.fillText(`Score: ${score}`, WIDTH / 2, 25, 100);
 }

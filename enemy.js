@@ -11,6 +11,7 @@ class Enemy {
         this.width = 64;
         this.height = 64;
         this.animationSpeedMS = 200;
+        this.moveSpeedYInitial = 2;
         this.moveSpeedY = 2;
         this.type = randomWithProbability([0, 0, 0, 1, 1]); // 0 = Does not move; 1 = Moves towards players Y when in front of the player;
         setInterval(
@@ -34,6 +35,7 @@ class Enemy {
 
     //Meant to run every frame, updates and draws things related to the enamy
     update() {
+        this.moveSpeedY = this.moveSpeedYInitial + score / 100;
         this.xPos -= SCROLLSPEED;
         if (this.type == 1) {
             if (
@@ -48,6 +50,6 @@ class Enemy {
                 this.yPos -= this.moveSpeedY;
             }
         }
-        ctx.drawImage(this.image, this.xPos, this.yPos);
+        gameCanvas.drawImage(this.image, Math.round(this.xPos), this.yPos);
     }
 }

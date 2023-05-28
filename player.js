@@ -125,14 +125,14 @@ class Player {
         let rectHitHeight = rectHitBottom - rectHitTop;
 
         //Hitboxes
-        ctx.strokeStyle = "rgb(0,255,0)";
-        ctx.strokeRect(
+        gameCanvas.strokeStyle = "rgb(0,255,0)";
+        gameCanvas.strokeRect(
             playerHitLeft,
             playerHitTop,
             playerHitWidth,
             playerHitHeight
         );
-        ctx.strokeRect(rectHitLeft, rectHitTop, rectHitWidth, rectHitHeight);
+        gameCanvas.strokeRect(rectHitLeft, rectHitTop, rectHitWidth, rectHitHeight);
 
         if (
             playerHitRight > rectHitLeft &&
@@ -164,13 +164,13 @@ class Player {
                 this.healthImages["shield"]
             );
         }
-        gui.clearRect(0, 0, WIDTH, HEIGHT);
+        healthCanvas.clearRect(0, 0, WIDTH, HEIGHT);
         for (let i = 0; i < this.maxHealth + this.shield; i++) {
             if (i < this.maxHealth) {
                 if (i < this.health) {
-                    gui.drawImage(this.healthImages["full"], 32 * i, 0, 32, 32);
+                    healthCanvas.drawImage(this.healthImages["full"], 32 * i, 0, 32, 32);
                 } else {
-                    gui.drawImage(
+                    healthCanvas.drawImage(
                         this.healthImages["empty"],
                         32 * i,
                         5,
@@ -179,7 +179,7 @@ class Player {
                     );
                 }
             } else {
-                gui.drawImage(this.healthImages["shield"], 32 * i, 2, 32, 32);
+                healthCanvas.drawImage(this.healthImages["shield"], 32 * i, 2, 32, 32);
             }
         }
     }
@@ -190,7 +190,7 @@ class Player {
             gameOverFunc();
         }
         //DRAWS PLAYER
-        ctx.drawImage(
+        gameCanvas.drawImage(
             this.image,
             0, //Offset of pixels from left of source image
             0, //Offset of pixels from top of source image
