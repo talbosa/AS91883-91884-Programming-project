@@ -62,6 +62,24 @@ class Player {
         this.drawHealth();
     }
 
+    //Bypasses the players shield to deal damage directly
+    damageIgnoreShield(damage) {
+        while (this.health > 0 && damage > 0) {
+            this.health--;
+            damage--;
+        }
+        this.drawHealth();
+    }
+
+    //Damages sheild but does not affect health
+    damageShield(damage) {
+        while (this.shield > 0 && damage > 0) {
+            this.shield--;
+            damage--;
+        }
+        this.drawHealth();
+    }
+
     //Heals the player a specified amount
     heal(health) {
         while (this.health < this.maxHealth && health > 0) {
@@ -167,6 +185,9 @@ class Player {
 
     //Meant to run every frame, updates and draws things related to the player
     update() {
+        if (this.health <= 0) {
+            gameOverFunc();
+        }
         //DRAWS PLAYER
         ctx.drawImage(
             this.image,

@@ -6,35 +6,41 @@
  * Purpose: AS91883 & 91884 Programming project
  **/
 
-//CONST
 const WIDTH = 1200;
 const HEIGHT = 700;
 const FPS = 60;
 const SCROLLSPEED = 5;
-//HTML RELATED
+
 let ctx;
 let gui;
-let isFocused = true;
-//CLASSES
+let menu;
+
 let bgImage = new Image();
-let player = new Player();
-//ARRAYS
+let player;
+
 let playerRunningAnimation = ["assets/PlayerRun1.png", "assets/PlayerRun2.png"];
 let playerIdleAnimaton = ["assets/PlayerIdle1.png", "assets/PlayerIdle2.png"];
 let keyBuffer = [];
 let enemies = [];
-//INTEGERS
+
 let bgOffset = 0;
-//WINDOW
+
+let gameFocused;
+let gamePaused;
+let gameOver;
+let mainMenu;
+
+let hasRun = false;
+
 window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
-//INTERVAL
+
 setInterval(() => {
     if (document.hasFocus()) {
-        isFocused = true;
+        gameFocused = true;
     } else {
-        isFocused = false;
+        gameFocused = false;
     }
 }, 200);
 
@@ -45,20 +51,44 @@ stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 
 //Runs on startup once
 async function runSetup() {
-    document.body.appendChild(stats.dom);
-    ctx = document.getElementById("gameCanvas").getContext("2d");
-    gui = document.getElementById("guiCanvas").getContext("2d");
-    gui.canvas.width = WIDTH;
-    gui.canvas.height = HEIGHT;
-    gui.imageSmoothingEnabled = false;
-    ctx.canvas.width = WIDTH;
-    ctx.canvas.height = HEIGHT;
-    ctx.imageSmoothingEnabled = false;
+    if (!hasRun) {
+        hasRun = true;
+
+        document.body.appendChild(stats.dom);
+        ctx = document.getElementById("gameCanvas").getContext("2d");
+        gui = document.getElementById("guiCanvas").getContext("2d");
+        menu = document.getElementById("menuCanvas").getContext("2d");
+
+        menu.canvas.width = WIDTH;
+        menu.canvas.height = HEIGHT;
+        gui.canvas.width = WIDTH;
+        gui.canvas.height = HEIGHT;
+        gui.imageSmoothingEnabled = false;
+        ctx.canvas.width = WIDTH;
+        ctx.canvas.height = HEIGHT;
+        ctx.imageSmoothingEnabled = false;
+
+        bgImage = await loadImage("assets/background.jpg");
+
+        mainLoop();
+        spawnEnemy();
+    }
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    gui.clearRect(0, 0, WIDTH, HEIGHT);
+    menu.clearRect(0, 0, WIDTH, HEIGHT);
+
+    keyBuffer = [];
+    enemies = [];
+
+    player = new Player();
+
     player.setAnimation(playerRunningAnimation, 200);
-    bgImage = await loadImage("assets/background.jpg");
-    mainLoop();
-    spawnEnemy();
     player.drawHealth();
+
+    gameFocused = true;
+    gamePaused = false;
+    gameOver = false;
+    mainMenu = false;
 }
 
 // runs ${FPS} times a second
@@ -68,7 +98,7 @@ function mainLoop() {
         requestAnimationFrame(mainLoop);
     }, 1000 / FPS);
     stats.begin();
-    if (isFocused) {
+    if (gameFocused && !gamePaused && !gameOver && !mainMenu) {
         //BACKGROUND
         ctx.drawImage(bgImage, bgOffset, 0, WIDTH * 2, HEIGHT);
         ctx.drawImage(bgImage, bgOffset + WIDTH * 2, 0, WIDTH * 2, HEIGHT);
@@ -125,7 +155,7 @@ function spawnEnemy() {
     setTimeout(() => {
         requestAnimationFrame(spawnEnemy);
     }, 1000);
-    if (isFocused) {
+    if (gameFocused && !gamePaused && !gameOver && !mainMenu) {
         new Enemy();
     }
 }
@@ -144,9 +174,19 @@ function onKeyDown(keyEvent) {
         keyBuffer.push(keyEvent.key);
     }
 }
-
 //Runs okn key release
 function onKeyUp(keyEvent) {
+    //Keys that do not need to be held down
+    if (keyEvent.key === "Escape") {
+        pauseGame();
+    }
+    if (keyEvent.key === "e" && gameOver) {
+        mainMenu = true;
+    }
+    if (keyEvent.key === "r" && gameOver) {
+        runSetup();
+    }
+
     if (keyBuffer.indexOf(keyEvent.key) != -1) {
         keyBuffer.splice(keyBuffer.indexOf(keyEvent.key), 1);
     }
@@ -179,5 +219,39 @@ const loadImage = (path) => {
 function randomWithProbability(probability) {
     let idx = Math.floor(Math.random() * probability.length);
     return probability[idx];
-  }
-  
+}
+
+function gameOverFunc() {
+    gameOver = true;
+    menu.clearRect(0, 0, WIDTH, HEIGHT);
+    menu.font = "100px times-new-roman";
+    menu.fillText("Game Over", WIDTH / 2 - 200, HEIGHT / 2 - 25, 400);
+    menu.font = "50px times-new-roman";
+    menu.fillText('Press "E" to exit', WIDTH / 2 - 175, HEIGHT / 2 + 25, 350);
+    menu.fillText(
+        'Press "R" to restart',
+        WIDTH / 2 - 175,
+        HEIGHT / 2 + 75,
+        350
+    );
+}
+
+function pauseGame() {
+    if (!gamePaused) {
+        gamePaused = true;
+        menu.clearRect(0, 0, WIDTH, HEIGHT);
+        menu.font = "100px times-new-roman";
+        menu.fillText("Game Paused", WIDTH / 2 - 200, HEIGHT / 2 - 25, 400);
+        menu.font = "50px times-new-roman";
+        menu.fillText(
+            'Press "Escape" to unpause',
+            WIDTH / 2 - 175,
+            HEIGHT / 2 + 25,
+            350
+        );
+    } else {
+        gamePaused = false;
+        menu.clearRect(0, 0, WIDTH, HEIGHT);
+        console.log("e");
+    }
+}

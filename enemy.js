@@ -7,13 +7,12 @@ class Enemy {
         this.animation = ["assets/Enemy1.png", "assets/Enemy2.png"];
         this.animationIndex = 0;
         this.xPos = WIDTH;
-        this.yPos = Math.random() * HEIGHT;
+        this.yPos = Math.round(Math.random() * HEIGHT);
         this.width = 64;
         this.height = 64;
         this.animationSpeedMS = 200;
         this.moveSpeedY = 2;
-        this.type = randomWithProbability([0,0,0,1,1]); // 0 = Does not move; 1 = Moves towards players Y when above the player;
-        console.log(this.type);
+        this.type = randomWithProbability([0, 0, 0, 1, 1]); // 0 = Does not move; 1 = Moves towards players Y when in front of the player;
         setInterval(
             function () {
                 this.animate();
@@ -37,9 +36,15 @@ class Enemy {
     update() {
         this.xPos -= SCROLLSPEED;
         if (this.type == 1) {
-            if (this.yPos < player.yPos && this.xPos > player.xPos) {
+            if (
+                player.yPos - this.yPos > this.moveSpeedY * 2 &&
+                this.xPos > player.xPos
+            ) {
                 this.yPos += this.moveSpeedY;
-            } else if (this.xPos > player.xPos) {
+            } else if (
+                this.yPos - player.yPos > -this.moveSpeedY * 2 &&
+                this.xPos > player.xPos
+            ) {
                 this.yPos -= this.moveSpeedY;
             }
         }
