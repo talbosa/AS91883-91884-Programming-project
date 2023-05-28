@@ -120,7 +120,7 @@ function mainLoop() {
             HEIGHT
         );
         bgOffset -= SCROLLSPEED;
-        if (bgOffset == -WIDTH * 2) {
+        if (bgOffset <= -WIDTH * 2) {
             bgOffset = 0;
         }
         //KEYPRESS
