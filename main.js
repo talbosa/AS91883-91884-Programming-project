@@ -50,7 +50,6 @@ setInterval(() => {
 
 //FPS COUNTER
 let stats = new Stats();
-stats.add;
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 
 //Runs on startup once
@@ -74,7 +73,7 @@ async function runSetup() {
         loadingCanvas.fillRect(0, 0, WIDTH, HEIGHT);
         loadingCanvas.fillStyle = "black";
         loadingCanvas.fillText(
-            "Loading Canvas Contextxs...",
+            "Loading Canvas Contexts...",
             WIDTH / 2,
             HEIGHT / 2
         );
