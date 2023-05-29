@@ -52,8 +52,8 @@ setInterval(() => {
 let stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 //Moves the fps counter to the bottom
-stats.dom.style.top = "" 
-stats.dom.style.bottom = "0px" 
+stats.dom.style.top = "";
+stats.dom.style.bottom = "0px";
 
 //Runs on startup once
 async function runSetup() {
