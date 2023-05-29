@@ -20,9 +20,9 @@ let loadingCanvas;
 let bgImage = new Image();
 let player;
 
-let playerRunningAnimation = ["assets/PlayerRun1.png", "assets/PlayerRun2.png"];
-let playerIdleAnimation = ["assets/PlayerIdle1.png", "assets/PlayerIdle2.png"];
-let enemyAnimation = ["assets/Enemy1.png", "assets/Enemy2.png"];
+let playerRunningAnimation = ["assets/playerrun1.png", "assets/playerrun2.png"];
+let playerIdleAnimation = ["assets/playeridle1.png", "assets/playeridle2.png"];
+let enemyAnimation = ["assets/enemy1.png", "assets/enemy2.png"];
 let keyBuffer = [];
 let enemies = [];
 

@@ -3,9 +3,9 @@ class Player {
     constructor() {
         this.image = new Image();
         this.healthImages = {
-            full: "assets/HeartFull.png",
-            empty: "assets/HeartEmpty.png",
-            shield: "assets/HeartArmour.png",
+            full: "assets/heartfull.png",
+            empty: "assets/heartempty.png",
+            shield: "assets/heartarmour.png",
         };
         this.reset();
     }
