@@ -38,12 +38,12 @@ class Enemy {
         if (this.type == 1) {
             if (
                 player.yPos - this.yPos > this.moveSpeedY * 2 &&
-                this.xPos > player.xPos
+                this.xPos + this.width > player.xPos
             ) {
                 this.yPos += this.moveSpeedY;
             } else if (
                 this.yPos - player.yPos > -this.moveSpeedY * 2 &&
-                this.xPos > player.xPos
+                this.xPos + this.width > player.xPos
             ) {
                 this.yPos -= this.moveSpeedY;
             }
