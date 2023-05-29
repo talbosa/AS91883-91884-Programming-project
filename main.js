@@ -55,6 +55,10 @@ stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 
 //Runs on startup once
 async function runSetup() {
+    gameFocused = true;
+    gamePaused = false;
+    gameOver = false;
+    mainMenu = false;
     //First Load
     if (!hasRun) {
         hasRun = true;
@@ -154,6 +158,7 @@ async function runSetup() {
 
         loadingCanvas.clearRect(0, 0, WIDTH, HEIGHT);
 
+        startScreen();
         mainLoop();
         spawnEnemy();
     }
@@ -172,11 +177,6 @@ async function runSetup() {
     player.drawHealth();
 
     updateScore();
-
-    gameFocused = true;
-    gamePaused = false;
-    gameOver = false;
-    mainMenu = false;
 }
 
 // runs ${FPS} times a second
@@ -281,8 +281,11 @@ function onKeyUp(keyEvent) {
     if (keyEvent.key === "Escape") {
         pauseGame();
     }
-    if (keyEvent.key === "e" && gameOver) {
-        mainMenu = true;
+    if (keyEvent.key === "q" && gamePaused) {
+        startScreen();
+    }
+    if (keyEvent.key === "q" && gameOver) {
+        startScreen();
     }
     if (keyEvent.key === "r" && gameOver) {
         runSetup();
@@ -329,7 +332,7 @@ function gameOverFunc() {
     menuCanvas.fillText("Game Over", WIDTH / 2 - 200, HEIGHT / 2 - 25, 400);
     menuCanvas.font = "50px times-new-roman";
     menuCanvas.fillText(
-        'Press "E" to exit',
+        'Press "Q" to Quit',
         WIDTH / 2 - 175,
         HEIGHT / 2 + 25,
         350
@@ -360,6 +363,12 @@ function pauseGame() {
             HEIGHT / 2 + 25,
             350
         );
+        menuCanvas.fillText(
+            'Press "Q" to quit',
+            WIDTH / 2 - 125,
+            HEIGHT / 2 + 75,
+            250
+        );
     } else {
         gamePaused = false;
         menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
@@ -381,4 +390,23 @@ function drawLoadingScreen(words) {
     loadingCanvas.fillText("Loading...", WIDTH / 2 - 200, HEIGHT / 2);
     loadingCanvas.font = "25px times-new-roman";
     loadingCanvas.fillText(words, 0, HEIGHT - 10);
+}
+
+function startScreen() {
+    mainMenu = true;
+    menuCanvas.fillStyle = "white";
+    menuCanvas.fillRect(0, 0, WIDTH, HEIGHT);
+    menuCanvas.fillStyle = "black";
+    menuCanvas.font = "100px times-new-roman";
+    menuCanvas.fillText("Play Game", WIDTH / 2 - 250, HEIGHT / 2 - 200);
+    menuCanvas.font = "25px times-new-roman";
+    menuCanvas.fillText("Press 1", WIDTH / 2 - 50, HEIGHT / 2 - 175);
+    if (keyDown("1")) {
+        runSetup();
+    }
+    if (mainMenu) {
+        setTimeout(() => {
+            requestAnimationFrame(startScreen);
+        }, 1000 / 30);
+    }
 }
