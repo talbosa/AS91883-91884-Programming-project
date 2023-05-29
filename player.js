@@ -2,7 +2,6 @@
 class Player {
     constructor() {
         this.image = new Image();
-        this.healthImage = new Image();
         this.healthImages = {
             full: "assets/HeartFull.png",
             empty: "assets/HeartEmpty.png",
@@ -25,9 +24,16 @@ class Player {
     }
 
     //Sets the players animation
-    setAnimation(animation, animationSpeedMS) {
+    async setAnimation(animation, animationSpeedMS) {
         this.animation = animation;
         this.animationSpeedMS = animationSpeedMS;
+        for(let i = 0; i < this.animation.length; i++){
+            if (typeof this.animation[i] === "string") {
+                this.animation[i] = await loadImage(
+                    this.animation[i]
+                );
+            }
+        }
         this.animate();
         clearInterval(this.animationInterval);
         this.animationInterval = setInterval(
@@ -39,13 +45,13 @@ class Player {
     }
 
     //Plays the current animation
-    async animate() {
+    animate() {
         if (this.animationIndex < this.animation.length - 1) {
             this.animationIndex++;
-            this.image = await loadImage(this.animation[this.animationIndex]);
+            this.image = this.animation[this.animationIndex];
         } else {
             this.animationIndex = 0;
-            this.image = await loadImage(this.animation[this.animationIndex]);
+            this.image = this.animation[this.animationIndex];
         }
     }
 
