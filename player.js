@@ -200,8 +200,8 @@ class Player {
             0, //Offset of pixels from top of source image
             22, //Width of pixels taken from source image
             47, //height of pixels taken from source image
-            this.xPos,
-            this.yPos,
+            Math.round(this.xPos),
+            Math.round(this.yPos),
             this.width,
             this.height
         );

@@ -11,8 +11,17 @@ class Enemy {
         this.width = 64;
         this.height = 64;
         this.animationSpeedMS = 200;
-        this.moveSpeedY = 2 + score / 100;
-        this.type = randomWithProbability([0, 0, 0, 1, 1]); // 0 = Does not move; 1 = Moves towards players Y when in front of the player;
+        this.moveSpeedY;
+        this.score = 1;
+        this.type = randomWithProbability([0, 0, 0, 1, 1, 2]); // 0 = Does not move; 1 = Moves towards players Y when in front of the player; 2 = Moves towards players X and Y when in front of the player
+        if (this.type == 1) {
+            this.score = 2;
+            this.moveSpeedY = 2 + score / 100;
+        }
+        if (this.type == 2) {
+            this.score = 4;
+            this.moveSpeedY = SCROLLSPEED + score / 100;
+        }
         setInterval(
             function () {
                 this.animate();
@@ -35,7 +44,7 @@ class Enemy {
     //Meant to run every frame, updates and draws things related to the enamy
     update() {
         this.xPos -= SCROLLSPEED;
-        if (this.type == 1) {
+        if (this.type == 1 || this.type == 2) {
             if (
                 player.yPos - this.yPos > this.moveSpeedY * 2 &&
                 this.xPos + this.width > player.xPos
@@ -48,6 +57,11 @@ class Enemy {
                 this.yPos -= this.moveSpeedY;
             }
         }
-        gameCanvas.drawImage(this.image, Math.round(this.xPos), this.yPos);
+        if (this.type == 2) {
+            if (this.xPos + this.width > player.xPos) {
+                this.xPos -= SCROLLSPEED / 2;
+            }
+        }
+        gameCanvas.drawImage(this.image, Math.round(this.xPos), Math.round(this.yPos));
     }
 }

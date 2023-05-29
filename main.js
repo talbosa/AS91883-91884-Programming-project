@@ -232,14 +232,9 @@ function mainLoop() {
         for (let i = 0; i < enemies.length; i++) {
             enemies[i].update();
             if (enemies[i].xPos < -100) {
+                score += enemies[i].score;
                 enemies.splice(i, 1);
-                if (enemies[i].type == 0) {
-                    score += 1;
-                    updateScore();
-                } else if (enemies[i].type == 1) {
-                    score += 2;
-                    updateScore();
-                }
+                updateScore();
             }
             if (
                 player.rectCollision(
