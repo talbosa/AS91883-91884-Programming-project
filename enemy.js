@@ -4,7 +4,7 @@ class Enemy {
     constructor() {
         enemies.push(this);
         this.image = new Image();
-        this.animation = ["assets/Enemy1.png", "assets/Enemy2.png"];
+        this.animation = enemyAnimation;
         this.animationIndex = 0;
         this.xPos = WIDTH;
         this.yPos = Math.round(Math.random() * HEIGHT);
@@ -25,10 +25,10 @@ class Enemy {
     async animate() {
         if (this.animationIndex < this.animation.length - 1) {
             this.animationIndex++;
-            this.image = await loadImage(this.animation[this.animationIndex]);
+            this.image = this.animation[this.animationIndex];
         } else {
             this.animationIndex = 0;
-            this.image = await loadImage(this.animation[this.animationIndex]);
+            this.image = this.animation[this.animationIndex];
         }
     }
 

@@ -7,6 +7,10 @@ class Player {
             empty: "assets/HeartEmpty.png",
             shield: "assets/HeartArmour.png",
         };
+        this.reset();
+    }
+    
+    reset(){
         this.animation = [];
         this.animationSpeedMS = 0;
         this.animationInterval;
@@ -27,11 +31,6 @@ class Player {
     async setAnimation(animation, animationSpeedMS) {
         this.animation = animation;
         this.animationSpeedMS = animationSpeedMS;
-        for (let i = 0; i < this.animation.length; i++) {
-            if (typeof this.animation[i] === "string") {
-                this.animation[i] = await loadImage(this.animation[i]);
-            }
-        }
         this.animate();
         clearInterval(this.animationInterval);
         this.animationInterval = setInterval(
@@ -157,21 +156,6 @@ class Player {
 
     async drawHealth() {
         //DRAWS HEALTH AND SHIELD
-        if (typeof this.healthImages["full"] === "string") {
-            this.healthImages["full"] = await loadImage(
-                this.healthImages["full"]
-            );
-        }
-        if (typeof this.healthImages["empty"] === "string") {
-            this.healthImages["empty"] = await loadImage(
-                this.healthImages["empty"]
-            );
-        }
-        if (typeof this.healthImages["shield"] === "string") {
-            this.healthImages["shield"] = await loadImage(
-                this.healthImages["shield"]
-            );
-        }
         healthCanvas.clearRect(0, 0, WIDTH, HEIGHT);
         for (let i = 0; i < this.maxHealth + this.shield; i++) {
             if (i < this.maxHealth) {
