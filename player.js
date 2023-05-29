@@ -27,11 +27,9 @@ class Player {
     async setAnimation(animation, animationSpeedMS) {
         this.animation = animation;
         this.animationSpeedMS = animationSpeedMS;
-        for(let i = 0; i < this.animation.length; i++){
+        for (let i = 0; i < this.animation.length; i++) {
             if (typeof this.animation[i] === "string") {
-                this.animation[i] = await loadImage(
-                    this.animation[i]
-                );
+                this.animation[i] = await loadImage(this.animation[i]);
             }
         }
         this.animate();
@@ -85,7 +83,7 @@ class Player {
         }
         this.drawHealth();
     }
-    
+
     //Heals the player a specified amount
     heal(health) {
         while (this.health < this.maxHealth && health > 0) {
@@ -94,7 +92,7 @@ class Player {
         }
         this.drawHealth();
     }
-    
+
     //Heals the player the specified amount, if the amount to heal is greater then max health, it will fill up health then add shield with the remainder
     overheal(health) {
         while (this.health < this.maxHealth && health > 0) {
@@ -107,7 +105,7 @@ class Player {
         }
         this.drawHealth();
     }
-    
+
     //Directly adds shield to the player
     addShield(shield) {
         this.shield += shield;
@@ -138,7 +136,12 @@ class Player {
             playerHitWidth,
             playerHitHeight
         );
-        gameCanvas.strokeRect(rectHitLeft, rectHitTop, rectHitWidth, rectHitHeight);
+        gameCanvas.strokeRect(
+            rectHitLeft,
+            rectHitTop,
+            rectHitWidth,
+            rectHitHeight
+        );
 
         if (
             playerHitRight > rectHitLeft &&
@@ -151,7 +154,6 @@ class Player {
             return false;
         }
     }
-
 
     async drawHealth() {
         //DRAWS HEALTH AND SHIELD
@@ -174,7 +176,13 @@ class Player {
         for (let i = 0; i < this.maxHealth + this.shield; i++) {
             if (i < this.maxHealth) {
                 if (i < this.health) {
-                    healthCanvas.drawImage(this.healthImages["full"], 32 * i, 0, 32, 32);
+                    healthCanvas.drawImage(
+                        this.healthImages["full"],
+                        32 * i,
+                        0,
+                        32,
+                        32
+                    );
                 } else {
                     healthCanvas.drawImage(
                         this.healthImages["empty"],
@@ -185,7 +193,13 @@ class Player {
                     );
                 }
             } else {
-                healthCanvas.drawImage(this.healthImages["shield"], 32 * i, 2, 32, 32);
+                healthCanvas.drawImage(
+                    this.healthImages["shield"],
+                    32 * i,
+                    2,
+                    32,
+                    32
+                );
             }
         }
     }
