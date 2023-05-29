@@ -9,8 +9,8 @@ class Player {
         };
         this.reset();
     }
-    
-    reset(){
+
+    reset() {
         this.animation = [];
         this.animationSpeedMS = 0;
         this.animationInterval;

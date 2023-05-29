@@ -65,17 +65,29 @@ async function runSetup() {
         loadingCanvas.canvas.width = WIDTH;
         loadingCanvas.canvas.height = HEIGHT;
         loadingCanvas.font = "25px times-new-roman";
-            
+
         loadingCanvas.fillStyle = "beige";
         loadingCanvas.fillRect(0, 0, WIDTH, HEIGHT);
         loadingCanvas.fillStyle = "black";
-        loadingCanvas.fillText("Loading Canvas Contextxs...", WIDTH / 2, HEIGHT / 2);
+        loadingCanvas.fillText(
+            "Loading Canvas Contextxs...",
+            WIDTH / 2,
+            HEIGHT / 2
+        );
 
-        gameCanvas = await document.getElementById("gameCanvas").getContext("2d");
-        healthCanvas = await document.getElementById("healthCanvas").getContext("2d");
-        menuCanvas = await document.getElementById("menuCanvas").getContext("2d");
-        scoreCanvas = await document.getElementById("scoreCanvas").getContext("2d");
-        
+        gameCanvas = await document
+            .getElementById("gameCanvas")
+            .getContext("2d");
+        healthCanvas = await document
+            .getElementById("healthCanvas")
+            .getContext("2d");
+        menuCanvas = await document
+            .getElementById("menuCanvas")
+            .getContext("2d");
+        scoreCanvas = await document
+            .getElementById("scoreCanvas")
+            .getContext("2d");
+
         scoreCanvas.canvas.width = WIDTH;
         scoreCanvas.canvas.height = HEIGHT;
         menuCanvas.canvas.width = WIDTH;
@@ -90,7 +102,7 @@ async function runSetup() {
         drawLoadingScreen("Loading Image BackGround...");
 
         bgImage = await loadImage("assets/background.jpg");
-        
+
         player = new Player();
 
         document.body.appendChild(stats.dom);
@@ -99,17 +111,23 @@ async function runSetup() {
 
         for (let i = 0; i < playerIdleAnimation.length; i++) {
             if (typeof playerIdleAnimation[i] === "string") {
-                playerIdleAnimation[i] = await loadImage(playerIdleAnimation[i]);
+                playerIdleAnimation[i] = await loadImage(
+                    playerIdleAnimation[i]
+                );
             }
         }
         for (let i = 0; i < playerRunningAnimation.length; i++) {
             if (typeof playerRunningAnimation[i] === "string") {
-                playerRunningAnimation[i] = await loadImage(playerRunningAnimation[i]);
+                playerRunningAnimation[i] = await loadImage(
+                    playerRunningAnimation[i]
+                );
             }
         }
 
-        for(let i = 0; i < Object.keys(player.healthImages).length; i++){
-            Object.values(player.healthImages)[i] = await loadImage(Object.values(player.healthImages)[i]);
+        for (let i = 0; i < Object.keys(player.healthImages).length; i++) {
+            Object.values(player.healthImages)[i] = await loadImage(
+                Object.values(player.healthImages)[i]
+            );
         }
 
         if (typeof player.healthImages["full"] === "string") {
@@ -130,7 +148,7 @@ async function runSetup() {
 
         drawLoadingScreen("Loading Enemy Animations...");
 
-        for(let i = 0; i < enemyAnimation.length; i++){
+        for (let i = 0; i < enemyAnimation.length; i++) {
             enemyAnimation[i] = await loadImage(enemyAnimation[i]);
         }
 
@@ -355,12 +373,12 @@ function updateScore() {
     scoreCanvas.fillText(`Score: ${score}`, WIDTH / 2, 25, 100);
 }
 
-function drawLoadingScreen(words){
+function drawLoadingScreen(words) {
     loadingCanvas.fillStyle = "beige";
     loadingCanvas.fillRect(0, 0, WIDTH, HEIGHT);
     loadingCanvas.fillStyle = "black";
     loadingCanvas.font = "100px times-new-roman";
-    loadingCanvas.fillText("Loading...", WIDTH/2 - 200, HEIGHT / 2);
+    loadingCanvas.fillText("Loading...", WIDTH / 2 - 200, HEIGHT / 2);
     loadingCanvas.font = "25px times-new-roman";
     loadingCanvas.fillText(words, 0, HEIGHT - 10);
 }
