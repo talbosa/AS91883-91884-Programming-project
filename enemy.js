@@ -13,7 +13,16 @@ class Enemy {
         this.animationSpeedMS = 200;
         this.moveSpeedY;
         this.score = 1;
-        this.type = randomWithProbability([0, 0, 0, 1, 1, 2]); // 0 = Does not move; 1 = Moves towards players Y when in front of the player; 2 = Moves towards players X and Y when in front of the player
+        this.type; // 0 = Does not move; 1 = Moves towards players Y when in front of the player; 2 = Moves towards players X and Y when in front of the player
+        if (score >= 0) {
+            this.type = randomWithProbability([0, 0, 0, 0, 1, 1, 1, 2]);
+        }
+        if (score >= 50) {
+            this.type = randomWithProbability([0, 0, 1, 1, 1, 1, 2, 2]);
+        }
+        if (score >= 100) {
+            this.type = randomWithProbability([1, 1, 1, 1, 1, 2, 2, 2, 2]);
+        }
         if (this.type == 1) {
             this.score = 2;
             this.moveSpeedY = 2 + score / 100;
