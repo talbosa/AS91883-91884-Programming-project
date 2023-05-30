@@ -28,8 +28,16 @@ let playerHealthImages = {
     empty: "assets/heartempty.png",
     shield: "assets/heartarmour.png",
 };
+let powerupImages = {
+    damage: "assets/powerupdamage.png",
+    heal: "assets/powerupheal.png",
+    shield: "assets/powerupshield.png",
+    maxhealth: "assets/powerupheal.png",
+}
 let keyBuffer = [];
 let enemies = [];
+let powerups = [];
+let buffs = [];
 
 let bgOffset = 0;
 let score = 0;
