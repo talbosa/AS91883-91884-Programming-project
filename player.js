@@ -2,11 +2,6 @@
 class Player {
     constructor() {
         this.image = new Image();
-        this.healthImages = {
-            full: "assets/heartfull.png",
-            empty: "assets/heartempty.png",
-            shield: "assets/heartarmour.png",
-        };
         this.reset();
     }
 
@@ -161,7 +156,7 @@ class Player {
             if (i < this.maxHealth) {
                 if (i < this.health) {
                     healthCanvas.drawImage(
-                        this.healthImages["full"],
+                        playerHealthImages["full"],
                         32 * i,
                         0,
                         32,
@@ -169,7 +164,7 @@ class Player {
                     );
                 } else {
                     healthCanvas.drawImage(
-                        this.healthImages["empty"],
+                        playerHealthImages["empty"],
                         32 * i,
                         5,
                         32,
@@ -178,7 +173,7 @@ class Player {
                 }
             } else {
                 healthCanvas.drawImage(
-                    this.healthImages["shield"],
+                    playerHealthImages["shield"],
                     32 * i,
                     2,
                     32,

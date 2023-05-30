@@ -23,6 +23,11 @@ let player;
 let playerRunningAnimation = ["assets/playerrun1.png", "assets/playerrun2.png"];
 let playerIdleAnimation = ["assets/playeridle1.png", "assets/playeridle2.png"];
 let enemyAnimation = ["assets/enemy1.png", "assets/enemy2.png"];
+let playerHealthImages = {
+    full: "assets/heartfull.png",
+    empty: "assets/heartempty.png",
+    shield: "assets/heartarmour.png",
+};
 let keyBuffer = [];
 let enemies = [];
 
@@ -134,25 +139,9 @@ async function runSetup() {
             }
         }
 
-        for (let i = 0; i < Object.keys(player.healthImages).length; i++) {
-            Object.values(player.healthImages)[i] = await loadImage(
-                Object.values(player.healthImages)[i]
-            );
-        }
-
-        if (typeof player.healthImages["full"] === "string") {
-            player.healthImages["full"] = await loadImage(
-                player.healthImages["full"]
-            );
-        }
-        if (typeof player.healthImages["empty"] === "string") {
-            player.healthImages["empty"] = await loadImage(
-                player.healthImages["empty"]
-            );
-        }
-        if (typeof player.healthImages["shield"] === "string") {
-            player.healthImages["shield"] = await loadImage(
-                player.healthImages["shield"]
+        for (let i = 0; i < Object.keys(playerHealthImages).length; i++) {
+            playerHealthImages[Object.keys(playerHealthImages)[i]] = await loadImage(
+                Object.values(playerHealthImages)[i]
             );
         }
 
