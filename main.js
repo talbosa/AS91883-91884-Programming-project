@@ -272,8 +272,8 @@ function onKeyDown(keyEvent) {
         player.overheal(1);
     }
 
-    if (keyBuffer.indexOf(keyEvent.key) == -1) {
-        keyBuffer.push(keyEvent.key);
+    if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) == -1) {
+        keyBuffer.push(keyEvent.key.toLowerCase());
     }
 }
 //Runs okn key release
@@ -292,8 +292,8 @@ function onKeyUp(keyEvent) {
         runSetup();
     }
 
-    if (keyBuffer.indexOf(keyEvent.key) != -1) {
-        keyBuffer.splice(keyBuffer.indexOf(keyEvent.key), 1);
+    if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) != -1) {
+        keyBuffer.splice(keyBuffer.indexOf(keyEvent.key.toLowerCase()), 1);
     }
 }
 
