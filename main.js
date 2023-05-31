@@ -1,9 +1,15 @@
 const WIDTH = 1200;
 const HEIGHT = 700;
+const SCROLLSPEED = 5;
 
 let app;
 let player;
 let keyBuffer = [];
+let bgImages = [];
+let bgOffset = 0;
+
+let playerRunningAnimation = ["assets/playerrun1.png", "assets/playerrun2.png"];
+let playerIdleAnimation = ["assets/playeridle1.png", "assets/playeridle2.png"];
 
 window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
@@ -16,11 +22,18 @@ stats.dom.style.top = "";
 stats.dom.style.bottom = "0px";
 
 function runSetup() {
-    app = new PIXI.Application({ width:WIDTH, height:HEIGHT });
+    app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
     PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
     player = PIXI.Sprite.from("assets/playerrun1.png");
-    player.width = 128;
-    player.height = 128;
+    player.width = 140;
+    player.height = 170;
+
+    for (let i = 0; i < 2; i++) {
+        bgImages[i] = PIXI.Sprite.from("/assets/background.jpg");
+        bgImages[i].width = WIDTH * 2;
+        bgImages[i].height = HEIGHT;
+        app.stage.addChild(bgImages[i]);
+    }
 
     document.body.appendChild(app.view);
     document.body.appendChild(stats.dom);
@@ -31,16 +44,23 @@ function runSetup() {
 
 function mainLoop() {
     stats.begin();
-    if(keyDown("w")){
+    bgOffset -= SCROLLSPEED;
+    bgImages[0].x = bgOffset;
+    bgImages[1].x = bgOffset + WIDTH * 2;
+    if (bgOffset < -WIDTH * 2) {
+        bgOffset = 0;
+    }
+
+    if (keyDown("w")) {
         player.y -= 5;
     }
-    if(keyDown("s")){
+    if (keyDown("s")) {
         player.y += 5;
     }
-    if(keyDown("a")){
+    if (keyDown("a")) {
         player.x -= 5;
     }
-    if(keyDown("d")){
+    if (keyDown("d")) {
         player.x += 5;
     }
     stats.end();
