@@ -1,6 +1,7 @@
 class Player{
     constructor() {
-        this.image = new Image();
+        this.sprite = PIXI.Sprite
+        app.stage.addChild(this.sprite);
         this.reset();
     }
 
