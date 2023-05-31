@@ -1,0 +1,113 @@
+{"frames": {
+
+"enemy1.png":
+{
+	"frame": {"x":0,"y":191,"w":62,"h":61},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":61},
+	"sourceSize": {"w":62,"h":61}
+},
+"enemy2.png":
+{
+	"frame": {"x":0,"y":132,"w":61,"h":59},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":59},
+	"sourceSize": {"w":61,"h":59}
+},
+"heartarmour.png":
+{
+	"frame": {"x":16,"y":0,"w":16,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":15},
+	"sourceSize": {"w":16,"h":15}
+},
+"heartempty.png":
+{
+	"frame": {"x":0,"y":0,"w":16,"h":13},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":13},
+	"sourceSize": {"w":16,"h":13}
+},
+"heartfull.png":
+{
+	"frame": {"x":32,"y":0,"w":16,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":15},
+	"sourceSize": {"w":16,"h":15}
+},
+"idle/playeridle1.png":
+{
+	"frame": {"x":0,"y":30,"w":22,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":48},
+	"sourceSize": {"w":22,"h":48}
+},
+"idle/playeridle2.png":
+{
+	"frame": {"x":22,"y":30,"w":22,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":48},
+	"sourceSize": {"w":22,"h":48}
+},
+"powerupdamage.png":
+{
+	"frame": {"x":0,"y":15,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+"powerupheal.png":
+{
+	"frame": {"x":15,"y":15,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+"powerupshield.png":
+{
+	"frame": {"x":30,"y":15,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+"run/playerrun1.png":
+{
+	"frame": {"x":0,"y":78,"w":22,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":48},
+	"sourceSize": {"w":22,"h":48}
+},
+"run/playerrun2.png":
+{
+	"frame": {"x":22,"y":78,"w":22,"h":48},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":54},
+	"sourceSize": {"w":22,"h":54}
+}},
+"animations": {
+	"enemy": ["enemy1.png","enemy2.png"],
+	"idle/playeridle": ["idle/playeridle1.png","idle/playeridle2.png"],
+	"run/playerrun": ["run/playerrun1.png","run/playerrun2.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "spritesheet.png",
+	"format": "RGBA8888",
+	"size": {"w":62,"h":252},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b2f99c48ae51c08720298f764735abab:884fe35a98d0fc35c8c019406c1e2a4f:729adc6043343cfda41c447ce8f464d6$"
+}
+}

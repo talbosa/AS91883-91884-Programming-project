@@ -8,8 +8,16 @@ let keyBuffer = [];
 let bgImages = [];
 let bgOffset = 0;
 
-let playerRunningAnimation = ["assets/playerrun1.png", "assets/playerrun2.png"];
-let playerIdleAnimation = ["assets/playeridle1.png", "assets/playeridle2.png"];
+const LOADINGTEXT = new PIXI.Text("Loading Sprite Sheet...", {
+    fontFamily: "Arial",
+    fontSize: 100,
+    fill: 0xff1010,
+    align: "center",
+});
+LOADINGTEXT.x = WIDTH/2 - LOADINGTEXT.width / 2;
+LOADINGTEXT.y = HEIGHT/2 - LOADINGTEXT.height / 2;
+
+let sheet;
 
 window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
@@ -21,9 +29,15 @@ stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 stats.dom.style.top = "";
 stats.dom.style.bottom = "0px";
 
-function runSetup() {
+async function runSetup() {
     app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
     PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
+    document.body.appendChild(app.view);
+    document.body.appendChild(stats.dom);
+
+    app.stage.addChild(LOADINGTEXT);
+    sheet = await PIXI.Assets.load("assets/spritesheet.json");
+    app.stage.removeChild(LOADINGTEXT);
 
     for (let i = 0; i < 2; i++) {
         bgImages[i] = PIXI.Sprite.from("/assets/background.jpg");
@@ -31,21 +45,8 @@ function runSetup() {
         bgImages[i].height = HEIGHT;
         app.stage.addChild(bgImages[i]);
     }
-    for (let i = 0; i < playerRunningAnimation.length; i++) {
-        playerRunningAnimation[i] = PIXI.Texture.from(
-            playerRunningAnimation[i]
-        );
-        playerRunningAnimation[i] = new PIXI.Texture(
-            playerRunningAnimation[i],
-            new PIXI.Rectangle(0, 0, 22, 47)
-        );
-    }
 
     player = new Player();
-    player.setAnimation(playerRunningAnimation, 200);
-
-    document.body.appendChild(app.view);
-    document.body.appendChild(stats.dom);
 
     app.ticker.add(mainLoop);
 }
