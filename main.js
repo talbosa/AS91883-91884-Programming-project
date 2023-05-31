@@ -24,9 +24,6 @@ stats.dom.style.bottom = "0px";
 function runSetup() {
     app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
     PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    player = PIXI.Sprite.from("assets/playerrun1.png");
-    player.width = 140;
-    player.height = 170;
 
     for (let i = 0; i < 2; i++) {
         bgImages[i] = PIXI.Sprite.from("/assets/background.jpg");
@@ -34,10 +31,21 @@ function runSetup() {
         bgImages[i].height = HEIGHT;
         app.stage.addChild(bgImages[i]);
     }
+    for (let i = 0; i < playerRunningAnimation.length; i++) {
+        playerRunningAnimation[i] = PIXI.Texture.from(
+            playerRunningAnimation[i]
+        );
+        playerRunningAnimation[i] = new PIXI.Texture(
+            playerRunningAnimation[i],
+            new PIXI.Rectangle(0, 0, 22, 47)
+        );
+    }
+
+    player = new Player();
+    player.setAnimation(playerRunningAnimation, 200);
 
     document.body.appendChild(app.view);
     document.body.appendChild(stats.dom);
-    app.stage.addChild(player);
 
     app.ticker.add(mainLoop);
 }
@@ -52,16 +60,16 @@ function mainLoop() {
     }
 
     if (keyDown("w")) {
-        player.y -= 5;
+        player.yPos -= player.moveSpeedY;
     }
     if (keyDown("s")) {
-        player.y += 5;
+        player.yPos += player.moveSpeedY;
     }
     if (keyDown("a")) {
-        player.x -= 5;
+        player.xPos -= player.moveSpeedX;
     }
     if (keyDown("d")) {
-        player.x += 5;
+        player.xPos += player.moveSpeedX;
     }
     stats.end();
 }
