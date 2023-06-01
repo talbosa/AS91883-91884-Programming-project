@@ -17,8 +17,8 @@ const LOADINGTEXT = new PIXI.Text("Loading Sprite Sheet...", {
     fill: 0xff1010,
     align: "center",
 });
-LOADINGTEXT.x = WIDTH/2 - LOADINGTEXT.width / 2;
-LOADINGTEXT.y = HEIGHT/2 - LOADINGTEXT.height / 2;
+LOADINGTEXT.x = WIDTH / 2 - LOADINGTEXT.width / 2;
+LOADINGTEXT.y = HEIGHT / 2 - LOADINGTEXT.height / 2;
 
 let sheet;
 
@@ -36,7 +36,7 @@ async function runSetup() {
     app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
     PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
     app.stage = new PIXI.layers.Stage();
-    app.stage.sortableChildren = true
+    app.stage.sortableChildren = true;
     document.body.appendChild(app.view);
     document.body.appendChild(stats.dom);
     app.stage.addChild(HEALTHLAYER, GAMELAYER, BGLAYER);
@@ -74,11 +74,11 @@ function mainLoop() {
     }
     if (keyDown("a")) {
         player.xPos -= player.moveSpeedX;
-        if(player.sprite.textures != sheet.animations["idle/playeridle"]){
+        if (player.sprite.textures != sheet.animations["idle/playeridle"]) {
             player.sprite.textures = sheet.animations["idle/playeridle"];
             player.sprite.play();
-    }
-    } else if(player.sprite.textures != sheet.animations["run/playerrun"]){
+        }
+    } else if (player.sprite.textures != sheet.animations["run/playerrun"]) {
         player.sprite.textures = sheet.animations["run/playerrun"];
         player.sprite.play();
     }
