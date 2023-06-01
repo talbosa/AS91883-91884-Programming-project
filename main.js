@@ -1,6 +1,9 @@
 const WIDTH = 1200;
 const HEIGHT = 700;
 const SCROLLSPEED = 5;
+const HEALTHLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(10, true));
+const GAMELAYER = new PIXI.layers.Layer(new PIXI.layers.Group(5, true));
+const BGLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(1, true));
 
 let app;
 let player;
@@ -32,8 +35,11 @@ stats.dom.style.bottom = "0px";
 async function runSetup() {
     app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
     PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
+    app.stage = new PIXI.layers.Stage();
+    app.stage.sortableChildren = true
     document.body.appendChild(app.view);
     document.body.appendChild(stats.dom);
+    app.stage.addChild(HEALTHLAYER, GAMELAYER, BGLAYER);
 
     app.stage.addChild(LOADINGTEXT);
     sheet = await PIXI.Assets.load("assets/spritesheet.json");
@@ -43,7 +49,7 @@ async function runSetup() {
         bgImages[i] = PIXI.Sprite.from("/assets/background.jpg");
         bgImages[i].width = WIDTH * 2;
         bgImages[i].height = HEIGHT;
-        app.stage.addChild(bgImages[i]);
+        BGLAYER.addChild(bgImages[i]);
     }
 
     player = new Player();
@@ -77,6 +83,14 @@ function mainLoop() {
 
 //Runs on key press
 function onKeyDown(keyEvent) {
+    //DEBUG  HEALTH TEST
+    if (keyEvent.key === " ") {
+        player.damage(1);
+    }
+    if (keyEvent.key === "Control") {
+        player.overheal(1);
+    }
+
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) == -1) {
         keyBuffer.push(keyEvent.key.toLowerCase());
     }

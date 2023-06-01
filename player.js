@@ -4,24 +4,28 @@ class Player {
             sheet.animations["run/playerrun"],
             true
         );
-        app.stage.addChild(this.sprite);
-        this.sprite.play()
+        GAMELAYER.addChild(this.sprite);
+        this.sprite.play();
         this.reset();
     }
 
+    //Can be used to manually reset the player
     reset() {
         this.sprite.width = 50;
         this.sprite.height = 128;
         this.sprite.animationSpeed = 0.1;
         this.sprite.x = 100;
-        this.sprite.y = 100
+        this.sprite.y = 100;
         this.health = 3;
         this.maxHealth = 3;
+        this.healthSprites = [];
         this.shield = 0;
         this.moveSpeedX = SCROLLSPEED;
         this.moveSpeedY = 10;
+        this.drawHealth();
     }
 
+    //Get/Set methods for player attributes held by player.sprite for convenience
     get xPos() {
         return this.sprite.x;
     }
@@ -45,6 +49,99 @@ class Player {
     }
     set height(height) {
         this.sprite.height = height;
+    }
+
+    //Damages the player a apecified amount
+    damage(damage) {
+        while (this.shield > 0 && damage > 0) {
+            this.shield--;
+            damage--;
+        }
+        while (this.health > 0 && damage > 0) {
+            this.health--;
+            damage--;
+        }
+        this.drawHealth();
+    }
+
+    //Bypasses the players shield to deal damage directly
+    damageIgnoreShield(damage) {
+        while (this.health > 0 && damage > 0) {
+            this.health--;
+            damage--;
+        }
+        this.drawHealth();
+    }
+
+    //Damages sheild but does not affect health
+    damageShield(damage) {
+        while (this.shield > 0 && damage > 0) {
+            this.shield--;
+            damage--;
+        }
+        this.drawHealth();
+    }
+
+    //Heals the player a specified amount
+    heal(health) {
+        while (this.health < this.maxHealth && health > 0) {
+            this.health++;
+            health--;
+        }
+        this.drawHealth();
+    }
+
+    //Heals the player the specified amount, if the amount to heal is greater then max health, it will fill up health then add shield with the remainder
+    overheal(health) {
+        while (this.health < this.maxHealth && health > 0) {
+            this.health++;
+            health--;
+        }
+        while (health > 0) {
+            this.shield++;
+            health--;
+        }
+        this.drawHealth();
+    }
+
+    //Directly adds shield to the player
+    addShield(shield) {
+        this.shield += shield;
+        this.drawHealth();
+    }
+
+    drawHealth() {
+        HEALTHLAYER.removeChildren();
+        for (let i = 0; i < this.maxHealth + this.shield; i++) {
+            if (i < this.maxHealth) {
+                if (i < this.health) {
+                    this.healthSprites[i] = PIXI.Sprite.from(
+                        sheet.textures["heartfull.png"]
+                    );
+                    this.healthSprites[i].width = 32;
+                    this.healthSprites[i].height = 32;
+                    this.healthSprites[i].x = 32 * i;
+                    this.healthSprites[i].y = 1;
+                } else {
+                    this.healthSprites[i] = PIXI.Sprite.from(
+                        sheet.textures["heartempty.png"]
+                    );
+                    this.healthSprites[i].width = 32;
+                    this.healthSprites[i].height = 27;
+                    this.healthSprites[i].x = 32 * i;
+                    this.healthSprites[i].y = 3;
+                }
+            } else {
+                this.healthSprites[i] = PIXI.Sprite.from(
+                    sheet.textures["heartarmour.png"]
+                );
+                this.healthSprites[i].width = 32;
+                this.healthSprites[i].height = 32;
+                this.healthSprites[i].x = 32 * i;
+                this.healthSprites[i].y = 1;
+            }
+            HEALTHLAYER.addChild(this.healthSprites[i]);
+        }
     }
 
     //Meant to run every frame, updates and draws things related to the player
