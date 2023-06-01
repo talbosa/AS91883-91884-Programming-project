@@ -74,6 +74,13 @@ function mainLoop() {
     }
     if (keyDown("a")) {
         player.xPos -= player.moveSpeedX;
+        if(player.sprite.textures != sheet.animations["idle/playeridle"]){
+            player.sprite.textures = sheet.animations["idle/playeridle"];
+            player.sprite.play();
+    }
+    } else if(player.sprite.textures != sheet.animations["run/playerrun"]){
+        player.sprite.textures = sheet.animations["run/playerrun"];
+        player.sprite.play();
     }
     if (keyDown("d")) {
         player.xPos += player.moveSpeedX;
