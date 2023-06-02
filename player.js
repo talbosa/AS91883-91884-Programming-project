@@ -110,6 +110,35 @@ class Player {
         this.drawHealth();
     }
 
+    //Collsion with rectangle
+    rectCollision(xPos, yPos, width, height) {
+        let playerHitLeft = this.xPos;
+        let playerHitRight = this.xPos + this.width;
+        let playerHitTop = this.yPos;
+        let playerHitBottom = this.yPos + this.height;
+
+        let rectHitLeft = xPos;
+        let rectHitRight = xPos + width;
+        let rectHitTop = yPos;
+        let rectHitBottom = yPos + height;
+
+        let playerHitWidth = playerHitRight - playerHitLeft;
+        let playerHitHeight = playerHitBottom - playerHitTop;
+        let rectHitWidth = rectHitRight - rectHitLeft;
+        let rectHitHeight = rectHitBottom - rectHitTop;
+
+        if (
+            playerHitRight > rectHitLeft &&
+            playerHitLeft < rectHitRight &&
+            playerHitTop < rectHitBottom &&
+            playerHitBottom > rectHitTop
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     drawHealth() {
         HEALTHLAYER.removeChildren();
         for (let i = 0; i < this.maxHealth + this.shield; i++) {

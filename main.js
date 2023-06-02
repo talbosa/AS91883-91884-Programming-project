@@ -9,7 +9,9 @@ let app;
 let player;
 let keyBuffer = [];
 let bgImages = [];
+let enemies = [];
 let bgOffset = 0;
+let score = 0;
 
 const LOADINGTEXT = new PIXI.Text("Loading Sprite Sheet...", {
     fontFamily: "Arial",
@@ -85,6 +87,37 @@ function mainLoop() {
     if (keyDown("d")) {
         player.xPos += player.moveSpeedX;
     }
+    //Check For enemy collision/enemy leaving screen
+    for (let i = 0; i < enemies.length; i++) {
+        //Workaround for problem that randomly appeared
+        if (i >= enemies.length) i--;
+        if (enemies.length == 0) break;
+        //
+        enemies[i].update();
+        if (enemies[i].sprite.x < -100) {
+            score += enemies[i].score;
+            GAMELAYER.removeChild(enemies[i].sprite);
+            enemies.splice(i, 1);
+            // updateScore();
+        }
+        //Workaround for problem that randomly appeared
+        if (i >= enemies.length) i--;
+        if (enemies.length == 0) break;
+        //
+        if (
+            player.rectCollision(
+                enemies[i].sprite.x,
+                enemies[i].sprite.y,
+                enemies[i].sprite.width,
+                enemies[i].sprite.height
+            )
+        ) {
+            GAMELAYER.removeChild(enemies[i].sprite);
+            enemies.splice(i, 1);
+            player.damage(1);
+        }
+    }
+
     stats.end();
 }
 
@@ -116,4 +149,10 @@ function keyDown(key) {
     } else {
         return false;
     }
+}
+
+//Returns a random index from an input list
+function randomWithProbability(probability) {
+    let idx = Math.floor(Math.random() * probability.length);
+    return probability[idx];
 }
