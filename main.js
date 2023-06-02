@@ -57,6 +57,7 @@ async function runSetup() {
     player = new Player();
 
     app.ticker.add(mainLoop);
+    spawnEnemy();
 }
 
 function mainLoop() {
@@ -119,6 +120,14 @@ function mainLoop() {
     }
 
     stats.end();
+}
+
+//Spawns enemies
+function spawnEnemy() {
+    setTimeout(() => {
+        requestAnimationFrame(spawnEnemy);
+    }, 1000 - score / 100);
+    new Enemy();
 }
 
 //Runs on key press
