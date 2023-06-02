@@ -1,6 +1,7 @@
 const WIDTH = 1200;
 const HEIGHT = 700;
 const SCROLLSPEED = 5;
+const SCORELAYER = new PIXI.layers.Layer(new PIXI.layers.Group(20, true));
 const HEALTHLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(10, true));
 const GAMELAYER = new PIXI.layers.Layer(new PIXI.layers.Group(5, true));
 const BGLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(1, true));
@@ -22,6 +23,15 @@ const LOADINGTEXT = new PIXI.Text("Loading Sprite Sheet...", {
 LOADINGTEXT.x = WIDTH / 2 - LOADINGTEXT.width / 2;
 LOADINGTEXT.y = HEIGHT / 2 - LOADINGTEXT.height / 2;
 
+const SCORETEXT = new PIXI.Text(`Score: ${score}`, {
+    fontFamily: "Arial",
+    fontSize: 25,
+    fill: 0x000000,
+    align: "center",
+});
+SCORETEXT.x = WIDTH / 2 - SCORETEXT.width / 2;
+SCORETEXT.y = 1;
+
 let sheet;
 
 window.onload = runSetup;
@@ -41,11 +51,13 @@ async function runSetup() {
     app.stage.sortableChildren = true;
     document.body.appendChild(app.view);
     document.body.appendChild(stats.dom);
-    app.stage.addChild(HEALTHLAYER, GAMELAYER, BGLAYER);
+    app.stage.addChild(SCORELAYER, HEALTHLAYER, GAMELAYER, BGLAYER);
 
     app.stage.addChild(LOADINGTEXT);
     sheet = await PIXI.Assets.load("assets/spritesheet.json");
     app.stage.removeChild(LOADINGTEXT);
+    
+    SCORELAYER.addChild(SCORETEXT);
 
     for (let i = 0; i < 2; i++) {
         bgImages[i] = PIXI.Sprite.from("/assets/background.jpg");
@@ -99,7 +111,7 @@ function mainLoop() {
             score += enemies[i].score;
             GAMELAYER.removeChild(enemies[i].sprite);
             enemies.splice(i, 1);
-            // updateScore();
+            updateScore();
         }
         //Workaround for problem that randomly appeared
         if (i >= enemies.length) i--;
@@ -164,4 +176,9 @@ function keyDown(key) {
 function randomWithProbability(probability) {
     let idx = Math.floor(Math.random() * probability.length);
     return probability[idx];
+}
+
+//Updates Score Text
+function updateScore(){
+    SCORETEXT.text = `Score: ${score}`
 }
