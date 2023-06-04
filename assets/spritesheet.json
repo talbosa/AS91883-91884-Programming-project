@@ -1,8 +1,16 @@
 {"frames": {
 
+"background.jpg":
+{
+	"frame": {"x":0,"y":0,"w":1600,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1600,"h":800},
+	"sourceSize": {"w":1600,"h":800}
+},
 "enemy1.png":
 {
-	"frame": {"x":0,"y":0,"w":62,"h":61},
+	"frame": {"x":1600,"y":0,"w":62,"h":61},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":61},
@@ -10,7 +18,7 @@
 },
 "enemy2.png":
 {
-	"frame": {"x":0,"y":61,"w":61,"h":59},
+	"frame": {"x":1662,"y":0,"w":61,"h":59},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":59},
@@ -18,7 +26,7 @@
 },
 "heartarmour.png":
 {
-	"frame": {"x":0,"y":120,"w":16,"h":15},
+	"frame": {"x":1723,"y":0,"w":16,"h":15},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":15},
@@ -26,7 +34,7 @@
 },
 "heartempty.png":
 {
-	"frame": {"x":16,"y":120,"w":16,"h":13},
+	"frame": {"x":1739,"y":0,"w":16,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":13},
@@ -34,7 +42,7 @@
 },
 "heartfull.png":
 {
-	"frame": {"x":32,"y":120,"w":16,"h":15},
+	"frame": {"x":1755,"y":0,"w":16,"h":15},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":15},
@@ -42,7 +50,7 @@
 },
 "playeridle1.png":
 {
-	"frame": {"x":0,"y":135,"w":22,"h":48},
+	"frame": {"x":1771,"y":0,"w":22,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":48},
@@ -50,7 +58,7 @@
 },
 "playeridle2.png":
 {
-	"frame": {"x":22,"y":135,"w":22,"h":48},
+	"frame": {"x":1793,"y":0,"w":22,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":48},
@@ -58,7 +66,7 @@
 },
 "playerrun1.png":
 {
-	"frame": {"x":0,"y":183,"w":22,"h":48},
+	"frame": {"x":1815,"y":0,"w":22,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":48},
@@ -66,7 +74,7 @@
 },
 "playerrun2.png":
 {
-	"frame": {"x":22,"y":183,"w":21,"h":47},
+	"frame": {"x":1837,"y":0,"w":21,"h":47},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":47},
@@ -74,7 +82,7 @@
 },
 "powerupdamage.png":
 {
-	"frame": {"x":43,"y":183,"w":15,"h":15},
+	"frame": {"x":1858,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
@@ -82,7 +90,7 @@
 },
 "powerupheal.png":
 {
-	"frame": {"x":0,"y":231,"w":15,"h":15},
+	"frame": {"x":1873,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
@@ -90,7 +98,7 @@
 },
 "powerupshield.png":
 {
-	"frame": {"x":15,"y":231,"w":15,"h":15},
+	"frame": {"x":1888,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
@@ -106,8 +114,8 @@
 	"version": "1.1",
 	"image": "spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":62,"h":246},
+	"size": {"w":1903,"h":800},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:62b0335c9eaad34829ebe50524a93398:1093dd8d1d69716e9becda412e9ecfa5:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:45967b59dc330605c09eb8713c2da4f3:45150566e9d8605f3671f443a8c0fa18:729adc6043343cfda41c447ce8f464d6$"
 }
 }

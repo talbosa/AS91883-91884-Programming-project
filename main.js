@@ -81,7 +81,7 @@ async function runSetup() {
     SCORELAYER.addChild(SCORETEXT);
 
     for (let i = 0; i < 2; i++) {
-        bgImages[i] = PIXI.Sprite.from("assets/background.jpg");
+        bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
         bgImages[i].width = WIDTH * 2;
         bgImages[i].height = HEIGHT;
         BGLAYER.addChild(bgImages[i]);
