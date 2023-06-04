@@ -1,7 +1,7 @@
 class Player {
     constructor() {
         this.sprite = new PIXI.AnimatedSprite(
-            sheet.animations["playerrun"],
+            spriteSheet.animations["playerrun"],
             true
         );
         GAMELAYER.addChild(this.sprite);
@@ -160,7 +160,7 @@ class Player {
             if (i < this.maxHealth) {
                 if (i < this.health) {
                     this.healthSprites[i] = PIXI.Sprite.from(
-                        sheet.textures["heartfull.png"]
+                        spriteSheet.textures["heartfull.png"]
                     );
                     this.healthSprites[i].width = 32;
                     this.healthSprites[i].height = 32;
@@ -168,7 +168,7 @@ class Player {
                     this.healthSprites[i].y = 1;
                 } else {
                     this.healthSprites[i] = PIXI.Sprite.from(
-                        sheet.textures["heartempty.png"]
+                        spriteSheet.textures["heartempty.png"]
                     );
                     this.healthSprites[i].width = 32;
                     this.healthSprites[i].height = 27;
@@ -177,7 +177,7 @@ class Player {
                 }
             } else {
                 this.healthSprites[i] = PIXI.Sprite.from(
-                    sheet.textures["heartarmour.png"]
+                    spriteSheet.textures["heartarmour.png"]
                 );
                 this.healthSprites[i].width = 32;
                 this.healthSprites[i].height = 32;

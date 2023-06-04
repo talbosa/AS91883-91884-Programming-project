@@ -3,7 +3,7 @@ class Enemy {
     //Is run when a new enemy is created
     constructor() {
         enemies.push(this);
-        this.sprite = new PIXI.AnimatedSprite(sheet.animations["enemy"], true);
+        this.sprite = new PIXI.AnimatedSprite(spriteSheet.animations["enemy"], true);
         this.sprite.animationSpeed = 0.1;
         GAMELAYER.addChild(this.sprite);
         this.sprite.play();

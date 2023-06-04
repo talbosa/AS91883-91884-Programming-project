@@ -5,10 +5,18 @@ const SCORELAYER = new PIXI.layers.Layer(new PIXI.layers.Group(20, true));
 const HEALTHLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(10, true));
 const GAMELAYER = new PIXI.layers.Layer(new PIXI.layers.Group(5, true));
 const BGLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(1, true));
+const GAMESTATES = {
+    menu: 0,
+    play: 1,
+    pause: 2,
+    nofocus: 3,
+};
 
 let app;
 let player;
-let hitboxCanvas
+let hitboxCanvas;
+let gameState;
+let spriteSheet;
 let keyBuffer = [];
 let bgImages = [];
 let enemies = [];
@@ -33,11 +41,19 @@ const SCORETEXT = new PIXI.Text(`Score: ${score}`, {
 SCORETEXT.x = WIDTH / 2 - SCORETEXT.width / 2;
 SCORETEXT.y = 1;
 
-let sheet;
 
 window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
+
+setInterval(() => {
+    const HASFOCUS = document.hasFocus();
+    if (HASFOCUS && gameState == GAMESTATES["nofocus"]) {
+        gameState = GAMESTATES["play"]
+    } else if (!HASFOCUS && gameState == GAMESTATES["play"]){
+        gameState = GAMESTATES["nofocus"]
+    }
+}, 200);
 
 let stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -60,7 +76,7 @@ async function runSetup() {
     app.stage.addChild(SCORELAYER, HEALTHLAYER, GAMELAYER, BGLAYER);
 
     app.stage.addChild(LOADINGTEXT);
-    sheet = await PIXI.Assets.load("assets/spritesheet.json");
+    spriteSheet = await PIXI.Assets.load("assets/spritesheet.json");
     app.stage.removeChild(LOADINGTEXT);
     
     SCORELAYER.addChild(SCORETEXT);
@@ -76,10 +92,12 @@ async function runSetup() {
 
     app.ticker.add(mainLoop);
     spawnEnemy();
+    gameState = GAMESTATES["play"];
 }
 
 function mainLoop() {
     stats.begin();
+    if (gameState != GAMESTATES["play"]) return;
     bgOffset -= SCROLLSPEED;
     bgImages[0].x = bgOffset;
     bgImages[1].x = bgOffset + WIDTH * 2;
@@ -95,12 +113,12 @@ function mainLoop() {
     }
     if (keyDown("a")) {
         player.xPos -= player.moveSpeedX;
-        if (player.sprite.textures != sheet.animations["playeridle"]) {
-            player.sprite.textures = sheet.animations["playeridle"];
+        if (player.sprite.textures != spriteSheet.animations["playeridle"]) {
+            player.sprite.textures = spriteSheet.animations["playeridle"];
             player.sprite.play();
         }
-    } else if (player.sprite.textures != sheet.animations["playerrun"]) {
-        player.sprite.textures = sheet.animations["playerrun"];
+    } else if (player.sprite.textures != spriteSheet.animations["playerrun"]) {
+        player.sprite.textures = spriteSheet.animations["playerrun"];
         player.sprite.play();
     }
     if (keyDown("d")) {
@@ -146,6 +164,7 @@ function spawnEnemy() {
     setTimeout(() => {
         requestAnimationFrame(spawnEnemy);
     }, 1000 - score / 100);
+    if (gameState != GAMESTATES["play"]) return;
     new Enemy();
 }
 
