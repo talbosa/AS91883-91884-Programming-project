@@ -8,6 +8,7 @@ const BGLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(1, true));
 
 let app;
 let player;
+let hitboxCanvas
 let keyBuffer = [];
 let bgImages = [];
 let enemies = [];
@@ -45,6 +46,11 @@ stats.dom.style.top = "";
 stats.dom.style.bottom = "0px";
 
 async function runSetup() {
+    //Load hitbox canvas
+    hitboxCanvas = document.getElementById("hitboxCanvas").getContext("2d");
+    hitboxCanvas.canvas.width = WIDTH;
+    hitboxCanvas.canvas.height = HEIGHT;
+    //Init PIXIJS
     app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
     PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
     app.stage = new PIXI.layers.Stage();
@@ -60,7 +66,7 @@ async function runSetup() {
     SCORELAYER.addChild(SCORETEXT);
 
     for (let i = 0; i < 2; i++) {
-        bgImages[i] = PIXI.Sprite.from("/assets/background.jpg");
+        bgImages[i] = PIXI.Sprite.from("assets/background.jpg");
         bgImages[i].width = WIDTH * 2;
         bgImages[i].height = HEIGHT;
         BGLAYER.addChild(bgImages[i]);
@@ -89,17 +95,18 @@ function mainLoop() {
     }
     if (keyDown("a")) {
         player.xPos -= player.moveSpeedX;
-        if (player.sprite.textures != sheet.animations["idle/playeridle"]) {
-            player.sprite.textures = sheet.animations["idle/playeridle"];
+        if (player.sprite.textures != sheet.animations["playeridle"]) {
+            player.sprite.textures = sheet.animations["playeridle"];
             player.sprite.play();
         }
-    } else if (player.sprite.textures != sheet.animations["run/playerrun"]) {
-        player.sprite.textures = sheet.animations["run/playerrun"];
+    } else if (player.sprite.textures != sheet.animations["playerrun"]) {
+        player.sprite.textures = sheet.animations["playerrun"];
         player.sprite.play();
     }
     if (keyDown("d")) {
         player.xPos += player.moveSpeedX;
     }
+    hitboxCanvas.clearRect(0, 0, WIDTH, HEIGHT);
     //Check For enemy collision/enemy leaving screen
     for (let i = 0; i < enemies.length; i++) {
         //Workaround for problem that randomly appeared

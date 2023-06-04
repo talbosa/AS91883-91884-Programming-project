@@ -1,7 +1,7 @@
 class Player {
     constructor() {
         this.sprite = new PIXI.AnimatedSprite(
-            sheet.animations["run/playerrun"],
+            sheet.animations["playerrun"],
             true
         );
         GAMELAYER.addChild(this.sprite);
@@ -126,6 +126,21 @@ class Player {
         let playerHitHeight = playerHitBottom - playerHitTop;
         let rectHitWidth = rectHitRight - rectHitLeft;
         let rectHitHeight = rectHitBottom - rectHitTop;
+
+        //Hitboxes using 2d canvas for easier  drawing (not worth it to make it complex for a debug feature that will be removed)
+        hitboxCanvas.strokeStyle = "rgb(0,255,0)";
+        hitboxCanvas.strokeRect(
+            playerHitLeft,
+            playerHitTop,
+            playerHitWidth,
+            playerHitHeight
+        );
+        hitboxCanvas.strokeRect(
+            rectHitLeft,
+            rectHitTop,
+            rectHitWidth,
+            rectHitHeight
+        );
 
         if (
             playerHitRight > rectHitLeft &&

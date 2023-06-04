@@ -175,13 +175,12 @@
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">enemy/enemy1.png</key>
             <key type="filename">enemy/enemy2.png</key>
-            <key type="filename">player/idle/playeridle1.png</key>
-            <key type="filename">player/idle/playeridle2.png</key>
-            <key type="filename">player/run/playerrun1.png</key>
-            <key type="filename">player/run/playerrun2.png</key>
+            <key type="filename">player/playeridle1.png</key>
+            <key type="filename">player/playeridle2.png</key>
+            <key type="filename">player/playerrun1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
+                <point_f>0,0</point_f>
                 <key>spriteScale</key>
                 <double>1</double>
                 <key>scale9Enabled</key>
@@ -197,7 +196,7 @@
             <key type="filename">health/heartfull.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
+                <point_f>0,0</point_f>
                 <key>spriteScale</key>
                 <double>1</double>
                 <key>scale9Enabled</key>
@@ -212,7 +211,7 @@
             <key type="filename">health/heartempty.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
+                <point_f>0,0</point_f>
                 <key>spriteScale</key>
                 <double>1</double>
                 <key>scale9Enabled</key>
@@ -224,12 +223,27 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">player/playerrun2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0,0</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,12,11,23</rect>
+                <key>scale9Paddings</key>
+                <rect>5,12,11,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">powerup/powerupdamage.png</key>
             <key type="filename">powerup/powerupheal.png</key>
             <key type="filename">powerup/powerupshield.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
+                <point_f>0,0</point_f>
                 <key>spriteScale</key>
                 <double>1</double>
                 <key>scale9Enabled</key>
