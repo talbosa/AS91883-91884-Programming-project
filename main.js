@@ -41,7 +41,6 @@ const SCORETEXT = new PIXI.Text(`Score: ${score}`, {
 SCORETEXT.x = WIDTH / 2 - SCORETEXT.width / 2;
 SCORETEXT.y = 1;
 
-
 window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
@@ -49,9 +48,9 @@ window.addEventListener("keyup", onKeyUp);
 setInterval(() => {
     const HASFOCUS = document.hasFocus();
     if (HASFOCUS && gameState == GAMESTATES["nofocus"]) {
-        gameState = GAMESTATES["play"]
-    } else if (!HASFOCUS && gameState == GAMESTATES["play"]){
-        gameState = GAMESTATES["nofocus"]
+        gameState = GAMESTATES["play"];
+    } else if (!HASFOCUS && gameState == GAMESTATES["play"]) {
+        gameState = GAMESTATES["nofocus"];
     }
 }, 200);
 
@@ -78,7 +77,7 @@ async function runSetup() {
     app.stage.addChild(LOADINGTEXT);
     spriteSheet = await PIXI.Assets.load("assets/spritesheet.json");
     app.stage.removeChild(LOADINGTEXT);
-    
+
     SCORELAYER.addChild(SCORETEXT);
 
     for (let i = 0; i < 2; i++) {
@@ -205,6 +204,6 @@ function randomWithProbability(probability) {
 }
 
 //Updates Score Text
-function updateScore(){
-    SCORETEXT.text = `Score: ${score}`
+function updateScore() {
+    SCORETEXT.text = `Score: ${score}`;
 }
