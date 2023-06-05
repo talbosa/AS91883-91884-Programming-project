@@ -15,6 +15,7 @@ const GAMESTATES = {
 let app;
 let player;
 let hitboxCanvas;
+let menuCanvas;
 let gameState;
 let spriteSheet;
 let keyBuffer = [];
@@ -22,6 +23,7 @@ let bgImages = [];
 let enemies = [];
 let bgOffset = 0;
 let score = 0;
+let hasRun = false;
 
 const LOADINGTEXT = new PIXI.Text("Loading Sprite Sheet...", {
     fontFamily: "Arial",
@@ -60,40 +62,54 @@ stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 stats.dom.style.top = "";
 stats.dom.style.bottom = "0px";
 
+//Runs on startup
 async function runSetup() {
-    //Load hitbox canvas
-    hitboxCanvas = document.getElementById("hitboxCanvas").getContext("2d");
-    hitboxCanvas.canvas.width = WIDTH;
-    hitboxCanvas.canvas.height = HEIGHT;
-    //Init PIXIJS
-    app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
-    PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
-    app.stage = new PIXI.layers.Stage();
-    app.stage.sortableChildren = true;
-    document.body.appendChild(app.view);
-    document.body.appendChild(stats.dom);
-    app.stage.addChild(SCORELAYER, HEALTHLAYER, GAMELAYER, BGLAYER);
-
-    app.stage.addChild(LOADINGTEXT);
-    spriteSheet = await PIXI.Assets.load("assets/spritesheet.json");
-    app.stage.removeChild(LOADINGTEXT);
-
-    SCORELAYER.addChild(SCORETEXT);
-
-    for (let i = 0; i < 2; i++) {
-        bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
-        bgImages[i].width = WIDTH * 2;
-        bgImages[i].height = HEIGHT;
-        BGLAYER.addChild(bgImages[i]);
+    if(!hasRun){
+        hasRun = true
+        //Load 2D Canvas
+        hitboxCanvas = document.getElementById("hitboxCanvas").getContext("2d");
+        hitboxCanvas.canvas.width = WIDTH;
+        hitboxCanvas.canvas.height = HEIGHT;
+        menuCanvas = document.getElementById("menuCanvas").getContext("2d");
+        menuCanvas.canvas.width = WIDTH;
+        menuCanvas.canvas.height = HEIGHT;
+        //Init PIXIJS
+        app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
+        PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
+        app.stage = new PIXI.layers.Stage();
+        app.stage.sortableChildren = true;
+        document.body.appendChild(app.view);
+        document.body.appendChild(stats.dom);
+        app.stage.addChild(SCORELAYER, HEALTHLAYER, GAMELAYER, BGLAYER);
+        
+        app.stage.addChild(LOADINGTEXT);
+        spriteSheet = await PIXI.Assets.load("assets/spritesheet.json");
+        app.stage.removeChild(LOADINGTEXT);
+        
+        SCORELAYER.addChild(SCORETEXT);
+        
+        for (let i = 0; i < 2; i++) {
+            bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
+            bgImages[i].width = WIDTH * 2;
+            bgImages[i].height = HEIGHT;
+            BGLAYER.addChild(bgImages[i]);
+        }
+        
+        player = new Player();
+        
+        app.ticker.add(mainLoop);
+        spawnEnemy();
+        gameState = GAMESTATES["menu"];
+        mainMenu();
     }
-
-    player = new Player();
-
-    app.ticker.add(mainLoop);
-    spawnEnemy();
-    gameState = GAMESTATES["play"];
+    player.reset();
+    for(let i = 0; i < enemies.length; i++){
+        GAMELAYER.removeChild(enemies[i].sprite);
+    }
+    enemies = [];
 }
 
+//Runs every frame
 function mainLoop() {
     stats.begin();
     if (gameState != GAMESTATES["play"]) return;
@@ -206,4 +222,26 @@ function randomWithProbability(probability) {
 //Updates Score Text
 function updateScore() {
     SCORETEXT.text = `Score: ${score}`;
+}
+
+//Draws Main menu
+function mainMenu() {
+    menuCanvas.fillStyle = "beige";
+    menuCanvas.fillRect(0, 0, WIDTH, HEIGHT);
+    menuCanvas.fillStyle = "black";
+    menuCanvas.font = "100px times-new-roman";
+    menuCanvas.fillText("Play Game", WIDTH / 2 - 250, HEIGHT / 2 - 200);
+    menuCanvas.font = "25px times-new-roman";
+    menuCanvas.fillText("Press 1", WIDTH / 2 - 50, HEIGHT / 2 - 175);
+    if (keyDown("1")) {
+        gameState = GAMESTATES["play"];
+        runSetup();
+    }
+    if (gameState == GAMESTATES["menu"]) {
+        setTimeout(() => {
+            requestAnimationFrame(mainMenu);
+        }, 1000 / 60);
+    }else{
+        menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    }
 }
