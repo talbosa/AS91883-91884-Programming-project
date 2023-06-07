@@ -195,14 +195,6 @@ function spawnEnemy() {
 
 //Runs on key press
 function onKeyDown(keyEvent) {
-    //DEBUG  HEALTH TEST
-    if (keyEvent.key === " ") {
-        player.damage(1);
-    }
-    if (keyEvent.key === "Control") {
-        player.overheal(1);
-    }
-
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) == -1) {
         keyBuffer.push(keyEvent.key.toLowerCase());
     }
