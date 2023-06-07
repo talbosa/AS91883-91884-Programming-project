@@ -9,9 +9,10 @@ const BGLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(1, true));
 const GAMESTATES = {
     menu: 0,
     play: 1,
-    pause: 2,
-    nofocus: 3,
-    lose: 4,
+    tutorial: 2,
+    pause: 3,
+    nofocus: 4,
+    lose: 5,
 };
 
 let app;
@@ -25,6 +26,7 @@ let bgImages = [];
 let enemies = [];
 let bgOffset = 0;
 let score = 0;
+let tutorialStage = 0;
 let hasRun = false;
 
 const LOADINGTEXT = new PIXI.Text("Loading Sprite Sheet...", {
@@ -112,6 +114,7 @@ async function runSetup() {
         gameState = GAMESTATES["menu"];
         mainMenu();
     }
+    tutorialStage = 0;
     player.reset();
     for (let i = 0; i < enemies.length; i++) {
         GAMELAYER.removeChild(enemies[i].sprite);
@@ -122,7 +125,11 @@ async function runSetup() {
 //Runs every frame
 function mainLoop() {
     stats.begin();
-    if (gameState != GAMESTATES["play"]) return;
+    if (
+        gameState !== GAMESTATES["play"] &&
+        gameState !== GAMESTATES["tutorial"]
+    )
+        return;
     bgOffset -= SCROLLSPEED;
     bgImages[0].x = bgOffset;
     bgImages[1].x = bgOffset + WIDTH * 2;
@@ -182,6 +189,62 @@ function mainLoop() {
     }
 
     stats.end();
+}
+
+function runTutorial() {
+    if (gameState !== GAMESTATES["tutorial"]) return;
+    setTimeout(() => {
+        requestAnimationFrame(runTutorial);
+    }, 1000 / 60);
+    menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    menuCanvas.text = "50px Arial";
+    if (Math.floor(tutorialStage) == 0) {
+        menuCanvas.fillText("Press W,A,S,D to move", 100, 100);
+    }
+    if (Math.floor(tutorialStage) == 1) {
+        menuCanvas.fillText("Dodge The Enemies", 100, 100);
+    }
+    if (
+        tutorialStage == 0 &&
+        (keyDown("w") || keyDown("a") || keyDown("s") || keyDown("d"))
+    ) {
+        tutorialStage = 0.1;
+        setTimeout(() => {
+            tutorialStage = 1;
+        }, 1000);
+    }
+    if (tutorialStage == 1) {
+        tutorialStage = 1.1;
+        let tutorialEnemy = new Enemy();
+        tutorialEnemy.type = 0;
+        tutorialEnemy.score = 1;
+        tutorialEnemy.sprite.y = HEIGHT / 2;
+    }
+    if (tutorialStage == 1.2) {
+        tutorialStage = 1.3;
+        let tutorialEnemy = new Enemy();
+        tutorialEnemy.type = 1;
+        tutorialEnemy.score = 2;
+        tutorialEnemy.sprite.y = HEIGHT / 2;
+    }
+    if (tutorialStage == 1.4) {
+        tutorialStage = 1.5;
+        let tutorialEnemy = new Enemy();
+        tutorialEnemy.type = 2;
+        tutorialEnemy.score = 4;
+        tutorialEnemy.sprite.y = HEIGHT / 2;
+    }
+    if (score == 1) {
+        score = 0;
+        updateScore();
+        tutorialStage = 1.2;
+    }
+    if (score == 2) {
+        score = 0;
+        updateScore();
+        tutorialStage = 1.4;
+    }
+    console.log(tutorialStage);
 }
 
 //Spawns enemies
@@ -248,9 +311,19 @@ function mainMenu() {
     menuCanvas.fillText("Play Game", WIDTH / 2 - 250, HEIGHT / 2 - 200);
     menuCanvas.font = "25px Arial";
     menuCanvas.fillText("Press 1", WIDTH / 2 - 50, HEIGHT / 2 - 175);
+
+    menuCanvas.font = "100px Arial";
+    menuCanvas.fillText("Tutorial", WIDTH / 2 - 180, HEIGHT / 2 - 75);
+    menuCanvas.font = "25px Arial";
+    menuCanvas.fillText("Press 2", WIDTH / 2 - 50, HEIGHT / 2 - 50);
     if (keyDown("1")) {
         gameState = GAMESTATES["play"];
         runSetup();
+    }
+    if (keyDown("2")) {
+        gameState = GAMESTATES["tutorial"];
+        runSetup();
+        runTutorial();
     }
     if (gameState === GAMESTATES["menu"]) {
         setTimeout(() => {
@@ -261,6 +334,7 @@ function mainMenu() {
     }
 }
 
+//Pauses and unpauses the game
 function togglePause() {
     if (gameState === GAMESTATES["pause"]) {
         gameState = GAMESTATES["play"];
