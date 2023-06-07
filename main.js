@@ -1,6 +1,7 @@
 const WIDTH = 1200;
 const HEIGHT = 700;
 const SCROLLSPEED = 5;
+const MENULAYER = new PIXI.layers.Layer(new PIXI.layers.Group(40, true));
 const SCORELAYER = new PIXI.layers.Layer(new PIXI.layers.Group(20, true));
 const HEALTHLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(10, true));
 const GAMELAYER = new PIXI.layers.Layer(new PIXI.layers.Group(5, true));
@@ -10,6 +11,7 @@ const GAMESTATES = {
     play: 1,
     pause: 2,
     nofocus: 3,
+    lose: 4,
 };
 
 let app;
@@ -80,7 +82,7 @@ async function runSetup() {
         app.stage.sortableChildren = true;
         document.body.appendChild(app.view);
         document.body.appendChild(stats.dom);
-        app.stage.addChild(SCORELAYER, HEALTHLAYER, GAMELAYER, BGLAYER);
+        app.stage.addChild(MENULAYER, SCORELAYER, HEALTHLAYER, GAMELAYER, BGLAYER);
         
         app.stage.addChild(LOADINGTEXT);
         spriteSheet = await PIXI.Assets.load("assets/spritesheet.json");
@@ -199,6 +201,16 @@ function onKeyDown(keyEvent) {
 }
 //Runs okn key release
 function onKeyUp(keyEvent) {
+    //Keys that do not need to be held
+    if(keyEvent.key === "Escape"){
+        togglePause();
+    }
+    if(keyEvent.key.toLowerCase() === "q" && (gameState === GAMESTATES["pause"] || gameState === GAMESTATES["lose"])){
+        gameState = GAMESTATES["menu"];
+        MENULAYER.removeChildren();
+        mainMenu();
+    }
+
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) != -1) {
         keyBuffer.splice(keyBuffer.indexOf(keyEvent.key.toLowerCase()), 1);
     }
@@ -229,19 +241,55 @@ function mainMenu() {
     menuCanvas.fillStyle = "beige";
     menuCanvas.fillRect(0, 0, WIDTH, HEIGHT);
     menuCanvas.fillStyle = "black";
-    menuCanvas.font = "100px times-new-roman";
+    menuCanvas.font = "100px Arial";
     menuCanvas.fillText("Play Game", WIDTH / 2 - 250, HEIGHT / 2 - 200);
-    menuCanvas.font = "25px times-new-roman";
+    menuCanvas.font = "25px Arial";
     menuCanvas.fillText("Press 1", WIDTH / 2 - 50, HEIGHT / 2 - 175);
     if (keyDown("1")) {
         gameState = GAMESTATES["play"];
         runSetup();
     }
-    if (gameState == GAMESTATES["menu"]) {
+    if (gameState === GAMESTATES["menu"]) {
         setTimeout(() => {
             requestAnimationFrame(mainMenu);
         }, 1000 / 60);
     }else{
         menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    }
+}
+
+function togglePause(){
+    if (gameState === GAMESTATES["pause"]){
+        gameState = GAMESTATES["play"];
+        MENULAYER.removeChildren();
+    }
+    else if (gameState === GAMESTATES["play"]){
+        gameState = GAMESTATES["pause"];
+        MENULAYER.removeChildren();
+        const PAUSETEXT1 = new PIXI.Text("Game Paused", {
+            fontFamily: "Arial",
+            fontSize: 75,
+            fill: 0x000000,
+            align: "center",
+        });
+        PAUSETEXT1.x = WIDTH / 2 - PAUSETEXT1.width / 2;
+        PAUSETEXT1.y = HEIGHT / 2 - 100 - PAUSETEXT1.height / 2;
+        const PAUSETEXT2 = new PIXI.Text("Press \"Escape\" to unpause", {
+            fontFamily: "Arial",
+            fontSize: 50,
+            fill: 0x000000,
+            align: "center",
+        });
+        PAUSETEXT2.x = WIDTH / 2 - PAUSETEXT2.width / 2;
+        PAUSETEXT2.y = HEIGHT / 2 - 40 - PAUSETEXT2.height / 2;
+        const PAUSETEXT3 = new PIXI.Text("Press \"Q\" to quit", {
+            fontFamily: "Arial",
+            fontSize: 50,
+            fill: 0x000000,
+            align: "center",
+        });
+        PAUSETEXT3.x = WIDTH / 2 - PAUSETEXT3.width / 2;
+        PAUSETEXT3.y = HEIGHT / 2 + 10 - PAUSETEXT3.height / 2;
+        MENULAYER.addChild(PAUSETEXT1, PAUSETEXT2, PAUSETEXT3);
     }
 }
