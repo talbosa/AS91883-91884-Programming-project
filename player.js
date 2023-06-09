@@ -196,14 +196,14 @@ class Player {
         if (this.xPos < -this.width / 2) {
             this.xPos = -this.width / 2;
         }
-        if (this.xPos > WIDTH -this.width / 2) {
-            this.xPos = WIDTH -this.width / 2;
+        if (this.xPos > WIDTH - this.width / 2) {
+            this.xPos = WIDTH - this.width / 2;
         }
         if (this.yPos < -this.height / 2) {
             this.yPos = -this.height / 2;
         }
-        if (this.yPos > HEIGHT -this.height / 2) {
-            this.yPos = HEIGHT -this.height / 2;
+        if (this.yPos > HEIGHT - this.height / 2) {
+            this.yPos = HEIGHT - this.height / 2;
         }
     }
 }
