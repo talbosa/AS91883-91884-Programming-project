@@ -80,6 +80,7 @@ async function runSetup() {
         //Init PIXIJS
         app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
         PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
+        PIXI.settings.ROUND_PIXELS = true;
         app.stage = new PIXI.layers.Stage();
         app.stage.sortableChildren = true;
         document.body.appendChild(app.view);
