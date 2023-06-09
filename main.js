@@ -40,7 +40,7 @@ LOADINGTEXT.y = HEIGHT / 2 - LOADINGTEXT.height / 2;
 
 const SCORETEXT = new PIXI.Text(`Score: ${score}`, {
     fontFamily: "Arial",
-    fontSize: 25,
+    fontSize: 32,
     fill: 0x000000,
     align: "center",
 });
@@ -114,6 +114,8 @@ async function runSetup() {
         gameState = GAMESTATES["menu"];
         mainMenu();
     }
+    score = 0;
+    updateScore();
     tutorialStage = 0;
     player.reset();
     for (let i = 0; i < enemies.length; i++) {
@@ -156,6 +158,7 @@ function mainLoop() {
     if (keyDown("d")) {
         player.xPos += player.moveSpeedX;
     }
+    player.update();
     hitboxCanvas.clearRect(0, 0, WIDTH, HEIGHT);
     //Check For enemy collision/enemy leaving screen
     for (let i = 0; i < enemies.length; i++) {
@@ -276,6 +279,14 @@ function onKeyUp(keyEvent) {
         MENULAYER.removeChildren();
         mainMenu();
     }
+    if (
+        keyEvent.key.toLowerCase() === "r" &&
+        gameState === GAMESTATES["lose"]
+    ) {
+        gameState = GAMESTATES["play"];
+        MENULAYER.removeChildren();
+        runSetup();
+    }
 
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) != -1) {
         keyBuffer.splice(keyBuffer.indexOf(keyEvent.key.toLowerCase()), 1);
@@ -368,4 +379,42 @@ function togglePause() {
         PAUSETEXT3.y = HEIGHT / 2 + 10 - PAUSETEXT3.height / 2;
         MENULAYER.addChild(PAUSETEXT1, PAUSETEXT2, PAUSETEXT3);
     }
+}
+
+function gameOver() {
+    gameState = GAMESTATES["lose"];
+    MENULAYER.removeChildren();
+    const LOSETEXT1 = new PIXI.Text("Game Over", {
+        fontFamily: "Arial",
+        fontSize: 150,
+        fill: 0x000000,
+        align: "center",
+    });
+    LOSETEXT1.x = WIDTH / 2 - LOSETEXT1.width / 2;
+    LOSETEXT1.y = HEIGHT / 2 - 200 - LOSETEXT1.height / 2;
+    const LOSETEXT2 = new PIXI.Text(`Final Score: ${score}`, {
+        fontFamily: "Arial",
+        fontSize: 75,
+        fill: 0x000000,
+        align: "center",
+    });
+    LOSETEXT2.x = WIDTH / 2 - LOSETEXT2.width / 2;
+    LOSETEXT2.y = HEIGHT / 2 - 100 - LOSETEXT2.height / 2;
+    const LOSETEXT3 = new PIXI.Text('Press "R" to Restart', {
+        fontFamily: "Arial",
+        fontSize: 50,
+        fill: 0x000000,
+        align: "center",
+    });
+    LOSETEXT3.x = WIDTH / 2 - LOSETEXT3.width / 2;
+    LOSETEXT3.y = HEIGHT / 2 - 40 - LOSETEXT3.height / 2;
+    const LOSETEXT4 = new PIXI.Text('Press "Q" to quit', {
+        fontFamily: "Arial",
+        fontSize: 50,
+        fill: 0x000000,
+        align: "center",
+    });
+    LOSETEXT4.x = WIDTH / 2 - LOSETEXT4.width / 2;
+    LOSETEXT4.y = HEIGHT / 2 + 10 - LOSETEXT4.height / 2;
+    MENULAYER.addChild(LOSETEXT1, LOSETEXT2, LOSETEXT3, LOSETEXT4);
 }
