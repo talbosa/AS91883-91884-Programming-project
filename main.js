@@ -9,7 +9,7 @@ const BGLAYER = new PIXI.layers.Layer(new PIXI.layers.Group(1, true));
 const GAMESTATES = {
     menu: 0,
     play: 1,
-    tutorial: 2,
+    help: 2,
     pause: 3,
     nofocus: 4,
     lose: 5,
@@ -27,7 +27,6 @@ let enemies = [];
 let powerups = [];
 let bgOffset = 0;
 let score = 0;
-let tutorialStage = 0;
 let hasRun = false;
 
 const LOADINGTEXT = new PIXI.Text("Loading Sprite Sheet...", {
@@ -119,7 +118,6 @@ async function runSetup() {
     }
     score = 0;
     updateScore();
-    tutorialStage = 0;
     player.reset();
     for (let i = 0; i < enemies.length; i++) {
         GAMELAYER.removeChild(enemies[i].sprite);
@@ -134,11 +132,7 @@ async function runSetup() {
 //Runs every frame
 function mainLoop() {
     stats.begin();
-    if (
-        gameState !== GAMESTATES["play"] &&
-        gameState !== GAMESTATES["tutorial"]
-    )
-        return;
+    if (gameState !== GAMESTATES["play"]) return;
     bgOffset -= SCROLLSPEED;
     bgImages[0].x = bgOffset;
     bgImages[1].x = bgOffset + WIDTH * 2;
@@ -181,60 +175,47 @@ function mainLoop() {
     stats.end();
 }
 
-function runTutorial() {
-    if (gameState !== GAMESTATES["tutorial"]) return;
-    setTimeout(() => {
-        requestAnimationFrame(runTutorial);
-    }, 1000 / 60);
-    menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
-    menuCanvas.text = "50px Arial";
-    if (Math.floor(tutorialStage) == 0) {
-        menuCanvas.fillText("Press W,A,S,D to move", 100, 100);
-    }
-    if (Math.floor(tutorialStage) == 1) {
-        menuCanvas.fillText("Dodge The Enemies", 100, 100);
-    }
-    if (
-        tutorialStage == 0 &&
-        (keyDown("w") || keyDown("a") || keyDown("s") || keyDown("d"))
-    ) {
-        tutorialStage = 0.1;
-        setTimeout(() => {
-            tutorialStage = 1;
-        }, 1000);
-    }
-    if (tutorialStage == 1) {
-        tutorialStage = 1.1;
-        let tutorialEnemy = new Enemy();
-        tutorialEnemy.type = 0;
-        tutorialEnemy.score = 1;
-        tutorialEnemy.sprite.y = HEIGHT / 2;
-    }
-    if (tutorialStage == 1.2) {
-        tutorialStage = 1.3;
-        let tutorialEnemy = new Enemy();
-        tutorialEnemy.type = 1;
-        tutorialEnemy.score = 2;
-        tutorialEnemy.sprite.y = HEIGHT / 2;
-    }
-    if (tutorialStage == 1.4) {
-        tutorialStage = 1.5;
-        let tutorialEnemy = new Enemy();
-        tutorialEnemy.type = 2;
-        tutorialEnemy.score = 4;
-        tutorialEnemy.sprite.y = HEIGHT / 2;
-    }
-    if (score == 1) {
-        score = 0;
-        updateScore();
-        tutorialStage = 1.2;
-    }
-    if (score == 2) {
-        score = 0;
-        updateScore();
-        tutorialStage = 1.4;
-    }
-    console.log(tutorialStage);
+function tutorialScreen() {
+    gameState = GAMESTATES["help"];
+    MENULAYER.removeChildren();
+    const DRAWTOOL = new PIXI.Graphics();
+    DRAWTOOL.beginFill(0xF5F5DC);
+    DRAWTOOL.drawRect(0, 0, WIDTH, HEIGHT);
+    DRAWTOOL.endFill();
+    MENULAYER.addChild(DRAWTOOL);
+    const HELPTEXT1 = new PIXI.Text('Press "Q" to go back', {
+        fontFamily: "Arial",
+        fontSize: 50,
+        fill: 0x000000,
+        align: "center",
+    });
+    HELPTEXT1.x = 0;
+    HELPTEXT1.y = 0;
+    const HELPTEXT2 = new PIXI.Text(`Press W,A,S,D to move`, {
+        fontFamily: "Arial",
+        fontSize: 40,
+        fill: 0x000000,
+        align: "center",
+    });
+    HELPTEXT2.x = WIDTH / 2 - HELPTEXT2.width / 2;
+    HELPTEXT2.y = HEIGHT / 2 - 90 - HELPTEXT2.height / 2;
+    const HELPTEXT3 = new PIXI.Text('Dodge the enemies', {
+        fontFamily: "Arial",
+        fontSize: 40,
+        fill: 0x000000,
+        align: "center",
+    });
+    HELPTEXT3.x = WIDTH / 2 - HELPTEXT3.width / 2;
+    HELPTEXT3.y = HEIGHT / 2 - 40 - HELPTEXT3.height / 2;
+    const HELPTEXT4 = new PIXI.Text('Collect powerups', {
+        fontFamily: "Arial",
+        fontSize: 40,
+        fill: 0x000000,
+        align: "center",
+    });
+    HELPTEXT4.x = WIDTH / 2 - HELPTEXT4.width / 2;
+    HELPTEXT4.y = HEIGHT / 2 + 10 - HELPTEXT4.height / 2;
+    MENULAYER.addChild(HELPTEXT1, HELPTEXT2, HELPTEXT3, HELPTEXT4);
 }
 
 //Spawns enemies
@@ -269,7 +250,7 @@ function onKeyUp(keyEvent) {
     }
     if (
         keyEvent.key.toLowerCase() === "q" &&
-        (gameState === GAMESTATES["pause"] || gameState === GAMESTATES["lose"])
+        (gameState === GAMESTATES["pause"] || gameState === GAMESTATES["lose"] || gameState === GAMESTATES["help"])
     ) {
         gameState = GAMESTATES["menu"];
         MENULAYER.removeChildren();
@@ -320,7 +301,7 @@ function mainMenu() {
     menuCanvas.fillText("Press 1", WIDTH / 2 - 50, HEIGHT / 2 - 175);
 
     menuCanvas.font = "100px Arial";
-    menuCanvas.fillText("Tutorial", WIDTH / 2 - 180, HEIGHT / 2 - 75);
+    menuCanvas.fillText("Help", WIDTH / 2 - 100, HEIGHT / 2 - 75);
     menuCanvas.font = "25px Arial";
     menuCanvas.fillText("Press 2", WIDTH / 2 - 50, HEIGHT / 2 - 50);
     if (keyDown("1")) {
@@ -328,9 +309,8 @@ function mainMenu() {
         runSetup();
     }
     if (keyDown("2")) {
-        gameState = GAMESTATES["tutorial"];
         runSetup();
-        runTutorial();
+        tutorialScreen();
     }
     if (gameState === GAMESTATES["menu"]) {
         setTimeout(() => {
