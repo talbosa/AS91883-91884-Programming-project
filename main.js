@@ -24,6 +24,7 @@ let spriteSheet;
 let keyBuffer = [];
 let bgImages = [];
 let enemies = [];
+let powerups = [];
 let bgOffset = 0;
 let score = 0;
 let tutorialStage = 0;
@@ -110,9 +111,10 @@ async function runSetup() {
 
         player = new Player();
 
+        gameState = GAMESTATES["menu"];
         app.ticker.add(mainLoop);
         spawnEnemy();
-        gameState = GAMESTATES["menu"];
+        spawnPowerup();
         mainMenu();
     }
     score = 0;
@@ -123,6 +125,10 @@ async function runSetup() {
         GAMELAYER.removeChild(enemies[i].sprite);
     }
     enemies = [];
+    for (let i = 0; i < powerups.length; i++) {
+        GAMELAYER.removeChild(powerups[i].sprite);
+    }
+    powerups = [];
 }
 
 //Runs every frame
@@ -159,37 +165,17 @@ function mainLoop() {
     if (keyDown("d")) {
         player.xPos += player.moveSpeedX;
     }
-    player.update();
+    //Clear hitboxes from previous frame
     hitboxCanvas.clearRect(0, 0, WIDTH, HEIGHT);
-    //Check For enemy collision/enemy leaving screen
+    //Update Player
+    player.update();
+    //Update Enemies
     for (let i = 0; i < enemies.length; i++) {
-        //Workaround for problem that randomly appeared
-        if (i >= enemies.length) i--;
-        if (enemies.length == 0) break;
-        //
         enemies[i].update();
-        if (enemies[i].sprite.x < -100) {
-            score += enemies[i].score;
-            GAMELAYER.removeChild(enemies[i].sprite);
-            enemies.splice(i, 1);
-            updateScore();
-        }
-        //Workaround for problem that randomly appeared
-        if (i >= enemies.length) i--;
-        if (enemies.length == 0) break;
-        //
-        if (
-            player.rectCollision(
-                enemies[i].sprite.x,
-                enemies[i].sprite.y,
-                enemies[i].sprite.width,
-                enemies[i].sprite.height
-            )
-        ) {
-            GAMELAYER.removeChild(enemies[i].sprite);
-            enemies.splice(i, 1);
-            player.damage(1);
-        }
+    }
+    //Update Powerups
+    for (let i = 0; i < powerups.length; i++) {
+        powerups[i].update();
     }
 
     stats.end();
@@ -260,6 +246,15 @@ function spawnEnemy() {
     new Enemy();
 }
 
+//Spawns Powerups
+function spawnPowerup() {
+    setTimeout(() => {
+        requestAnimationFrame(spawnPowerup);
+    }, 10000 - score / 100);
+    if (gameState != GAMESTATES["play"]) return;
+    new PowerUp();
+}
+
 //Runs on key press
 function onKeyDown(keyEvent) {
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) == -1) {
@@ -304,7 +299,7 @@ function keyDown(key) {
 }
 
 //Returns a random index from an input list
-function randomWithProbability(probability) {
+function randomIndexFromArray(probability) {
     let idx = Math.floor(Math.random() * probability.length);
     return probability[idx];
 }

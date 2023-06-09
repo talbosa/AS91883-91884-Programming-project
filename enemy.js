@@ -18,13 +18,13 @@ class Enemy {
         this.score = 1;
         this.type; // 0 = Does not move; 1 = Moves towards players Y when in front of the player; 2 = Moves towards players X and Y when in front of the player
         if (score >= 0) {
-            this.type = randomWithProbability([0, 0, 0, 0, 1, 1, 1, 2]);
+            this.type = randomIndexFromArray([0, 0, 0, 0, 1, 1, 1, 2]);
         }
         if (score >= 50) {
-            this.type = randomWithProbability([0, 0, 1, 1, 1, 1, 2, 2]);
+            this.type = randomIndexFromArray([0, 0, 1, 1, 1, 1, 2, 2]);
         }
         if (score >= 100) {
-            this.type = randomWithProbability([1, 1, 1, 1, 1, 2, 2, 2, 2]);
+            this.type = randomIndexFromArray([1, 1, 1, 1, 1, 2, 2, 2, 2]);
         }
         if (this.type == 1) {
             this.score = 2;
@@ -56,6 +56,24 @@ class Enemy {
             if (this.sprite.x + this.sprite.width > player.xPos) {
                 this.sprite.x -= SCROLLSPEED / 2;
             }
+        }
+        if (this.sprite.x < -100) {
+            score += this.score;
+            GAMELAYER.removeChild(this.sprite);
+            enemies.splice(enemies.indexOf(this), 1);
+            updateScore();
+        }
+        if (
+            player.rectCollision(
+                this.sprite.x,
+                this.sprite.y,
+                this.sprite.width,
+                this.sprite.height
+            )
+        ) {
+            GAMELAYER.removeChild(this.sprite);
+            enemies.splice(enemies.indexOf(this), 1);
+            player.damage(1);
         }
     }
 }
