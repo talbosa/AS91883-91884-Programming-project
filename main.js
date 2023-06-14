@@ -326,9 +326,17 @@ function mainMenu() {
 //Pauses and unpauses the game
 function togglePause() {
     if (gameState === GAMESTATES["pause"]) {
+        player.sprite.play();
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].sprite.play();
+        }
         gameState = GAMESTATES["play"];
         MENULAYER.removeChildren();
     } else if (gameState === GAMESTATES["play"]) {
+        player.sprite.stop();
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].sprite.stop();
+        }
         gameState = GAMESTATES["pause"];
         MENULAYER.removeChildren();
         const PAUSETEXT1 = new PIXI.Text("Game Paused", {
