@@ -55,8 +55,16 @@ setInterval(() => {
     const HASFOCUS = document.hasFocus();
     if (HASFOCUS && gameState == GAMESTATES["nofocus"]) {
         gameState = GAMESTATES["play"];
+        player.sprite.play();
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].sprite.play();
+        }
     } else if (!HASFOCUS && gameState == GAMESTATES["play"]) {
         gameState = GAMESTATES["nofocus"];
+        player.sprite.stop();
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].sprite.stop();
+        }
     }
 }, 200);
 
@@ -368,6 +376,10 @@ function togglePause() {
 }
 
 function gameOver() {
+    player.sprite.stop();
+    for (let i = 0; i < enemies.length; i++) {
+        enemies[i].sprite.stop();
+    }
     gameState = GAMESTATES["lose"];
     MENULAYER.removeChildren();
     const LOSETEXT1 = new PIXI.Text("Game Over", {

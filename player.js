@@ -5,12 +5,12 @@ class Player {
             true
         );
         GAMELAYER.addChild(this.sprite);
-        this.sprite.play();
         this.reset();
     }
-
+    
     //Can be used to manually reset the player
     reset() {
+        this.sprite.play();
         this.sprite.width = 50;
         this.sprite.height = 128;
         this.sprite.animationSpeed = 0.1;
