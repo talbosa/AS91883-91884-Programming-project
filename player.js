@@ -22,6 +22,7 @@ class Player {
         this.shield = 0;
         this.moveSpeedX = SCROLLSPEED;
         this.moveSpeedY = 10;
+        this.showHitbox = false;
         this.drawHealth();
     }
 
@@ -128,19 +129,21 @@ class Player {
         let rectHitHeight = rectHitBottom - rectHitTop;
 
         //Hitboxes using 2d canvas for easier  drawing (not worth it to make it complex for a debug feature that will be removed)
-        hitboxCanvas.strokeStyle = "rgb(0,255,0)";
-        hitboxCanvas.strokeRect(
-            playerHitLeft,
-            playerHitTop,
-            playerHitWidth,
-            playerHitHeight
-        );
-        hitboxCanvas.strokeRect(
-            rectHitLeft,
-            rectHitTop,
-            rectHitWidth,
-            rectHitHeight
-        );
+        if(this.showHitbox){
+            hitboxCanvas.strokeStyle = "rgb(0,255,0)";
+            hitboxCanvas.strokeRect(
+                playerHitLeft,
+                playerHitTop,
+                playerHitWidth,
+                playerHitHeight
+            );
+            hitboxCanvas.strokeRect(
+                rectHitLeft,
+                rectHitTop,
+                rectHitWidth,
+                rectHitHeight
+            );
+        }
 
         if (
             playerHitRight > rectHitLeft &&
