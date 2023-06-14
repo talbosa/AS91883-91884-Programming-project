@@ -179,7 +179,7 @@ function tutorialScreen() {
     gameState = GAMESTATES["help"];
     MENULAYER.removeChildren();
     const DRAWTOOL = new PIXI.Graphics();
-    DRAWTOOL.beginFill(0xF5F5DC);
+    DRAWTOOL.beginFill(0xf5f5dc);
     DRAWTOOL.drawRect(0, 0, WIDTH, HEIGHT);
     DRAWTOOL.endFill();
     MENULAYER.addChild(DRAWTOOL);
@@ -199,7 +199,7 @@ function tutorialScreen() {
     });
     HELPTEXT2.x = WIDTH / 2 - HELPTEXT2.width / 2;
     HELPTEXT2.y = HEIGHT / 2 - 90 - HELPTEXT2.height / 2;
-    const HELPTEXT3 = new PIXI.Text('Dodge the enemies', {
+    const HELPTEXT3 = new PIXI.Text("Dodge the enemies", {
         fontFamily: "Arial",
         fontSize: 40,
         fill: 0x000000,
@@ -207,7 +207,7 @@ function tutorialScreen() {
     });
     HELPTEXT3.x = WIDTH / 2 - HELPTEXT3.width / 2;
     HELPTEXT3.y = HEIGHT / 2 - 40 - HELPTEXT3.height / 2;
-    const HELPTEXT4 = new PIXI.Text('Collect powerups', {
+    const HELPTEXT4 = new PIXI.Text("Collect powerups", {
         fontFamily: "Arial",
         fontSize: 40,
         fill: 0x000000,
@@ -250,7 +250,9 @@ function onKeyUp(keyEvent) {
     }
     if (
         keyEvent.key.toLowerCase() === "q" &&
-        (gameState === GAMESTATES["pause"] || gameState === GAMESTATES["lose"] || gameState === GAMESTATES["help"])
+        (gameState === GAMESTATES["pause"] ||
+            gameState === GAMESTATES["lose"] ||
+            gameState === GAMESTATES["help"])
     ) {
         gameState = GAMESTATES["menu"];
         MENULAYER.removeChildren();
