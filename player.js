@@ -1,3 +1,5 @@
+//  █▀█ █   ▄▀█ █▄█ █▀▀ █▀█   █▀▀ █   ▄▀█ █▀ █▀
+//  █▀▀ █▄▄ █▀█  █  ██▄ █▀▄   █▄▄ █▄▄ █▀█ ▄█ ▄█
 class Player {
     constructor() {
         this.sprite = new PIXI.AnimatedSprite(
@@ -157,6 +159,7 @@ class Player {
         }
     }
 
+    //Updates the health display
     drawHealth() {
         HEALTHLAYER.removeChildren();
         for (let i = 0; i < this.maxHealth + this.shield; i++) {

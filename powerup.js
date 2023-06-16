@@ -1,3 +1,5 @@
+//  █▀█ █▀█ █ █ █ █▀▀ █▀█ █ █ █▀█   █▀▀ █   ▄▀█ █▀ █▀
+//  █▀▀ █▄█ ▀▄▀▄▀ ██▄ █▀▄ █▄█ █▀▀   █▄▄ █▄▄ █▀█ ▄█ ▄█
 class PowerUp {
     constructor() {
         powerups.push(this);
@@ -21,6 +23,7 @@ class PowerUp {
         this.sprite.height = 32;
     }
 
+    //Moves the powerup and checks for collision with player
     update() {
         this.sprite.x -= SCROLLSPEED;
         if (this.sprite.x < -100) {

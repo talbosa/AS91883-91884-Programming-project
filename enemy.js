@@ -1,4 +1,5 @@
-//Enemy class
+//  █▀▀ █▄ █ █▀▀ █▀▄▀█ █▄█   █▀▀ █   ▄▀█ █▀ █▀
+//  ██▄ █ ▀█ ██▄ █ ▀ █  █    █▄▄ █▄▄ █▀█ ▄█ ▄█
 class Enemy {
     //Is run when a new enemy is created
     constructor() {

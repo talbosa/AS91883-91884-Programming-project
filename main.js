@@ -1,3 +1,5 @@
+//  █ █ ▄▀█ █▀█ █ ▄▀█ █▄▄ █   █▀▀ █▀
+//  ▀▄▀ █▀█ █▀▄ █ █▀█ █▄█ █▄▄ ██▄ ▄█                                              
 const WIDTH = 1200;
 const HEIGHT = 700;
 const SCROLLSPEED = 5;
@@ -51,6 +53,8 @@ window.onload = runSetup;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
 
+// █▀ ▀█▀ █▀█ █▀█ █▀   █▀▀ ▄▀█ █▀▄▀█ █▀▀   █ █ █ █ █ █▀▀ █▄ █    █▄ █ █▀█ ▀█▀    █ █▄ █    █▀▀ █▀█ █▀▀ █ █ █▀
+// ▄█  █  █▄█ █▀▀ ▄█   █▄█ █▀█ █ ▀ █ ██▄   ▀▄▀▄▀ █▀█ ██▄ █ ▀█    █ ▀█ █▄█  █     █ █ ▀█    █▀  █▄█ █▄▄ █▄█ ▄█
 setInterval(() => {
     const HASFOCUS = document.hasFocus();
     if (HASFOCUS && gameState == GAMESTATES["nofocus"]) {
@@ -68,13 +72,16 @@ setInterval(() => {
     }
 }, 200);
 
+// █▀▀ █▀█ █▀   █▀▀ █▀█ █ █ █▄ █ ▀█▀ █▀▀ █▀█
+// █▀  █▀▀ ▄█   █▄▄ █▄█ █▄█ █ ▀█  █  ██▄ █▀▄
 let stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 //Moves the fps counter to the bottom
 stats.dom.style.top = "";
 stats.dom.style.bottom = "0px";
 
-//Runs on startup
+// █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▀ ▀█▀ ▄▀█ █▀█ ▀█▀ █ █ █▀█
+// █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   ▄█  █  █▀█ █▀▄  █  █▄█ █▀▀
 async function runSetup() {
     if (!hasRun) {
         hasRun = true;
@@ -137,7 +144,8 @@ async function runSetup() {
     powerups = [];
 }
 
-//Runs every frame
+// █▀█ █ █ █▄ █ █▀   █▀▀ █ █ █▀▀ █▀█ █▄█   █▀▀ █▀█ ▄▀█ █▀▄▀█ █▀▀
+// █▀▄ █▄█ █ ▀█ ▄█   ██▄ ▀▄▀ ██▄ █▀▄  █    █▀  █▀▄ █▀█ █ ▀ █ ██▄
 function mainLoop() {
     stats.begin();
     if (gameState !== GAMESTATES["play"]) return;
@@ -183,6 +191,123 @@ function mainLoop() {
     stats.end();
 }
 
+// █▀▀ █▄ █ █▀▀ █▀▄▀█ █▄█   █▀ █▀█ ▄▀█ █ █ █ █▄ █   ▀█▀ █ █▀▄▀█ █▀▀ █▀█
+// ██▄ █ ▀█ ██▄ █ ▀ █  █    ▄█ █▀▀ █▀█ ▀▄▀▄▀ █ ▀█    █  █ █ ▀ █ ██▄ █▀▄
+function spawnEnemy() {
+    setTimeout(() => {
+        requestAnimationFrame(spawnEnemy);
+    }, 1000 - score / 100);
+    if (gameState != GAMESTATES["play"]) return;
+    new Enemy();
+}
+
+// █▀█ █▀█ █ █ █ █▀▀ █▀█ █ █ █▀█   █▀ █▀█ ▄▀█ █ █ █ █▄ █   ▀█▀ █ █▀▄▀█ █▀▀ █▀█
+// █▀▀ █▄█ ▀▄▀▄▀ ██▄ █▀▄ █▄█ █▀▀   ▄█ █▀▀ █▀█ ▀▄▀▄▀ █ ▀█    █  █ █ ▀ █ ██▄ █▀▄
+function spawnPowerup() {
+    setTimeout(() => {
+        requestAnimationFrame(spawnPowerup);
+    }, 10000 - score / 100);
+    if (gameState != GAMESTATES["play"]) return;
+    new PowerUp();
+}
+
+// █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▄▀ █▀▀ █▄█   █▀▄ █▀█ █ █ █ █▄ █
+// █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   █ █ ██▄  █    █▄▀ █▄█ ▀▄▀▄▀ █ ▀█
+function onKeyDown(keyEvent) {
+    if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) == -1) {
+        keyBuffer.push(keyEvent.key.toLowerCase());
+    }
+}
+
+// █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▄▀ █▀▀ █▄█   █ █ █▀█
+// █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   █ █ ██▄  █    █▄█ █▀▀
+function onKeyUp(keyEvent) {
+    //Keys that do not need to be held
+    if (keyEvent.key === "Escape") {
+        togglePause();
+    }
+    if (
+        keyEvent.key.toLowerCase() === "q" &&
+        (gameState === GAMESTATES["pause"] ||
+            gameState === GAMESTATES["lose"] ||
+            gameState === GAMESTATES["help"])
+    ) {
+        gameState = GAMESTATES["menu"];
+        MENULAYER.removeChildren();
+        mainMenu();
+    }
+    if (
+        keyEvent.key.toLowerCase() === "r" &&
+        gameState === GAMESTATES["lose"]
+    ) {
+        gameState = GAMESTATES["play"];
+        MENULAYER.removeChildren();
+        runSetup();
+    }
+
+    if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) != -1) {
+        keyBuffer.splice(keyBuffer.indexOf(keyEvent.key.toLowerCase()), 1);
+    }
+}
+
+
+// █▀▀ █ █ █▀▀ █▀▀ █▄▀ █▀   █ █▀▀   █▄▀ █▀▀ █▄█   █ █▀   █ █ █▀▀ █   █▀▄
+// █▄▄ █▀█ ██▄ █▄▄ █ █ ▄█   █ █▀    █ █ ██▄  █    █ ▄█   █▀█ ██▄ █▄▄ █▄▀
+function keyDown(key) {
+    if (keyBuffer.lastIndexOf(key) != -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// █▀█ █▀▀ ▀█▀ █ █ █▀█ █▄ █ █▀   █▀█ ▄▀█ █▄ █ █▀▄ █▀█ █▀▄▀█   █ █▄ █ █▀▄ █▀▀ ▀▄▀   █▀█ █▀▀   █   █ █▀ ▀█▀
+// █▀▄ ██▄  █  █▄█ █▀▄ █ ▀█ ▄█   █▀▄ █▀█ █ ▀█ █▄▀ █▄█ █ ▀ █   █ █ ▀█ █▄▀ ██▄ █ █   █▄█ █▀    █▄▄ █ ▄█  █ 
+function randomIndexFromArray(probability) {
+    let idx = Math.floor(Math.random() * probability.length);
+    return probability[idx];
+}
+
+// █ █ █▀█ █▀▄ ▄▀█ ▀█▀ █▀▀ █▀   █▀ █▀▀ █▀█ █▀█ █▀▀   ▀█▀ █▀▀ ▀▄▀ ▀█▀
+// █▄█ █▀▀ █▄▀ █▀█  █  ██▄ ▄█   ▄█ █▄▄ █▄█ █▀▄ ██▄    █  ██▄ █ █  █ 
+function updateScore() {
+    SCORETEXT.text = `Score: ${score}`;
+}
+
+// █▀▄▀█ ▄▀█ █ █▄ █   █▀▄▀█ █▀▀ █▄ █ █ █
+// █ ▀ █ █▀█ █ █ ▀█   █ ▀ █ ██▄ █ ▀█ █▄█
+function mainMenu() {
+    menuCanvas.fillStyle = "beige";
+    menuCanvas.fillRect(0, 0, WIDTH, HEIGHT);
+    menuCanvas.fillStyle = "black";
+    menuCanvas.font = "100px Arial";
+    menuCanvas.fillText("Play Game", WIDTH / 2 - 250, HEIGHT / 2 - 200);
+    menuCanvas.font = "25px Arial";
+    menuCanvas.fillText("Press 1", WIDTH / 2 - 50, HEIGHT / 2 - 175);
+
+    menuCanvas.font = "100px Arial";
+    menuCanvas.fillText("Help", WIDTH / 2 - 100, HEIGHT / 2 - 75);
+    menuCanvas.font = "25px Arial";
+    menuCanvas.fillText("Press 2", WIDTH / 2 - 50, HEIGHT / 2 - 50);
+    if (keyDown("1")) {
+        gameState = GAMESTATES["play"];
+        runSetup();
+    }
+    if (keyDown("2")) {
+        runSetup();
+        tutorialScreen();
+    }
+    if (gameState === GAMESTATES["menu"]) {
+        setTimeout(() => {
+            requestAnimationFrame(mainMenu);
+        }, 1000 / 60);
+    } else {
+        menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
+    }
+}
+
+// ▀█▀ █ █ ▀█▀ █▀█ █▀█ █ ▄▀█ █     █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
+//  █  █▄█  █  █▄█ █▀▄ █ █▀█ █▄▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 function tutorialScreen() {
     gameState = GAMESTATES["help"];
     MENULAYER.removeChildren();
@@ -226,112 +351,8 @@ function tutorialScreen() {
     MENULAYER.addChild(HELPTEXT1, HELPTEXT2, HELPTEXT3, HELPTEXT4);
 }
 
-//Spawns enemies
-function spawnEnemy() {
-    setTimeout(() => {
-        requestAnimationFrame(spawnEnemy);
-    }, 1000 - score / 100);
-    if (gameState != GAMESTATES["play"]) return;
-    new Enemy();
-}
-
-//Spawns Powerups
-function spawnPowerup() {
-    setTimeout(() => {
-        requestAnimationFrame(spawnPowerup);
-    }, 10000 - score / 100);
-    if (gameState != GAMESTATES["play"]) return;
-    new PowerUp();
-}
-
-//Runs on key press
-function onKeyDown(keyEvent) {
-    if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) == -1) {
-        keyBuffer.push(keyEvent.key.toLowerCase());
-    }
-}
-//Runs okn key release
-function onKeyUp(keyEvent) {
-    //Keys that do not need to be held
-    if (keyEvent.key === "Escape") {
-        togglePause();
-    }
-    if (
-        keyEvent.key.toLowerCase() === "q" &&
-        (gameState === GAMESTATES["pause"] ||
-            gameState === GAMESTATES["lose"] ||
-            gameState === GAMESTATES["help"])
-    ) {
-        gameState = GAMESTATES["menu"];
-        MENULAYER.removeChildren();
-        mainMenu();
-    }
-    if (
-        keyEvent.key.toLowerCase() === "r" &&
-        gameState === GAMESTATES["lose"]
-    ) {
-        gameState = GAMESTATES["play"];
-        MENULAYER.removeChildren();
-        runSetup();
-    }
-
-    if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) != -1) {
-        keyBuffer.splice(keyBuffer.indexOf(keyEvent.key.toLowerCase()), 1);
-    }
-}
-
-//Checks if key is currently held
-function keyDown(key) {
-    if (keyBuffer.lastIndexOf(key) != -1) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-//Returns a random index from an input list
-function randomIndexFromArray(probability) {
-    let idx = Math.floor(Math.random() * probability.length);
-    return probability[idx];
-}
-
-//Updates Score Text
-function updateScore() {
-    SCORETEXT.text = `Score: ${score}`;
-}
-
-//Draws Main menu
-function mainMenu() {
-    menuCanvas.fillStyle = "beige";
-    menuCanvas.fillRect(0, 0, WIDTH, HEIGHT);
-    menuCanvas.fillStyle = "black";
-    menuCanvas.font = "100px Arial";
-    menuCanvas.fillText("Play Game", WIDTH / 2 - 250, HEIGHT / 2 - 200);
-    menuCanvas.font = "25px Arial";
-    menuCanvas.fillText("Press 1", WIDTH / 2 - 50, HEIGHT / 2 - 175);
-
-    menuCanvas.font = "100px Arial";
-    menuCanvas.fillText("Help", WIDTH / 2 - 100, HEIGHT / 2 - 75);
-    menuCanvas.font = "25px Arial";
-    menuCanvas.fillText("Press 2", WIDTH / 2 - 50, HEIGHT / 2 - 50);
-    if (keyDown("1")) {
-        gameState = GAMESTATES["play"];
-        runSetup();
-    }
-    if (keyDown("2")) {
-        runSetup();
-        tutorialScreen();
-    }
-    if (gameState === GAMESTATES["menu"]) {
-        setTimeout(() => {
-            requestAnimationFrame(mainMenu);
-        }, 1000 / 60);
-    } else {
-        menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
-    }
-}
-
-//Pauses and unpauses the game
+// ▀█▀ █▀█ █▀▀ █▀▀ █   █▀▀ █▀   █▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀█ ▄▀█ █ █ █▀ █▀▀   ▄▀█ █▄ █ █▀▄   █▀▄ █▀█ ▄▀█ █ █ █ █▀   █▀█ ▄▀█ █ █ █▀ █▀▀   █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
+//  █  █▄█ █▄█ █▄█ █▄▄ ██▄ ▄█   █▄█ █▀█ █ ▀ █ ██▄   █▀▀ █▀█ █▄█ ▄█ ██▄   █▀█ █ ▀█ █▄▀   █▄▀ █▀▄ █▀█ ▀▄▀▄▀ ▄█   █▀▀ █▀█ █▄█ ▄█ ██▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 function togglePause() {
     if (gameState === GAMESTATES["pause"]) {
         player.sprite.play();
@@ -375,6 +396,8 @@ function togglePause() {
     }
 }
 
+// █▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀█ █ █ █▀▀ █▀█   █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
+// █▄█ █▀█ █ ▀ █ ██▄   █▄█ ▀▄▀ ██▄ █▀▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 function gameOver() {
     player.sprite.stop();
     for (let i = 0; i < enemies.length; i++) {
