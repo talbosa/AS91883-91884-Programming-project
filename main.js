@@ -18,7 +18,7 @@ const GAMESTATES = {
     lose: 5,
 };
 
-let app;
+let gameScreen;
 let player;
 let hitboxCanvas;
 let menuCanvas;
@@ -97,14 +97,14 @@ async function runSetup() {
         menuCanvas.canvas.width = WIDTH;
         menuCanvas.canvas.height = HEIGHT;
         // Init PIXIJS
-        app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
+        gameScreen = new PIXI.Application({ width: WIDTH, height: HEIGHT });
         PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
         PIXI.settings.ROUND_PIXELS = true;
-        app.stage = new PIXI.layers.Stage();
-        app.stage.sortableChildren = true;
-        document.body.appendChild(app.view);
+        gameScreen.stage = new PIXI.layers.Stage();
+        gameScreen.stage.sortableChildren = true;
+        document.body.appendChild(gameScreen.view);
         document.body.appendChild(stats.dom);
-        app.stage.addChild(
+        gameScreen.stage.addChild(
             MENULAYER,
             SCORELAYER,
             HEALTHLAYER,
@@ -112,9 +112,9 @@ async function runSetup() {
             BGLAYER
         );
 
-        app.stage.addChild(LOADINGTEXT);
+        gameScreen.stage.addChild(LOADINGTEXT);
         spriteSheet = await PIXI.Assets.load("assets/spritesheet.json");
-        app.stage.removeChild(LOADINGTEXT);
+        gameScreen.stage.removeChild(LOADINGTEXT);
 
         SCORELAYER.addChild(SCORETEXT);
 
@@ -130,7 +130,7 @@ async function runSetup() {
         player = new Player();
 
         gameState = GAMESTATES["menu"];
-        app.ticker.add(mainLoop);
+        gameScreen.ticker.add(mainLoop);
         spawnEnemy();
         spawnPowerup();
         mainMenu();
