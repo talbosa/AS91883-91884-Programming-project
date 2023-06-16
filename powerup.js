@@ -1,9 +1,10 @@
 //  █▀█ █▀█ █ █ █ █▀▀ █▀█ █ █ █▀█   █▀▀ █   ▄▀█ █▀ █▀
 //  █▀▀ █▄█ ▀▄▀▄▀ ██▄ █▀▄ █▄█ █▀▀   █▄▄ █▄▄ █▀█ ▄█ ▄█
+// Powerup class
 class PowerUp {
     constructor() {
         powerups.push(this);
-        this.type = randomIndexFromArray([0, 0, 0, 0, 1, 1, 1]); //0 = Shield, 1 = Heal;
+        this.type = randomIndexFromArray([0, 0, 0, 0, 1, 1, 1]); // 0 = Shield, 1 = Heal;
         if (this.type == 0) {
             this.sprite = new PIXI.Sprite(
                 spriteSheet.textures["powerupshield.png"],
@@ -23,7 +24,7 @@ class PowerUp {
         this.sprite.height = 32;
     }
 
-    //Moves the powerup and checks for collision with player
+    // Moves the powerup and checks for collision with player
     update() {
         this.sprite.x -= SCROLLSPEED;
         if (this.sprite.x < -100) {

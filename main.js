@@ -1,5 +1,6 @@
 //  █ █ ▄▀█ █▀█ █ ▄▀█ █▄▄ █   █▀▀ █▀
-//  ▀▄▀ █▀█ █▀▄ █ █▀█ █▄█ █▄▄ ██▄ ▄█                                              
+//  ▀▄▀ █▀█ █▀▄ █ █▀█ █▄█ █▄▄ ██▄ ▄█     
+// Variables                                         
 const WIDTH = 1200;
 const HEIGHT = 700;
 const SCROLLSPEED = 5;
@@ -55,6 +56,7 @@ window.addEventListener("keyup", onKeyUp);
 
 // █▀ ▀█▀ █▀█ █▀█ █▀   █▀▀ ▄▀█ █▀▄▀█ █▀▀   █ █ █ █ █ █▀▀ █▄ █    █▄ █ █▀█ ▀█▀    █ █▄ █    █▀▀ █▀█ █▀▀ █ █ █▀
 // ▄█  █  █▄█ █▀▀ ▄█   █▄█ █▀█ █ ▀ █ ██▄   ▀▄▀▄▀ █▀█ ██▄ █ ▀█    █ ▀█ █▄█  █     █ █ ▀█    █▀  █▄█ █▄▄ █▄█ ▄█
+// Stops game when not in focus
 setInterval(() => {
     const HASFOCUS = document.hasFocus();
     if (HASFOCUS && gameState == GAMESTATES["nofocus"]) {
@@ -74,25 +76,27 @@ setInterval(() => {
 
 // █▀▀ █▀█ █▀   █▀▀ █▀█ █ █ █▄ █ ▀█▀ █▀▀ █▀█
 // █▀  █▀▀ ▄█   █▄▄ █▄█ █▄█ █ ▀█  █  ██▄ █▀▄
+//Fps counter
 let stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-//Moves the fps counter to the bottom
+// Moves the fps counter to the bottom
 stats.dom.style.top = "";
 stats.dom.style.bottom = "0px";
 
 // █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▀ ▀█▀ ▄▀█ █▀█ ▀█▀ █ █ █▀█
 // █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   ▄█  █  █▀█ █▀▄  █  █▄█ █▀▀
+// Runs on startup
 async function runSetup() {
     if (!hasRun) {
         hasRun = true;
-        //Load 2D Canvas
+        // Load 2D Canvas
         hitboxCanvas = document.getElementById("hitboxCanvas").getContext("2d");
         hitboxCanvas.canvas.width = WIDTH;
         hitboxCanvas.canvas.height = HEIGHT;
         menuCanvas = document.getElementById("menuCanvas").getContext("2d");
         menuCanvas.canvas.width = WIDTH;
         menuCanvas.canvas.height = HEIGHT;
-        //Init PIXIJS
+        // Init PIXIJS
         app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
         PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
         PIXI.settings.ROUND_PIXELS = true;
@@ -146,6 +150,7 @@ async function runSetup() {
 
 // █▀█ █ █ █▄ █ █▀   █▀▀ █ █ █▀▀ █▀█ █▄█   █▀▀ █▀█ ▄▀█ █▀▄▀█ █▀▀
 // █▀▄ █▄█ █ ▀█ ▄█   ██▄ ▀▄▀ ██▄ █▀▄  █    █▀  █▀▄ █▀█ █ ▀ █ ██▄
+// Runs every frame
 function mainLoop() {
     stats.begin();
     if (gameState !== GAMESTATES["play"]) return;
@@ -175,15 +180,15 @@ function mainLoop() {
     if (keyDown("d")) {
         player.xPos += player.moveSpeedX;
     }
-    //Clear hitboxes from previous frame
+    // Clear hitboxes from previous frame
     hitboxCanvas.clearRect(0, 0, WIDTH, HEIGHT);
-    //Update Player
+    // Update Player
     player.update();
-    //Update Enemies
+    // Update Enemies
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
     }
-    //Update Powerups
+    // Update Powerups
     for (let i = 0; i < powerups.length; i++) {
         powerups[i].update();
     }
@@ -193,6 +198,7 @@ function mainLoop() {
 
 // █▀▀ █▄ █ █▀▀ █▀▄▀█ █▄█   █▀ █▀█ ▄▀█ █ █ █ █▄ █   ▀█▀ █ █▀▄▀█ █▀▀ █▀█
 // ██▄ █ ▀█ ██▄ █ ▀ █  █    ▄█ █▀▀ █▀█ ▀▄▀▄▀ █ ▀█    █  █ █ ▀ █ ██▄ █▀▄
+// Enemy spawn timer
 function spawnEnemy() {
     setTimeout(() => {
         requestAnimationFrame(spawnEnemy);
@@ -203,6 +209,7 @@ function spawnEnemy() {
 
 // █▀█ █▀█ █ █ █ █▀▀ █▀█ █ █ █▀█   █▀ █▀█ ▄▀█ █ █ █ █▄ █   ▀█▀ █ █▀▄▀█ █▀▀ █▀█
 // █▀▀ █▄█ ▀▄▀▄▀ ██▄ █▀▄ █▄█ █▀▀   ▄█ █▀▀ █▀█ ▀▄▀▄▀ █ ▀█    █  █ █ ▀ █ ██▄ █▀▄
+// Powerup spawn timer
 function spawnPowerup() {
     setTimeout(() => {
         requestAnimationFrame(spawnPowerup);
@@ -213,6 +220,7 @@ function spawnPowerup() {
 
 // █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▄▀ █▀▀ █▄█   █▀▄ █▀█ █ █ █ █▄ █
 // █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   █ █ ██▄  █    █▄▀ █▄█ ▀▄▀▄▀ █ ▀█
+// Runs on key down
 function onKeyDown(keyEvent) {
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) == -1) {
         keyBuffer.push(keyEvent.key.toLowerCase());
@@ -221,8 +229,9 @@ function onKeyDown(keyEvent) {
 
 // █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▄▀ █▀▀ █▄█   █ █ █▀█
 // █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   █ █ ██▄  █    █▄█ █▀▀
+// Runs on key up
 function onKeyUp(keyEvent) {
-    //Keys that do not need to be held
+    // Keys that do not need to be held
     if (keyEvent.key === "Escape") {
         togglePause();
     }
@@ -253,6 +262,7 @@ function onKeyUp(keyEvent) {
 
 // █▀▀ █ █ █▀▀ █▀▀ █▄▀ █▀   █ █▀▀   █▄▀ █▀▀ █▄█   █ █▀   █ █ █▀▀ █   █▀▄
 // █▄▄ █▀█ ██▄ █▄▄ █ █ ▄█   █ █▀    █ █ ██▄  █    █ ▄█   █▀█ ██▄ █▄▄ █▄▀
+// Check if key is held
 function keyDown(key) {
     if (keyBuffer.lastIndexOf(key) != -1) {
         return true;
@@ -263,6 +273,7 @@ function keyDown(key) {
 
 // █▀█ █▀▀ ▀█▀ █ █ █▀█ █▄ █ █▀   █▀█ ▄▀█ █▄ █ █▀▄ █▀█ █▀▄▀█   █ █▄ █ █▀▄ █▀▀ ▀▄▀   █▀█ █▀▀   █   █ █▀ ▀█▀
 // █▀▄ ██▄  █  █▄█ █▀▄ █ ▀█ ▄█   █▀▄ █▀█ █ ▀█ █▄▀ █▄█ █ ▀ █   █ █ ▀█ █▄▀ ██▄ █ █   █▄█ █▀    █▄▄ █ ▄█  █ 
+// Return random index of list
 function randomIndexFromArray(probability) {
     let idx = Math.floor(Math.random() * probability.length);
     return probability[idx];
@@ -270,12 +281,14 @@ function randomIndexFromArray(probability) {
 
 // █ █ █▀█ █▀▄ ▄▀█ ▀█▀ █▀▀ █▀   █▀ █▀▀ █▀█ █▀█ █▀▀   ▀█▀ █▀▀ ▀▄▀ ▀█▀
 // █▄█ █▀▀ █▄▀ █▀█  █  ██▄ ▄█   ▄█ █▄▄ █▄█ █▀▄ ██▄    █  ██▄ █ █  █ 
+// Updates score text
 function updateScore() {
     SCORETEXT.text = `Score: ${score}`;
 }
 
 // █▀▄▀█ ▄▀█ █ █▄ █   █▀▄▀█ █▀▀ █▄ █ █ █
 // █ ▀ █ █▀█ █ █ ▀█   █ ▀ █ ██▄ █ ▀█ █▄█
+// Main menu
 function mainMenu() {
     menuCanvas.fillStyle = "beige";
     menuCanvas.fillRect(0, 0, WIDTH, HEIGHT);
@@ -308,6 +321,7 @@ function mainMenu() {
 
 // ▀█▀ █ █ ▀█▀ █▀█ █▀█ █ ▄▀█ █     █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
 //  █  █▄█  █  █▄█ █▀▄ █ █▀█ █▄▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
+// Tutorial screen
 function tutorialScreen() {
     gameState = GAMESTATES["help"];
     MENULAYER.removeChildren();
@@ -353,6 +367,7 @@ function tutorialScreen() {
 
 // ▀█▀ █▀█ █▀▀ █▀▀ █   █▀▀ █▀   █▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀█ ▄▀█ █ █ █▀ █▀▀   ▄▀█ █▄ █ █▀▄   █▀▄ █▀█ ▄▀█ █ █ █ █▀   █▀█ ▄▀█ █ █ █▀ █▀▀   █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
 //  █  █▄█ █▄█ █▄█ █▄▄ ██▄ ▄█   █▄█ █▀█ █ ▀ █ ██▄   █▀▀ █▀█ █▄█ ▄█ ██▄   █▀█ █ ▀█ █▄▀   █▄▀ █▀▄ █▀█ ▀▄▀▄▀ ▄█   █▀▀ █▀█ █▄█ ▄█ ██▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
+// Toggles game pause and draws pause sceen
 function togglePause() {
     if (gameState === GAMESTATES["pause"]) {
         player.sprite.play();
@@ -398,6 +413,7 @@ function togglePause() {
 
 // █▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀█ █ █ █▀▀ █▀█   █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
 // █▄█ █▀█ █ ▀ █ ██▄   █▄█ ▀▄▀ ██▄ █▀▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
+// Game over screen
 function gameOver() {
     player.sprite.stop();
     for (let i = 0; i < enemies.length; i++) {

@@ -1,7 +1,8 @@
 //  █▀▀ █▄ █ █▀▀ █▀▄▀█ █▄█   █▀▀ █   ▄▀█ █▀ █▀
 //  ██▄ █ ▀█ ██▄ █ ▀ █  █    █▄▄ █▄▄ █▀█ ▄█ ▄█
+// Enemy class
 class Enemy {
-    //Is run when a new enemy is created
+    // Is run when a new enemy is created
     constructor() {
         enemies.push(this);
         this.sprite = new PIXI.AnimatedSprite(
@@ -37,7 +38,7 @@ class Enemy {
         }
     }
 
-    //Meant to run every frame, updates and draws things related to the enamy
+    // Meant to run every frame, updates and draws things related to the enamy
     update() {
         this.sprite.x -= SCROLLSPEED;
         if (this.type == 1 || this.type == 2) {

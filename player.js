@@ -1,5 +1,6 @@
 //  █▀█ █   ▄▀█ █▄█ █▀▀ █▀█   █▀▀ █   ▄▀█ █▀ █▀
 //  █▀▀ █▄▄ █▀█  █  ██▄ █▀▄   █▄▄ █▄▄ █▀█ ▄█ ▄█
+// Player class
 class Player {
     constructor() {
         this.sprite = new PIXI.AnimatedSprite(
@@ -10,7 +11,7 @@ class Player {
         this.reset();
     }
     
-    //Can be used to manually reset the player
+    // Can be used to manually reset the player
     reset() {
         this.sprite.play();
         this.sprite.width = 50;
@@ -28,7 +29,7 @@ class Player {
         this.drawHealth();
     }
 
-    //Get/Set methods for player attributes held by player.sprite for convenience
+    // Get/Set methods for player attributes held by player.sprite for convenience
     get xPos() {
         return this.sprite.x;
     }
@@ -54,7 +55,7 @@ class Player {
         this.sprite.height = height;
     }
 
-    //Damages the player a apecified amount
+    // Damages the player a apecified amount
     damage(damage) {
         while (this.shield > 0 && damage > 0) {
             this.shield--;
@@ -67,7 +68,7 @@ class Player {
         this.drawHealth();
     }
 
-    //Bypasses the players shield to deal damage directly
+    // Bypasses the players shield to deal damage directly
     damageIgnoreShield(damage) {
         while (this.health > 0 && damage > 0) {
             this.health--;
@@ -76,7 +77,7 @@ class Player {
         this.drawHealth();
     }
 
-    //Damages sheild but does not affect health
+    // Damages sheild but does not affect health
     damageShield(damage) {
         while (this.shield > 0 && damage > 0) {
             this.shield--;
@@ -85,7 +86,7 @@ class Player {
         this.drawHealth();
     }
 
-    //Heals the player a specified amount
+    // Heals the player a specified amount
     heal(health) {
         while (this.health < this.maxHealth && health > 0) {
             this.health++;
@@ -94,7 +95,7 @@ class Player {
         this.drawHealth();
     }
 
-    //Heals the player the specified amount, if the amount to heal is greater then max health, it will fill up health then add shield with the remainder
+    // Heals the player the specified amount, if the amount to heal is greater then max health, it will fill up health then add shield with the remainder
     overheal(health) {
         while (this.health < this.maxHealth && health > 0) {
             this.health++;
@@ -107,13 +108,13 @@ class Player {
         this.drawHealth();
     }
 
-    //Directly adds shield to the player
+    // Directly adds shield to the player
     addShield(shield) {
         this.shield += shield;
         this.drawHealth();
     }
 
-    //Collsion with rectangle
+    // Collsion with rectangle
     rectCollision(xPos, yPos, width, height) {
         let playerHitLeft = this.xPos;
         let playerHitRight = this.xPos + this.width;
@@ -130,7 +131,7 @@ class Player {
         let rectHitWidth = rectHitRight - rectHitLeft;
         let rectHitHeight = rectHitBottom - rectHitTop;
 
-        //Hitboxes using 2d canvas for easier  drawing (not worth it to make it complex for a debug feature that will be removed)
+        // Hitboxes using 2d canvas for easier  drawing (not worth it to make it complex for a debug feature that will be removed)
         if(this.showHitbox){
             hitboxCanvas.strokeStyle = "rgb(0,255,0)";
             hitboxCanvas.strokeRect(
@@ -159,7 +160,7 @@ class Player {
         }
     }
 
-    //Updates the health display
+    // Updates the health display
     drawHealth() {
         HEALTHLAYER.removeChildren();
         for (let i = 0; i < this.maxHealth + this.shield; i++) {
@@ -194,7 +195,7 @@ class Player {
         }
     }
 
-    //Meant to run every frame, updates and draws things related to the player
+    // Meant to run every frame, updates and draws things related to the player
     update() {
         if (this.health <= 0) {
             gameOver();
