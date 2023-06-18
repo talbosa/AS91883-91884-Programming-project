@@ -3,29 +3,42 @@
 // Player class
 class Player {
     constructor() {
+        // Create player animated sprite
         this.sprite = new PIXI.AnimatedSprite(
             spriteSheet.animations["playerrun"],
             true
         );
+        // Add player animated sprite to game layer
         GAMELAYER.addChild(this.sprite);
+        // Initialise player variables
         this.reset();
     }
 
     // Can be used to manually reset the player
     reset() {
+        // Play sprite animation
         this.sprite.play();
+        // Set sprite width and height
         this.sprite.width = 50;
         this.sprite.height = 128;
+        // Set animation speec
         this.sprite.animationSpeed = 0.1;
+        // Set player sprite position
         this.sprite.x = 100;
         this.sprite.y = 100;
+        // Set health + maxhealth
         this.health = 3;
         this.maxHealth = 3;
+        // Clear healthsprites array
         this.healthSprites = [];
+        // Set shield
         this.shield = 0;
+        // Set movespeed x and y
         this.moveSpeedX = SCROLLSPEED;
         this.moveSpeedY = 10;
+        // Hide hitbox
         this.showHitbox = false;
+        // Draw health
         this.drawHealth();
     }
 
@@ -131,7 +144,7 @@ class Player {
         let rectHitWidth = rectHitRight - rectHitLeft;
         let rectHitHeight = rectHitBottom - rectHitTop;
 
-        // Hitboxes using 2d canvas for easier  drawing (not worth it to make it complex for a debug feature that will be removed)
+        // Hitboxes using 2d canvas for easier drawing (not worth it to make it complex for a debug feature that will be removed)
         if (this.showHitbox) {
             hitboxCanvas.strokeStyle = "rgb(0,255,0)";
             hitboxCanvas.strokeRect(
@@ -162,8 +175,10 @@ class Player {
 
     // Updates the health display
     drawHealth() {
+        // Clear health layer
         HEALTHLAYER.removeChildren();
         for (let i = 0; i < this.maxHealth + this.shield; i++) {
+            // Set texture to full heart
             if (i < this.maxHealth) {
                 if (i < this.health) {
                     this.healthSprites[i] = PIXI.Sprite.from(
@@ -173,7 +188,9 @@ class Player {
                     this.healthSprites[i].height = 32;
                     this.healthSprites[i].x = 32 * i;
                     this.healthSprites[i].y = 1;
-                } else {
+                } 
+                // Set texture to empty heart
+                else {
                     this.healthSprites[i] = PIXI.Sprite.from(
                         spriteSheet.textures["heartempty.png"]
                     );
@@ -182,7 +199,9 @@ class Player {
                     this.healthSprites[i].x = 32 * i;
                     this.healthSprites[i].y = 3;
                 }
-            } else {
+            } 
+            // Set texture to shield
+            else {
                 this.healthSprites[i] = PIXI.Sprite.from(
                     spriteSheet.textures["heartarmour.png"]
                 );
@@ -191,15 +210,18 @@ class Player {
                 this.healthSprites[i].x = 32 * i;
                 this.healthSprites[i].y = 1;
             }
+            // Draw health sprite
             HEALTHLAYER.addChild(this.healthSprites[i]);
         }
     }
 
-    // Meant to run every frame, updates and draws things related to the player
+    // Meant to run every frame
     update() {
+        // Ends game if health is 0 or less
         if (this.health <= 0) {
             gameOver();
         }
+        // Stops player from going out of bounds
         if (this.xPos < -this.width / 2) {
             this.xPos = -this.width / 2;
         }
