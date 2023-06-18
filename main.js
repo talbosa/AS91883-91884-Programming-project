@@ -1,6 +1,6 @@
 //  █ █ ▄▀█ █▀█ █ ▄▀█ █▄▄ █   █▀▀ █▀
-//  ▀▄▀ █▀█ █▀▄ █ █▀█ █▄█ █▄▄ ██▄ ▄█     
-// Variables                                         
+//  ▀▄▀ █▀█ █▀▄ █ █▀█ █▄█ █▄▄ ██▄ ▄█
+// Variables
 const WIDTH = 1200;
 const HEIGHT = 700;
 const SCROLLSPEED = 5;
@@ -259,7 +259,6 @@ function onKeyUp(keyEvent) {
     }
 }
 
-
 // █▀▀ █ █ █▀▀ █▀▀ █▄▀ █▀   █ █▀▀   █▄▀ █▀▀ █▄█   █ █▀   █ █ █▀▀ █   █▀▄
 // █▄▄ █▀█ ██▄ █▄▄ █ █ ▄█   █ █▀    █ █ ██▄  █    █ ▄█   █▀█ ██▄ █▄▄ █▄▀
 // Check if key is held
@@ -272,7 +271,7 @@ function keyDown(key) {
 }
 
 // █▀█ █▀▀ ▀█▀ █ █ █▀█ █▄ █ █▀   █▀█ ▄▀█ █▄ █ █▀▄ █▀█ █▀▄▀█   █ █▄ █ █▀▄ █▀▀ ▀▄▀   █▀█ █▀▀   █   █ █▀ ▀█▀
-// █▀▄ ██▄  █  █▄█ █▀▄ █ ▀█ ▄█   █▀▄ █▀█ █ ▀█ █▄▀ █▄█ █ ▀ █   █ █ ▀█ █▄▀ ██▄ █ █   █▄█ █▀    █▄▄ █ ▄█  █ 
+// █▀▄ ██▄  █  █▄█ █▀▄ █ ▀█ ▄█   █▀▄ █▀█ █ ▀█ █▄▀ █▄█ █ ▀ █   █ █ ▀█ █▄▀ ██▄ █ █   █▄█ █▀    █▄▄ █ ▄█  █
 // Return random index of list
 function randomIndexFromArray(probability) {
     let idx = Math.floor(Math.random() * probability.length);
@@ -280,7 +279,7 @@ function randomIndexFromArray(probability) {
 }
 
 // █ █ █▀█ █▀▄ ▄▀█ ▀█▀ █▀▀ █▀   █▀ █▀▀ █▀█ █▀█ █▀▀   ▀█▀ █▀▀ ▀▄▀ ▀█▀
-// █▄█ █▀▀ █▄▀ █▀█  █  ██▄ ▄█   ▄█ █▄▄ █▄█ █▀▄ ██▄    █  ██▄ █ █  █ 
+// █▄█ █▀▀ █▄▀ █▀█  █  ██▄ ▄█   ▄█ █▄▄ █▄█ █▀▄ ██▄    █  ██▄ █ █  █
 // Updates score text
 function updateScore() {
     SCORETEXT.text = `Score: ${score}`;

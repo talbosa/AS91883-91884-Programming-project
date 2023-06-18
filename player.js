@@ -10,7 +10,7 @@ class Player {
         GAMELAYER.addChild(this.sprite);
         this.reset();
     }
-    
+
     // Can be used to manually reset the player
     reset() {
         this.sprite.play();
@@ -132,7 +132,7 @@ class Player {
         let rectHitHeight = rectHitBottom - rectHitTop;
 
         // Hitboxes using 2d canvas for easier  drawing (not worth it to make it complex for a debug feature that will be removed)
-        if(this.showHitbox){
+        if (this.showHitbox) {
             hitboxCanvas.strokeStyle = "rgb(0,255,0)";
             hitboxCanvas.strokeRect(
                 playerHitLeft,
