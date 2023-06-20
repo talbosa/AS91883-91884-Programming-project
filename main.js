@@ -115,9 +115,6 @@ async function runSetup() {
     hitboxCanvas = document.getElementById("hitboxCanvas").getContext("2d");
     hitboxCanvas.canvas.width = WIDTH;
     hitboxCanvas.canvas.height = HEIGHT;
-    menuCanvas = document.getElementById("menuCanvas").getContext("2d");
-    menuCanvas.canvas.width = WIDTH;
-    menuCanvas.canvas.height = HEIGHT;
     // Init PIXIJS
     gameScreen = new PIXI.Application({ width: WIDTH, height: HEIGHT });
     // Disable image antialiasing
