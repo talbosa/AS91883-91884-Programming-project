@@ -34,14 +34,12 @@ SCORETEXT.y = 1;
 // Adds the score tect the the score layer
 SCORELAYER.addChild(SCORETEXT);
 
-// The PIXI application that all the game is conatined in (except the main menu screen and the hitboxes)
+// The PIXI application that all the game is conatined in (except fot the hitboxes)
 let gameScreen;
 // The player
 let player;
 // The canvas where hitboxes are drawn
 let hitboxCanvas;
-// The canvas where the main menu is drawn (needs to migrate to PIXIJS at some point)
-let menuCanvas;
 // The state the game is currently in
 let gameState;
 // The spritesheet that has all the images on it
@@ -330,6 +328,18 @@ function onKeyUp(keyEvent) {
         MENULAYER.removeChildren();
         restartGame();
     }
+    // Play game if gamestate is "menu"
+    if (keyEvent.key === "1" && gameState === GAMESTATES["menu"]) {
+        gameState = GAMESTATES["play"];
+        MENULAYER.removeChildren();
+        restartGame();
+    }
+    // Show helkp screen if gamestate is "menu"
+    if (keyEvent.key === "2" && gameState === GAMESTATES["menu"]) {
+        gameState = GAMESTATES["help"];
+        MENULAYER.removeChildren();
+        helpScreen();
+    }
     // Remove key from keybuffer if it exists
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) != -1) {
         keyBuffer.splice(keyBuffer.indexOf(keyEvent.key.toLowerCase()), 1);
@@ -368,46 +378,55 @@ function updateScore() {
 // █ ▀ █ █▀█ █ █ ▀█   █ ▀ █ ██▄ █ ▀█ █▄█
 // Main menu
 function mainMenu() {
-    // Fill the canvas with beige
-    menuCanvas.fillStyle = "beige";
-    menuCanvas.fillRect(0, 0, WIDTH, HEIGHT);
-    // Draw "Play Game"
-    menuCanvas.fillStyle = "black";
-    menuCanvas.font = "100px Arial";
-    menuCanvas.fillText("Play Game", WIDTH / 2 - 250, HEIGHT / 2 - 200);
-    // Draw "Press 1"
-    menuCanvas.font = "25px Arial";
-    menuCanvas.fillText("Press 1", WIDTH / 2 - 50, HEIGHT / 2 - 175);
-
-    // Draw "Help"
-    menuCanvas.font = "100px Arial";
-    menuCanvas.fillText("Help", WIDTH / 2 - 100, HEIGHT / 2 - 75);
-    // Draw "Press 2"
-    menuCanvas.font = "25px Arial";
-    menuCanvas.fillText("Press 2", WIDTH / 2 - 50, HEIGHT / 2 - 50);
-    // Keybinds
-    if (keyDown("1")) {
-        gameState = GAMESTATES["play"];
-        restartGame();
-    }
-    if (keyDown("2")) {
-        restartGame();
-        tutorialScreen();
-    }
-    // If gamestate is "menu" repeat, else clear the canvas
-    if (gameState === GAMESTATES["menu"]) {
-        setTimeout(() => {
-            requestAnimationFrame(mainMenu);
-        }, 1000 / 60);
-    } else {
-        menuCanvas.clearRect(0, 0, WIDTH, HEIGHT);
-    }
+    // Clear menulayer
+    MENULAYER.removeChildren();
+    // Fill background with beige
+    const DRAWTOOL = new PIXI.Graphics();
+    DRAWTOOL.beginFill("beige");
+    DRAWTOOL.drawRect(0, 0, WIDTH, HEIGHT);
+    DRAWTOOL.endFill();
+    MENULAYER.addChild(DRAWTOOL);
+    // Initialise text variables
+    const MENUTEXT1 = new PIXI.Text("Play Game", {
+        fontFamily: "Arial",
+        fontSize: 100,
+        fill: 0x000000,
+        align: "center",
+    });
+    MENUTEXT1.x = WIDTH / 2 - 250;
+    MENUTEXT1.y = HEIGHT / 2 - 200 - MENUTEXT1.height / 1.24;
+    const MENUTEXT2 = new PIXI.Text("Press 1", {
+        fontFamily: "Arial",
+        fontSize: 25,
+        fill: 0x000000,
+        align: "center",
+    });
+    MENUTEXT2.x = WIDTH / 2 - MENUTEXT2.width / 2;
+    MENUTEXT2.y = HEIGHT / 2 - 175 - MENUTEXT2.height / 1.24;
+    const MENUTEXT3 = new PIXI.Text("Help", {
+        fontFamily: "Arial",
+        fontSize: 100,
+        fill: 0x000000,
+        align: "center",
+    });
+    MENUTEXT3.x = WIDTH / 2 - MENUTEXT3.width / 2;
+    MENUTEXT3.y = HEIGHT / 2 - 75 - MENUTEXT3.height / 1.24;
+    const MENUTEXT4 = new PIXI.Text("Press 2", {
+        fontFamily: "Arial",
+        fontSize: 25,
+        fill: 0x000000,
+        align: "center",
+    });
+    MENUTEXT4.x = WIDTH / 2 - MENUTEXT4.width / 2;
+    MENUTEXT4.y = HEIGHT / 2 - 50 - MENUTEXT4.height / 1.24;
+    // Draw text variables
+    MENULAYER.addChild(MENUTEXT1, MENUTEXT2, MENUTEXT3, MENUTEXT4);
 }
 
 // ▀█▀ █ █ ▀█▀ █▀█ █▀█ █ ▄▀█ █     █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
 //  █  █▄█  █  █▄█ █▀▄ █ █▀█ █▄▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 // Tutorial screen
-function tutorialScreen() {
+function helpScreen() {
     // Set gamestate to "help"
     gameState = GAMESTATES["help"];
     // Clear menu layer
