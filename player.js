@@ -188,7 +188,7 @@ class Player {
                     this.healthSprites[i].height = 32;
                     this.healthSprites[i].x = 32 * i;
                     this.healthSprites[i].y = 1;
-                } 
+                }
                 // Set texture to empty heart
                 else {
                     this.healthSprites[i] = PIXI.Sprite.from(
@@ -199,7 +199,7 @@ class Player {
                     this.healthSprites[i].x = 32 * i;
                     this.healthSprites[i].y = 3;
                 }
-            } 
+            }
             // Set texture to shield
             else {
                 this.healthSprites[i] = PIXI.Sprite.from(
