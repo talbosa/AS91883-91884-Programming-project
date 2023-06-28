@@ -306,7 +306,7 @@ function keyDown(key) {
 
 // Return random index of array
 function randomIndexFromArray(inputArray) {
-    let randomIndexOfInputArray = Math.floor(Math.random() * array.length);
+    let randomIndexOfInputArray = Math.floor(Math.random() * inputArray.length);
     return inputArray[randomIndexOfInputArray];
 }
 
