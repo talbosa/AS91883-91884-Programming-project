@@ -1,5 +1,3 @@
-//  █ █ ▄▀█ █▀█ █ ▄▀█ █▄▄ █   █▀▀ █▀
-//  ▀▄▀ █▀█ █▀▄ █ █▀█ █▄█ █▄▄ ██▄ ▄█
 // Variables
 
 // Screen width and height
@@ -36,43 +34,28 @@ SCORELAYER.addChild(SCORETEXT);
 
 // The PIXI application that all the game is conatined in (except fot the hitboxes)
 let gameScreen;
-// The player
+
 let player;
-// The canvas where hitboxes are drawn
 let hitboxCanvas;
-// The state the game is currently in
 let gameState;
-// The spritesheet that has all the images on it
 let spriteSheet;
-// An array that stores all keys currently held
 let keyBuffer = [];
-// An array that holds the two sprites used to create the scrolling background
 let bgImages = [];
-// An array that containes all of the enemies
 let enemies = [];
-// An array that containes all of the powerups
 let powerups = [];
-// The variable that controls the offset from the right side of the screen
-let bgOffset = 0;
-// The score
+let bgOffset = 0; // The x offset of the scrolling background
 let score = 0;
 
-// Runs the runSetup() function on page load
 window.onload = runSetup;
-// Adds key listeners
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
 
-// █▀ ▀█▀ █▀█ █▀█ █▀   █▀▀ ▄▀█ █▀▄▀█ █▀▀   █ █ █ █ █ █▀▀ █▄ █    █▄ █ █▀█ ▀█▀    █ █▄ █    █▀▀ █▀█ █▀▀ █ █ █▀
-// ▄█  █  █▄█ █▀▀ ▄█   █▄█ █▀█ █ ▀ █ ██▄   ▀▄▀▄▀ █▀█ ██▄ █ ▀█    █ ▀█ █▄█  █     █ █ ▀█    █▀  █▄█ █▄▄ █▄█ ▄█
 // Stops game when not in focus
 // Runs every 200 ms
 setInterval(() => {
-    // Checks if the page has focus
     const HASFOCUS = document.hasFocus();
     // Checks if the game has focus and is the state "nofocus"
     if (HASFOCUS && gameState == GAMESTATES["nofocus"]) {
-        // Sets the gamestate to play
         gameState = GAMESTATES["play"];
         // Plays the player sprite animation
         player.sprite.play();
@@ -83,7 +66,6 @@ setInterval(() => {
     }
     // Checks if the game is focused and in the "play" state
     else if (!HASFOCUS && gameState == GAMESTATES["play"]) {
-        // Sets the gamestate to "nofocus"
         gameState = GAMESTATES["nofocus"];
         // Stops the players animation
         player.sprite.stop();
@@ -99,7 +81,6 @@ setInterval(() => {
 // █▀▀ █▀█ █▀   █▀▀ █▀█ █ █ █▄ █ ▀█▀ █▀▀ █▀█
 // █▀  █▀▀ ▄█   █▄▄ █▄█ █▄█ █ ▀█  █  ██▄ █▀▄
 // Fps counter
-// Creates the stats variavble
 let stats = new Stats();
 // Makes the stats variable show the fps
 stats.showPanel(0);
@@ -107,8 +88,6 @@ stats.showPanel(0);
 stats.dom.style.top = "";
 stats.dom.style.bottom = "0px";
 
-// █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▀ ▀█▀ ▄▀█ █▀█ ▀█▀ █ █ █▀█
-// █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   ▄█  █  █▀█ █▀▄  █  █▄█ █▀▀
 // Runs on startup
 async function runSetup() {
     // Load 2D Canvas
@@ -152,57 +131,41 @@ async function runSetup() {
     // Removes the loading screen text from the game screen
     gameScreen.stage.removeChild(LOADINGTEXT);
 
-    // Loops twice
+    // Adds the scrolling background to the background layer
     for (let i = 0; i < 2; i++) {
-        // Adds a background image to the bgImages array
         bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
         bgImages[i].width = WIDTH * 2;
         bgImages[i].height = HEIGHT;
-        // Adds the background image to the background layer
         BGLAYER.addChild(bgImages[i]);
     }
 
-    // Creates the player
     player = new Player();
 
-    // Sets the gamestate to "menu"
     gameState = GAMESTATES["menu"];
     // Makes the mainloop run 60 times a second
     gameScreen.ticker.add(mainLoop);
-    // Spawns an enemy and starts the enemy spawn timer
     spawnEnemy();
-    // Spawns a powerup and starts the powerup spawn timer
     spawnPowerup();
-    // Starts the main menu
     mainMenu();
 }
 
-// █▀█ █▀▀ █▀ ▀█▀ ▄▀█ █▀█ ▀█▀ █▀   ▀█▀ █░█ █▀▀   █▀▀ ▄▀█ █▀▄▀█ █▀▀
-// █▀▄ ██▄ ▄█ ░█░ █▀█ █▀▄ ░█░ ▄█   ░█░ █▀█ ██▄   █▄█ █▀█ █░▀░█ ██▄
 // Restarts the game
 function restartGame() {
-    // Sets the score to 0
     score = 0;
-    // Updates the score display
     updateScore();
-    // Resets the player
     player.reset();
-    // Removes the enemies from the game layer
+    // Removes the enemies from the game
     for (let i = 0; i < enemies.length; i++) {
         GAMELAYER.removeChild(enemies[i].sprite);
     }
-    // Clears the enemies array
     enemies = [];
-    // Removes the powerups from the game layer
+    // Removes the powerups from the game
     for (let i = 0; i < powerups.length; i++) {
         GAMELAYER.removeChild(powerups[i].sprite);
     }
-    // Clears the powerups array
     powerups = [];
 }
 
-// █▀█ █ █ █▄ █ █▀   █▀▀ █ █ █▀▀ █▀█ █▄█   █▀▀ █▀█ ▄▀█ █▀▄▀█ █▀▀
-// █▀▄ █▄█ █ ▀█ ▄█   ██▄ ▀▄▀ ██▄ █▀▄  █    █▀  █▀▄ █▀█ █ ▀ █ ██▄
 // Runs every frame
 function mainLoop() {
     // Starts timing for the fps counter
@@ -213,7 +176,6 @@ function mainLoop() {
     bgOffset -= SCROLLSPEED;
     bgImages[0].x = bgOffset;
     bgImages[1].x = bgOffset + WIDTH * 2;
-    // Resets the bgOffset if it is less than double the game screen width
     if (bgOffset < -WIDTH * 2) {
         bgOffset = 0;
     }
@@ -243,13 +205,11 @@ function mainLoop() {
     }
     // Clear hitboxes from previous frame
     hitboxCanvas.clearRect(0, 0, WIDTH, HEIGHT);
-    // Update Player
+
     player.update();
-    // Update Enemies
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
     }
-    // Update Powerups
     for (let i = 0; i < powerups.length; i++) {
         powerups[i].update();
     }
@@ -258,8 +218,6 @@ function mainLoop() {
     stats.end();
 }
 
-// █▀▀ █▄ █ █▀▀ █▀▄▀█ █▄█   █▀ █▀█ ▄▀█ █ █ █ █▄ █   ▀█▀ █ █▀▄▀█ █▀▀ █▀█
-// ██▄ █ ▀█ ██▄ █ ▀ █  █    ▄█ █▀▀ █▀█ ▀▄▀▄▀ █ ▀█    █  █ █ ▀ █ ██▄ █▀▄
 // Enemy spawn timer
 function spawnEnemy() {
     // Rerun spawnEnemy on a timer
@@ -268,12 +226,9 @@ function spawnEnemy() {
     }, 1000 - score / 100);
     // Exits the function if the game is not playing
     if (gameState != GAMESTATES["play"]) return;
-    // Spawns new enemy
     new Enemy();
 }
 
-// █▀█ █▀█ █ █ █ █▀▀ █▀█ █ █ █▀█   █▀ █▀█ ▄▀█ █ █ █ █▄ █   ▀█▀ █ █▀▄▀█ █▀▀ █▀█
-// █▀▀ █▄█ ▀▄▀▄▀ ██▄ █▀▄ █▄█ █▀▀   ▄█ █▀▀ █▀█ ▀▄▀▄▀ █ ▀█    █  █ █ ▀ █ ██▄ █▀▄
 // Powerup spawn timer
 function spawnPowerup() {
     // Rerun spawnPowerup on a timer
@@ -282,12 +237,9 @@ function spawnPowerup() {
     }, 10000 - score / 100);
     // Exits the function if the game is not playing
     if (gameState != GAMESTATES["play"]) return;
-    // Spawns new powerup
     new PowerUp();
 }
 
-// █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▄▀ █▀▀ █▄█   █▀▄ █▀█ █ █ █ █▄ █
-// █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   █ █ ██▄  █    █▄▀ █▄█ ▀▄▀▄▀ █ ▀█
 // Runs on key down
 function onKeyDown(keyEvent) {
     // Add key to key buffer if it is not already in buffer
@@ -296,11 +248,10 @@ function onKeyDown(keyEvent) {
     }
 }
 
-// █▀█ █ █ █▄ █ █▀   █▀█ █▄ █   █▄▀ █▀▀ █▄█   █ █ █▀█
-// █▀▄ █▄█ █ ▀█ ▄█   █▄█ █ ▀█   █ █ ██▄  █    █▄█ █▀▀
 // Runs on key up
 function onKeyUp(keyEvent) {
     // Keys that do not need to be held
+
     // Pause game if escape is released
     if (keyEvent.key === "Escape") {
         togglePause();
@@ -343,8 +294,6 @@ function onKeyUp(keyEvent) {
     }
 }
 
-// █▀▀ █ █ █▀▀ █▀▀ █▄▀ █▀   █ █▀▀   █▄▀ █▀▀ █▄█   █ █▀   █ █ █▀▀ █   █▀▄
-// █▄▄ █▀█ ██▄ █▄▄ █ █ ▄█   █ █▀    █ █ ██▄  █    █ ▄█   █▀█ ██▄ █▄▄ █▄▀
 // Check if key is held
 function keyDown(key) {
     // Check if a key is in keybuffer
@@ -355,24 +304,17 @@ function keyDown(key) {
     }
 }
 
-// █▀█ █▀▀ ▀█▀ █ █ █▀█ █▄ █ █▀   █▀█ ▄▀█ █▄ █ █▀▄ █▀█ █▀▄▀█   █ █▄ █ █▀▄ █▀▀ ▀▄▀   █▀█ █▀▀   █   █ █▀ ▀█▀
-// █▀▄ ██▄  █  █▄█ █▀▄ █ ▀█ ▄█   █▀▄ █▀█ █ ▀█ █▄▀ █▄█ █ ▀ █   █ █ ▀█ █▄▀ ██▄ █ █   █▄█ █▀    █▄▄ █ ▄█  █
 // Return random index of array
-function randomIndexFromArray(array) {
-    // Get a random number from 0 to the length of the input array
-    let idx = Math.floor(Math.random() * array.length);
-    return array[idx];
+function randomIndexFromArray(inputArray) {
+    let randomIndexOfInputArray = Math.floor(Math.random() * array.length);
+    return inputArray[randomIndexOfInputArray];
 }
 
-// █ █ █▀█ █▀▄ ▄▀█ ▀█▀ █▀▀ █▀   █▀ █▀▀ █▀█ █▀█ █▀▀   ▀█▀ █▀▀ ▀▄▀ ▀█▀
-// █▄█ █▀▀ █▄▀ █▀█  █  ██▄ ▄█   ▄█ █▄▄ █▄█ █▀▄ ██▄    █  ██▄ █ █  █
 // Updates score text
 function updateScore() {
     SCORETEXT.text = `Score: ${score}`;
 }
 
-// █▀▄▀█ ▄▀█ █ █▄ █   █▀▄▀█ █▀▀ █▄ █ █ █
-// █ ▀ █ █▀█ █ █ ▀█   █ ▀ █ ██▄ █ ▀█ █▄█
 // Main menu
 function mainMenu() {
     // Clear menulayer
@@ -392,6 +334,7 @@ function mainMenu() {
     });
     MENUTEXT1.x = WIDTH / 2 - 250;
     MENUTEXT1.y = HEIGHT / 2 - 200 - MENUTEXT1.height / 1.24;
+
     const MENUTEXT2 = new PIXI.Text("Press 1", {
         fontFamily: "Arial",
         fontSize: 25,
@@ -400,6 +343,7 @@ function mainMenu() {
     });
     MENUTEXT2.x = WIDTH / 2 - MENUTEXT2.width / 2;
     MENUTEXT2.y = HEIGHT / 2 - 175 - MENUTEXT2.height / 1.24;
+
     const MENUTEXT3 = new PIXI.Text("Help", {
         fontFamily: "Arial",
         fontSize: 100,
@@ -408,6 +352,7 @@ function mainMenu() {
     });
     MENUTEXT3.x = WIDTH / 2 - MENUTEXT3.width / 2;
     MENUTEXT3.y = HEIGHT / 2 - 75 - MENUTEXT3.height / 1.24;
+
     const MENUTEXT4 = new PIXI.Text("Press 2", {
         fontFamily: "Arial",
         fontSize: 25,
@@ -416,7 +361,7 @@ function mainMenu() {
     });
     MENUTEXT4.x = WIDTH / 2 - MENUTEXT4.width / 2;
     MENUTEXT4.y = HEIGHT / 2 - 50 - MENUTEXT4.height / 1.24;
-    // Draw text variables
+    // Add text to menu layer
     MENULAYER.addChild(MENUTEXT1, MENUTEXT2, MENUTEXT3, MENUTEXT4);
 }
 
@@ -424,7 +369,6 @@ function mainMenu() {
 //  █  █▄█  █  █▄█ █▀▄ █ █▀█ █▄▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 // Tutorial screen
 function helpScreen() {
-    // Set gamestate to "help"
     gameState = GAMESTATES["help"];
     // Clear menu layer
     MENULAYER.removeChildren();
@@ -443,6 +387,7 @@ function helpScreen() {
     });
     HELPTEXT1.x = 0;
     HELPTEXT1.y = 0;
+
     const HELPTEXT2 = new PIXI.Text(`Press W,A,S,D to move`, {
         fontFamily: "Arial",
         fontSize: 40,
@@ -451,6 +396,7 @@ function helpScreen() {
     });
     HELPTEXT2.x = WIDTH / 2 - HELPTEXT2.width / 2;
     HELPTEXT2.y = HEIGHT / 2 - 90 - HELPTEXT2.height / 2;
+
     const HELPTEXT3 = new PIXI.Text("Dodge the enemies", {
         fontFamily: "Arial",
         fontSize: 40,
@@ -459,6 +405,7 @@ function helpScreen() {
     });
     HELPTEXT3.x = WIDTH / 2 - HELPTEXT3.width / 2;
     HELPTEXT3.y = HEIGHT / 2 - 40 - HELPTEXT3.height / 2;
+
     const HELPTEXT4 = new PIXI.Text("Collect powerups", {
         fontFamily: "Arial",
         fontSize: 40,
@@ -467,7 +414,8 @@ function helpScreen() {
     });
     HELPTEXT4.x = WIDTH / 2 - HELPTEXT4.width / 2;
     HELPTEXT4.y = HEIGHT / 2 + 10 - HELPTEXT4.height / 2;
-    // Draw text variables
+
+    // Add text to menu layer
     MENULAYER.addChild(HELPTEXT1, HELPTEXT2, HELPTEXT3, HELPTEXT4);
 }
 
@@ -475,7 +423,6 @@ function helpScreen() {
 //  █  █▄█ █▄█ █▄█ █▄▄ ██▄ ▄█   █▄█ █▀█ █ ▀ █ ██▄   █▀▀ █▀█ █▄█ ▄█ ██▄   █▀█ █ ▀█ █▄▀   █▄▀ █▀▄ █▀█ ▀▄▀▄▀ ▄█   █▀▀ █▀█ █▄█ ▄█ ██▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 // Toggles game pause and draws pause sceen
 function togglePause() {
-    // If game is paused
     if (gameState === GAMESTATES["pause"]) {
         // Play player animation
         player.sprite.play();
@@ -483,7 +430,6 @@ function togglePause() {
         for (let i = 0; i < enemies.length; i++) {
             enemies[i].sprite.play();
         }
-        // Set gamestate to play
         gameState = GAMESTATES["play"];
         // Clear menulayer
         MENULAYER.removeChildren();
@@ -494,7 +440,6 @@ function togglePause() {
         for (let i = 0; i < enemies.length; i++) {
             enemies[i].sprite.stop();
         }
-        // Set gamestate to paused
         gameState = GAMESTATES["pause"];
         // Clear menulayer
         MENULAYER.removeChildren();
@@ -507,6 +452,7 @@ function togglePause() {
         });
         PAUSETEXT1.x = WIDTH / 2 - PAUSETEXT1.width / 2;
         PAUSETEXT1.y = HEIGHT / 2 - 100 - PAUSETEXT1.height / 2;
+
         const PAUSETEXT2 = new PIXI.Text('Press "Escape" to unpause', {
             fontFamily: "Arial",
             fontSize: 50,
@@ -515,6 +461,7 @@ function togglePause() {
         });
         PAUSETEXT2.x = WIDTH / 2 - PAUSETEXT2.width / 2;
         PAUSETEXT2.y = HEIGHT / 2 - 40 - PAUSETEXT2.height / 2;
+
         const PAUSETEXT3 = new PIXI.Text('Press "Q" to quit', {
             fontFamily: "Arial",
             fontSize: 50,
@@ -523,7 +470,8 @@ function togglePause() {
         });
         PAUSETEXT3.x = WIDTH / 2 - PAUSETEXT3.width / 2;
         PAUSETEXT3.y = HEIGHT / 2 + 10 - PAUSETEXT3.height / 2;
-        // Draw text
+
+        // Add text to menu layer
         MENULAYER.addChild(PAUSETEXT1, PAUSETEXT2, PAUSETEXT3);
     }
 }
@@ -538,7 +486,6 @@ function gameOver() {
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].sprite.stop();
     }
-    // Set gamestete to lose
     gameState = GAMESTATES["lose"];
     // Clear menulayer
     MENULAYER.removeChildren();
@@ -551,6 +498,7 @@ function gameOver() {
     });
     LOSETEXT1.x = WIDTH / 2 - LOSETEXT1.width / 2;
     LOSETEXT1.y = HEIGHT / 2 - 200 - LOSETEXT1.height / 2;
+
     const LOSETEXT2 = new PIXI.Text(`Final Score: ${score}`, {
         fontFamily: "Arial",
         fontSize: 75,
@@ -559,6 +507,7 @@ function gameOver() {
     });
     LOSETEXT2.x = WIDTH / 2 - LOSETEXT2.width / 2;
     LOSETEXT2.y = HEIGHT / 2 - 100 - LOSETEXT2.height / 2;
+
     const LOSETEXT3 = new PIXI.Text('Press "R" to Restart', {
         fontFamily: "Arial",
         fontSize: 50,
@@ -567,6 +516,7 @@ function gameOver() {
     });
     LOSETEXT3.x = WIDTH / 2 - LOSETEXT3.width / 2;
     LOSETEXT3.y = HEIGHT / 2 - 40 - LOSETEXT3.height / 2;
+
     const LOSETEXT4 = new PIXI.Text('Press "Q" to quit', {
         fontFamily: "Arial",
         fontSize: 50,
@@ -575,6 +525,7 @@ function gameOver() {
     });
     LOSETEXT4.x = WIDTH / 2 - LOSETEXT4.width / 2;
     LOSETEXT4.y = HEIGHT / 2 + 10 - LOSETEXT4.height / 2;
-    // Draw text variables
+
+    // Add text to menu layer
     MENULAYER.addChild(LOSETEXT1, LOSETEXT2, LOSETEXT3, LOSETEXT4);
 }
