@@ -419,8 +419,6 @@ function helpScreen() {
     MENULAYER.addChild(HELPTEXT1, HELPTEXT2, HELPTEXT3, HELPTEXT4);
 }
 
-// ▀█▀ █▀█ █▀▀ █▀▀ █   █▀▀ █▀   █▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀█ ▄▀█ █ █ █▀ █▀▀   ▄▀█ █▄ █ █▀▄   █▀▄ █▀█ ▄▀█ █ █ █ █▀   █▀█ ▄▀█ █ █ █▀ █▀▀   █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
-//  █  █▄█ █▄█ █▄█ █▄▄ ██▄ ▄█   █▄█ █▀█ █ ▀ █ ██▄   █▀▀ █▀█ █▄█ ▄█ ██▄   █▀█ █ ▀█ █▄▀   █▄▀ █▀▄ █▀█ ▀▄▀▄▀ ▄█   █▀▀ █▀█ █▄█ ▄█ ██▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 // Toggles game pause and draws pause sceen
 function togglePause() {
     if (gameState === GAMESTATES["pause"]) {
@@ -476,8 +474,6 @@ function togglePause() {
     }
 }
 
-// █▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀█ █ █ █▀▀ █▀█   █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
-// █▄█ █▀█ █ ▀ █ ██▄   █▄█ ▀▄▀ ██▄ █▀▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 // Game over screen
 function gameOver() {
     // Stop player animation
