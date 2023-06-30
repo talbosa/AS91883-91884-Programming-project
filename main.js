@@ -365,8 +365,6 @@ function mainMenu() {
     MENULAYER.addChild(MENUTEXT1, MENUTEXT2, MENUTEXT3, MENUTEXT4);
 }
 
-// ▀█▀ █ █ ▀█▀ █▀█ █▀█ █ ▄▀█ █     █▀ █▀▀ █▀█ █▀▀ █▀▀ █▄ █
-//  █  █▄█  █  █▄█ █▀▄ █ █▀█ █▄▄   ▄█ █▄▄ █▀▄ ██▄ ██▄ █ ▀█
 // Tutorial screen
 function helpScreen() {
     gameState = GAMESTATES["help"];
@@ -415,8 +413,17 @@ function helpScreen() {
     HELPTEXT4.x = WIDTH / 2 - HELPTEXT4.width / 2;
     HELPTEXT4.y = HEIGHT / 2 + 10 - HELPTEXT4.height / 2;
 
+    const HELPTEXT5 = new PIXI.Text("Press \"Escape\" to pause", {
+        fontFamily: "Arial",
+        fontSize: 40,
+        fill: 0x000000,
+        align: "center",
+    });
+    HELPTEXT5.x = WIDTH / 2 - HELPTEXT5.width / 2;
+    HELPTEXT5.y = HEIGHT / 2 + 60 - HELPTEXT5.height / 2;
+
     // Add text to menu layer
-    MENULAYER.addChild(HELPTEXT1, HELPTEXT2, HELPTEXT3, HELPTEXT4);
+    MENULAYER.addChild(HELPTEXT1, HELPTEXT2, HELPTEXT3, HELPTEXT4, HELPTEXT5);
 }
 
 // Toggles game pause and draws pause sceen
