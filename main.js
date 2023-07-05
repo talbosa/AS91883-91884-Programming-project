@@ -77,7 +77,7 @@ setInterval(() => {
         keyBuffer = [];
     }
 }, 200);
-
+ 
 // █▀▀ █▀█ █▀   █▀▀ █▀█ █ █ █▄ █ ▀█▀ █▀▀ █▀█
 // █▀  █▀▀ ▄█   █▄▄ █▄█ █▄█ █ ▀█  █  ██▄ █▀▄
 // Fps counter
@@ -413,7 +413,7 @@ function helpScreen() {
     HELPTEXT4.x = WIDTH / 2 - HELPTEXT4.width / 2;
     HELPTEXT4.y = HEIGHT / 2 + 10 - HELPTEXT4.height / 2;
 
-    const HELPTEXT5 = new PIXI.Text("Press \"Escape\" to pause", {
+    const HELPTEXT5 = new PIXI.Text('Press "Escape" to pause', {
         fontFamily: "Arial",
         fontSize: 40,
         fill: 0x000000,

@@ -36,35 +36,35 @@ class Enemy {
         if (this.type == 1) {
             // Increase score given and set moveSpeedY
             this.score = 2;
-            if ( score >= 0){
+            if (score >= 0) {
                 this.moveSpeedY = 2;
             }
-            if ( score >= 50){
+            if (score >= 50) {
                 this.moveSpeedY = 3;
             }
-            if ( score >= 100){
+            if (score >= 100) {
                 this.moveSpeedY = 4;
             }
-            if ( score >= 200){
+            if (score >= 200) {
                 this.moveSpeedY = 5;
             }
         }
         if (this.type == 2) {
             // Increase score given and set moveSpeedY
             this.score = 4;
-            if ( score >= 0){
+            if (score >= 0) {
                 this.moveSpeedY = SCROLLSPEED;
             }
-            if ( score >= 50){
+            if (score >= 50) {
                 this.moveSpeedY = SCROLLSPEED + 0.5;
             }
-            if ( score >= 100){
+            if (score >= 100) {
                 this.moveSpeedY = SCROLLSPEED + 1;
             }
-            if ( score >= 200){
+            if (score >= 200) {
                 this.moveSpeedY = SCROLLSPEED + 2;
             }
-            if ( score >= 400){
+            if (score >= 400) {
                 this.moveSpeedY = SCROLLSPEED + 2.5;
             }
         }
@@ -77,12 +77,14 @@ class Enemy {
         // Moves the enemy towards the players y if it is type 1 or 2
         if (this.type == 1 || this.type == 2) {
             if (
-                (player.yPos + player.height/3) - this.sprite.y > this.moveSpeedY * 2 &&
+                player.yPos + player.height / 3 - this.sprite.y >
+                    this.moveSpeedY * 2 &&
                 this.sprite.x + this.sprite.width > player.xPos
             ) {
                 this.sprite.y += this.moveSpeedY;
             } else if (
-                this.sprite.y - (player.yPos + player.height/3) > -this.moveSpeedY * 2 &&
+                this.sprite.y - (player.yPos + player.height / 3) >
+                    -this.moveSpeedY * 2 &&
                 this.sprite.x + this.sprite.width > player.xPos
             ) {
                 this.sprite.y -= this.moveSpeedY;

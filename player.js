@@ -149,7 +149,7 @@ class Player {
                 rectHitHeight
             );
         }
-        
+
         // Part that actually detects collision
         if (
             playerHitRight > rectHitLeft &&
