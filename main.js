@@ -78,15 +78,17 @@ setInterval(() => {
     }
 }, 200);
  
-// █▀▀ █▀█ █▀   █▀▀ █▀█ █ █ █▄ █ ▀█▀ █▀▀ █▀█
-// █▀  █▀▀ ▄█   █▄▄ █▄█ █▄█ █ ▀█  █  ██▄ █▀▄
-// Fps counter
-let stats = new Stats();
-// Makes the stats variable show the fps
-stats.showPanel(0);
-// Moves the fps counter to the bottom
-stats.dom.style.top = "";
-stats.dom.style.bottom = "0px";
+console.log(typeof(Stats) == 'function');
+// Fps Counter
+if (typeof(Stats) == 'function'){
+    // Fps counter (Global variable)
+    window.stats = new Stats();
+    // Makes the stats variable show the fps
+    stats.showPanel(0);
+    // Moves the fps counter to the bottom
+    stats.dom.style.top = "";
+    stats.dom.style.bottom = "0px";
+}
 
 // Runs on startup
 async function runSetup() {
@@ -104,8 +106,10 @@ async function runSetup() {
     gameScreen.stage.sortableChildren = true;
     // Adds the game screen to the body of the html page
     document.body.appendChild(gameScreen.view);
-    // Adds the fps counter to the body of the html page
-    document.body.appendChild(stats.dom);
+    if (typeof(stats) !== "undefined"){
+        // Adds the fps counter to the body of the html page
+        document.body.appendChild(stats.dom);
+    }
     // Adds the game layers to the game screen
     gameScreen.stage.addChild(
         MENULAYER,
@@ -133,8 +137,7 @@ async function runSetup() {
 
     // Adds the scrolling background to the background layer
     for (let i = 0; i < 2; i++) {
-        // bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
-        bgImages[i] = PIXI.Sprite.from("assets/background/background2.png");
+        bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
         bgImages[i].width = WIDTH * 2;
         bgImages[i].height = HEIGHT;
         BGLAYER.addChild(bgImages[i]);
@@ -169,8 +172,10 @@ function restartGame() {
 
 // Runs every frame
 function mainLoop() {
-    // Starts timing for the fps counter
-    stats.begin();
+    if (typeof(stats) !== "undefined"){
+        // Starts timing for the fps counter
+        stats.begin();
+    }
     // Exits the function if the game is not playing
     if (gameState !== GAMESTATES["play"]) return;
     // Moves the backgroud
@@ -215,8 +220,10 @@ function mainLoop() {
         powerups[i].update();
     }
 
+    if (typeof(stats) !== "undefined"){
     // Stop the timing for the fps counter
-    stats.end();
+        stats.end();
+    }
 }
 
 // Enemy spawn timer
