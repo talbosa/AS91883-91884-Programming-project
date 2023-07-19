@@ -78,7 +78,6 @@ setInterval(() => {
     }
 }, 200);
  
-console.log(typeof(Stats) == 'function');
 // Fps Counter
 if (typeof(Stats) == 'function'){
     // Fps counter (Global variable)
