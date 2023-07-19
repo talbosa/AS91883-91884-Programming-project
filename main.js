@@ -133,7 +133,8 @@ async function runSetup() {
 
     // Adds the scrolling background to the background layer
     for (let i = 0; i < 2; i++) {
-        bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
+        // bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
+        bgImages[i] = PIXI.Sprite.from("assets/background/background2.png");
         bgImages[i].width = WIDTH * 2;
         bgImages[i].height = HEIGHT;
         BGLAYER.addChild(bgImages[i]);
