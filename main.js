@@ -32,7 +32,7 @@ const GAMESTATES = {
 const SCORETEXT = new PIXI.Text("Score: 0", {
     fontFamily: "Arial",
     fontSize: 32,
-    fill: 0x000000,
+    fill: 0xffffff,
     align: "center",
 });
 SCORETEXT.x = WIDTH / 2 - SCORETEXT.width / 2;
@@ -465,7 +465,7 @@ function togglePause() {
         const PAUSETEXT1 = new PIXI.Text("Game Paused", {
             fontFamily: "Arial",
             fontSize: 75,
-            fill: 0x000000,
+            fill: 0xffffff,
             align: "center",
         });
         PAUSETEXT1.x = WIDTH / 2 - PAUSETEXT1.width / 2;
@@ -474,7 +474,7 @@ function togglePause() {
         const PAUSETEXT2 = new PIXI.Text('Press "Escape" to unpause', {
             fontFamily: "Arial",
             fontSize: 50,
-            fill: 0x000000,
+            fill: 0xffffff,
             align: "center",
         });
         PAUSETEXT2.x = WIDTH / 2 - PAUSETEXT2.width / 2;
@@ -483,7 +483,7 @@ function togglePause() {
         const PAUSETEXT3 = new PIXI.Text('Press "Q" to quit', {
             fontFamily: "Arial",
             fontSize: 50,
-            fill: 0x000000,
+            fill: 0xffffff,
             align: "center",
         });
         PAUSETEXT3.x = WIDTH / 2 - PAUSETEXT3.width / 2;
@@ -509,7 +509,7 @@ function gameOver() {
     const LOSETEXT1 = new PIXI.Text("Game Over", {
         fontFamily: "Arial",
         fontSize: 150,
-        fill: 0x000000,
+        fill: 0xffffff,
         align: "center",
     });
     LOSETEXT1.x = WIDTH / 2 - LOSETEXT1.width / 2;
@@ -518,7 +518,7 @@ function gameOver() {
     const LOSETEXT2 = new PIXI.Text(`Final Score: ${score}`, {
         fontFamily: "Arial",
         fontSize: 75,
-        fill: 0x000000,
+        fill: 0xffffff,
         align: "center",
     });
     LOSETEXT2.x = WIDTH / 2 - LOSETEXT2.width / 2;
@@ -527,7 +527,7 @@ function gameOver() {
     const LOSETEXT3 = new PIXI.Text('Press "R" to Restart', {
         fontFamily: "Arial",
         fontSize: 50,
-        fill: 0x000000,
+        fill: 0xffffff,
         align: "center",
     });
     LOSETEXT3.x = WIDTH / 2 - LOSETEXT3.width / 2;
@@ -536,7 +536,7 @@ function gameOver() {
     const LOSETEXT4 = new PIXI.Text('Press "Q" to quit', {
         fontFamily: "Arial",
         fontSize: 50,
-        fill: 0x000000,
+        fill: 0xffffff,
         align: "center",
     });
     LOSETEXT4.x = WIDTH / 2 - LOSETEXT4.width / 2;
