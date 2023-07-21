@@ -1,3 +1,11 @@
+/**
+* Title: AS91883, 91884 Programming project
+* Author: Samuel Talbot
+* Date: 21/07/2023
+* Version: 0.9.1
+* Purpose: CSC112 Externals AS91883 & 91884
+**/
+
 // Variables
 
 // Screen width and height
@@ -18,8 +26,7 @@ const GAMESTATES = {
     help: 2,
     pause: 3,
     nofocus: 4,
-    lose: 5,
-    credits: 6,
+    lose: 5
 };
 // The variable that displays the score on the screen
 const SCORETEXT = new PIXI.Text("Score: 0", {
@@ -30,12 +37,10 @@ const SCORETEXT = new PIXI.Text("Score: 0", {
 });
 SCORETEXT.x = WIDTH / 2 - SCORETEXT.width / 2;
 SCORETEXT.y = 1;
-// Adds the score tect the the score layer
+// Adds the score txct the the score layer
 SCORELAYER.addChild(SCORETEXT);
 
-// The PIXI application that all the game is conatined in (except fot the hitboxes)
-let gameScreen;
-
+let gameScreen; // The PIXI application that all the game is conatined in (except fot the hitboxes)
 let player;
 let hitboxCanvas;
 let gameState;
@@ -78,9 +83,9 @@ setInterval(() => {
         keyBuffer = [];
     }
 }, 200);
- 
+
 // Fps Counter
-if (typeof(Stats) == 'function'){
+if (typeof Stats == "function") {
     // Fps counter (Global variable)
     window.stats = new Stats();
     // Makes the stats variable show the fps
@@ -106,7 +111,7 @@ async function runSetup() {
     gameScreen.stage.sortableChildren = true;
     // Adds the game screen to the body of the html page
     document.body.appendChild(gameScreen.view);
-    if (typeof(stats) !== "undefined"){
+    if (typeof stats !== "undefined") {
         // Adds the fps counter to the body of the html page
         document.body.appendChild(stats.dom);
     }
@@ -172,7 +177,7 @@ function restartGame() {
 
 // Runs every frame
 function mainLoop() {
-    if (typeof(stats) !== "undefined"){
+    if (typeof stats !== "undefined") {
         // Starts timing for the fps counter
         stats.begin();
     }
@@ -220,8 +225,8 @@ function mainLoop() {
         powerups[i].update();
     }
 
-    if (typeof(stats) !== "undefined"){
-    // Stop the timing for the fps counter
+    if (typeof stats !== "undefined") {
+        // Stop the timing for the fps counter
         stats.end();
     }
 }
@@ -269,8 +274,7 @@ function onKeyUp(keyEvent) {
         keyEvent.key.toLowerCase() === "q" &&
         (gameState === GAMESTATES["pause"] ||
             gameState === GAMESTATES["lose"] ||
-            gameState === GAMESTATES["help"]) ||
-            gameState === GAMESTATES["credits"]
+            gameState === GAMESTATES["help"])
     ) {
         gameState = GAMESTATES["menu"];
         MENULAYER.removeChildren();
@@ -296,12 +300,6 @@ function onKeyUp(keyEvent) {
         gameState = GAMESTATES["help"];
         MENULAYER.removeChildren();
         helpScreen();
-    }
-    // Show credits screen if gamestate is "menu"
-    if (keyEvent.key === "3" && gameState === GAMESTATES["menu"]) {
-        gameState = GAMESTATES["credits"];
-        MENULAYER.removeChildren();
-        credits();
     }
     // Remove key from keybuffer if it exists
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) != -1) {
@@ -376,26 +374,8 @@ function mainMenu() {
     });
     MENUTEXT4.x = WIDTH / 2 - MENUTEXT4.width / 2;
     MENUTEXT4.y = HEIGHT / 2 - 50 - MENUTEXT4.height / 1.24;
-
-    const MENUTEXT5 = new PIXI.Text("Credits", {
-        fontFamily: "Arial",
-        fontSize: 100,
-        fill: 0x000000,
-        align: "center",
-    });
-    MENUTEXT5.x = WIDTH / 2 - MENUTEXT5.width / 2;
-    MENUTEXT5.y = HEIGHT / 2 + 50 - MENUTEXT5.height / 1.24;
-
-    const MENUTEXT6 = new PIXI.Text("Press 3", {
-        fontFamily: "Arial",
-        fontSize: 25,
-        fill: 0x000000,
-        align: "center",
-    });
-    MENUTEXT6.x = WIDTH / 2 - MENUTEXT6.width / 2;
-    MENUTEXT6.y = HEIGHT / 2 + 75 - MENUTEXT6.height / 1.24;
     // Add text to menu layer
-    MENULAYER.addChild(MENUTEXT1, MENUTEXT2, MENUTEXT3, MENUTEXT4, MENUTEXT5, MENUTEXT6);
+    MENULAYER.addChild(MENUTEXT1, MENUTEXT2, MENUTEXT3, MENUTEXT4);
 }
 
 // Tutorial screen
@@ -564,47 +544,4 @@ function gameOver() {
 
     // Add text to menu layer
     MENULAYER.addChild(LOSETEXT1, LOSETEXT2, LOSETEXT3, LOSETEXT4);
-}
-
-// Credits screen
-function credits() {
-    gameState = GAMESTATES["credits"];
-    // Clear menu layer
-    MENULAYER.removeChildren();
-    // Fill background with beige
-    const DRAWTOOL = new PIXI.Graphics();
-    DRAWTOOL.beginFill("beige");
-    DRAWTOOL.drawRect(0, 0, WIDTH, HEIGHT);
-    DRAWTOOL.endFill();
-    MENULAYER.addChild(DRAWTOOL);
-    // Initialise text variables
-    const CREDITTEXT1 = new PIXI.Text('Press "Q" to go back', {
-        fontFamily: "Arial",
-        fontSize: 50,
-        fill: 0x000000,
-        align: "center",
-    });
-    CREDITTEXT1.x = 0;
-    CREDITTEXT1.y = 0;
-
-    const CREDITTEXT2 = new PIXI.Text(`Code, Player & Enemy Animatons: Me`, {
-        fontFamily: "Arial",
-        fontSize: 40,
-        fill: 0x000000,
-        align: "center",
-    });
-    CREDITTEXT2.x = WIDTH / 2 - CREDITTEXT2.width / 2;
-    CREDITTEXT2.y = HEIGHT / 2 - 90 - CREDITTEXT2.height / 2;
-
-    const CREDITTEXT3 = new PIXI.Text("Background image: dreamstime.com free image 183467486", {
-        fontFamily: "Arial",
-        fontSize: 40,
-        fill: 0x000000,
-        align: "center",
-    });
-    CREDITTEXT3.x = WIDTH / 2 - CREDITTEXT3.width / 2;
-    CREDITTEXT3.y = HEIGHT / 2 - 40 - CREDITTEXT3.height / 2;
-
-    // Add text to menu layer
-    MENULAYER.addChild(CREDITTEXT1, CREDITTEXT2, CREDITTEXT3);
 }
