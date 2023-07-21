@@ -311,6 +311,17 @@ function onKeyUp(keyEvent) {
         MENULAYER.removeChildren();
         helpScreen();
     }
+    // Toggle hitboxes
+    if (
+        keyEvent.key.toLowerCase() === "h" &&
+        gameState === GAMESTATES["play"]
+    ) {
+        if (player.showHitbox == false){
+            player.showHitbox = true;
+        }else{
+            player.showHitbox = false;
+        }
+    }
     // Remove key from keybuffer if it exists
     if (keyBuffer.indexOf(keyEvent.key.toLowerCase()) != -1) {
         keyBuffer.splice(keyBuffer.indexOf(keyEvent.key.toLowerCase()), 1);
@@ -445,8 +456,17 @@ function helpScreen() {
     HELPTEXT5.x = WIDTH / 2 - HELPTEXT5.width / 2;
     HELPTEXT5.y = HEIGHT / 2 + 60 - HELPTEXT5.height / 2;
 
+    const HELPTEXT6 = new PIXI.Text('Press "H" while game running toggle hitboxes', {
+        fontFamily: "Arial",
+        fontSize: 40,
+        fill: 0x000000,
+        align: "center",
+    });
+    HELPTEXT6.x = WIDTH / 2 - HELPTEXT6.width / 2;
+    HELPTEXT6.y = HEIGHT / 2 + 110 - HELPTEXT6.height / 2;
+
     // Add text to menu layer
-    MENULAYER.addChild(HELPTEXT1, HELPTEXT2, HELPTEXT3, HELPTEXT4, HELPTEXT5);
+    MENULAYER.addChild(HELPTEXT1, HELPTEXT2, HELPTEXT3, HELPTEXT4, HELPTEXT5, HELPTEXT6);
 }
 
 // Toggles game pause and draws pause sceen

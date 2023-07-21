@@ -136,6 +136,7 @@ class Player {
         // Hitboxes using 2d canvas
         if (this.showHitbox) {
             hitboxCanvas.strokeStyle = "rgb(0,255,0)";
+            hitboxCanvas.lineWidth = 2;
             hitboxCanvas.strokeRect(
                 playerHitLeft,
                 playerHitTop,
