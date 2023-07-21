@@ -139,7 +139,7 @@ async function runSetup() {
     // Adds the loading screen text to the game screen
     gameScreen.stage.addChild(LOADINGTEXT);
     // Loads the sprite sheet
-    spriteSheet = await PIXI.Assets.load("assets/spritesheet.json");
+    spriteSheet = await PIXI.Assets.load("https://raw.githubusercontent.com/talbosa/AS91883-91884-Programming-project/PixiJS-Port/assets/spritesheet.json");
     // Removes the loading screen text from the game screen
     gameScreen.stage.removeChild(LOADINGTEXT);
     
