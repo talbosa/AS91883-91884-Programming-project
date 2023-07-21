@@ -95,6 +95,7 @@ setInterval(() => {
 }, 200);
 
 // Fps Counter
+// Only run if successfully loaded stats.js
 if (typeof Stats == "function") {
     // Fps counter (Global variable)
     window.stats = new Stats();
@@ -125,15 +126,7 @@ async function runSetup() {
         // Adds the fps counter to the body of the html page
         document.body.appendChild(stats.dom);
     }
-    // Adds the game layers to the game screen
-    gameScreen.stage.addChild(
-        MENULAYER,
-        SCORELAYER,
-        HEALTHLAYER,
-        GAMELAYER,
-        BGLAYER
-    );
-
+    
     // The loading screen text
     const LOADINGTEXT = new PIXI.Text("Loading Sprite Sheet...", {
         fontFamily: "Arial",
@@ -149,7 +142,16 @@ async function runSetup() {
     spriteSheet = await PIXI.Assets.load("assets/spritesheet.json");
     // Removes the loading screen text from the game screen
     gameScreen.stage.removeChild(LOADINGTEXT);
-
+    
+    // Adds the game layers to the game screen
+    gameScreen.stage.addChild(
+        MENULAYER,
+        SCORELAYER,
+        HEALTHLAYER,
+        GAMELAYER,
+        BGLAYER
+    );
+    
     // Adds the scrolling background to the background layer
     for (let i = 0; i < 2; i++) {
         bgImages[i] = PIXI.Sprite.from(spriteSheet.textures["background.jpg"]);
