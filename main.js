@@ -288,6 +288,8 @@ function onKeyUp(keyEvent) {
     ) {
         gameState = GAMESTATES["menu"];
         MENULAYER.removeChildren();
+        // Clear hitboxes
+        hitboxCanvas.clearRect(0, 0, WIDTH, HEIGHT);
         mainMenu();
     }
     // Restart game if gamestate is "lose"
