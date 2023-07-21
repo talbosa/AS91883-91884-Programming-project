@@ -3,7 +3,7 @@
 * Author: Samuel Talbot
 * Date: 21/07/2023
 * Version: 0.9.1
-* Purpose: CSC112 Externals AS91883 & 91884
+* Purpose: CSC112 Internals AS91883 & 91884
 
 Scripts used:
 stats.js: https://github.com/mrdoob/stats.js
