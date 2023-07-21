@@ -4,6 +4,16 @@
 * Date: 21/07/2023
 * Version: 0.9.1
 * Purpose: CSC112 Externals AS91883 & 91884
+
+Scripts used:
+stats.js: https://github.com/mrdoob/stats.js
+MIT - Use without restriction
+
+pixi.js: https://github.com/pixijs/pixijs
+MIT - Use without restriction
+
+@pixi/layers: https://github.com/pixijs/layers
+MIT - Use without restriction
 **/
 
 // Variables
